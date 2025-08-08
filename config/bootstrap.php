@@ -211,7 +211,11 @@ ServerRequest::addDetector('tablet', function ($request) {
 //    ->useLocaleParser();
 
 // There is no time-specific type in Cake
-TypeFactory::map('time', StringType::class);
+
+TypeFactory::build('date')->useLocaleParser()->setlocaleFormat('dd/MM/yyyy');
+TypeFactory::build('datetime')->useLocaleParser()->setlocaleFormat('dd/MM/yyyy hh:mm:ss');
+TypeFactory::build('float')->useLocaleParser();
+TypeFactory::build('decimal')->useLocaleParser();
 
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize

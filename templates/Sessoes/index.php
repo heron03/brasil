@@ -1,6 +1,6 @@
 <?php
 $this->extend('MetronicV4.Pages/index');
-$this->assign('pageTitle', 'Presenças');
+$this->assign('pageTitle', 'Sessões');
 $this->assign(
     'singleActions',
     $this->Metronic->deleteButton()
@@ -10,18 +10,18 @@ $this->assign('addButton', $this->Metronic->addButton());
 
 $this->assign(
     'filter',
-    $this->Metronic->input('Presencas.sessao_id') .
+    $this->Metronic->input('Sessoes.data') .
     $this->Html->div('col-sm-5', $this->Metronic->filterButton())
 );
 
-$sessaoHeader = $this->Metronic->pageSort('Sessao.data', 'Sessão');
-$irmaoHeader = $this->Metronic->pageSort('Irmao.nome', 'Irmão');
-$presenteHeader = $this->Metronic->pageSort('presente', 'Presente');
+$dataHeader = $this->Metronic->pageSort('data', 'Data da Sessão');
+$tipoHeader = $this->Metronic->pageSort('tipo', 'Tipo');
+$lojaHeader = $this->Metronic->pageSort('Loja.nome', 'Loja');
 
 $tableHeaders = [
-    $sessaoHeader,
-    $irmaoHeader,
-    $presenteHeader,
+    $dataHeader,
+    $tipoHeader,
+    $lojaHeader,
 ];
 
 array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
@@ -30,14 +30,14 @@ array_push($tableHeaders, ['' => ['width' => '5%']]);
 $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
 
 $cells = [];
-foreach ($presencas as $i => $presenca) {
+foreach ($sessoes as $i => $sessao) {
     $cells[] = [
-        h($presenca->sessao->data->format('d/m/Y')),
-        h($presenca->irmao->nome ?? '-'),
-        $presenca->presente ? 'Sim' : 'Não',
+        h($sessao->data->format('d/m/Y')),
+        h($sessao->tipo),
+        h($sessao->loja->nome ?? '-'),
     ];
-    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Presencas.$i.id", $presenca->id));
-    array_push($cells[$i], $this->Metronic->editButton($presenca->id));
+    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Sessoes.$i.id", $sessao->id));
+    array_push($cells[$i], $this->Metronic->editButton($sessao->id));
 }
 
 $this->assign('tableCells', $this->Html->tableCells(

@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\PresencasTable;
+use App\Model\Table\SessoesTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\PresencasTable Test Case
+ * App\Model\Table\SessoesTable Test Case
  */
-class PresencasTableTest extends TestCase
+class SessoesTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\PresencasTable
+     * @var \App\Model\Table\SessoesTable
      */
-    protected $Presencas;
+    protected $Sessoes;
 
     /**
      * Fixtures
@@ -24,9 +24,8 @@ class PresencasTableTest extends TestCase
      * @var array<string>
      */
     protected $fixtures = [
-        'app.Presencas',
         'app.Sessoes',
-        'app.Irmaos',
+        'app.Lojas',
     ];
 
     /**
@@ -37,8 +36,8 @@ class PresencasTableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Presencas') ? [] : ['className' => PresencasTable::class];
-        $this->Presencas = $this->getTableLocator()->get('Presencas', $config);
+        $config = $this->getTableLocator()->exists('Sessoes') ? [] : ['className' => SessoesTable::class];
+        $this->Sessoes = $this->getTableLocator()->get('Sessoes', $config);
     }
 
     /**
@@ -48,7 +47,7 @@ class PresencasTableTest extends TestCase
      */
     protected function tearDown(): void
     {
-        unset($this->Presencas);
+        unset($this->Sessoes);
 
         parent::tearDown();
     }
@@ -57,7 +56,7 @@ class PresencasTableTest extends TestCase
      * Test validationDefault method
      *
      * @return void
-     * @uses \App\Model\Table\PresencasTable::validationDefault()
+     * @uses \App\Model\Table\SessoesTable::validationDefault()
      */
     public function testValidationDefault(): void
     {
@@ -68,7 +67,7 @@ class PresencasTableTest extends TestCase
      * Test buildRules method
      *
      * @return void
-     * @uses \App\Model\Table\PresencasTable::buildRules()
+     * @uses \App\Model\Table\SessoesTable::buildRules()
      */
     public function testBuildRules(): void
     {

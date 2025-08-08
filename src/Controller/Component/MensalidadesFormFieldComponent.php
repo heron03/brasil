@@ -1,0 +1,81 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Controller\Component;
+
+use MetronicV4\Controller\Component\FormFieldComponent;
+
+/**
+ * @method \App\Controller\AppController getController()
+ */
+class MensalidadesFormFieldComponent extends FormFieldComponent
+{
+    public $params = [
+        'irmao_id' => [
+            'label' => ['text' => 'Irmão'],
+            'type' => 'select',
+            'options' => [],
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-5 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-5 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'referencia' => [
+            'label' => ['text' => 'Referência (MM/AAAA)'],
+            'type' => 'text',
+            'class' => 'form-control m-input',
+            'data-inputmask' => "'mask': ['99/9999']",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'valor' => [
+            'label' => ['text' => 'Valor'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'status' => [
+            'label' => ['text' => 'Status'],
+            'type' => 'select',
+            'options' => [
+                'pendente' => 'Pendente',
+                'pago' => 'Pago',
+                'atrasado' => 'Atrasado',
+            ],
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+    ];
+
+    public function getFields(): array
+    {
+        $this->setSelectOptions('irmao_id', 'Irmaos', ['Deleted IS NULL']);
+        return $this->params;
+    }
+
+    public function getFilters(): array
+    {
+        $this->params['referencia']['label'] = false;
+        $this->params['referencia']['placeholder'] = 'Filtrar por Referência';
+        $this->params['referencia']['value'] = $this->getController()
+            ->getRequest()
+            ->getSession()
+            ->read('Mensalidades.referencia');
+
+        return [
+            'Mensalidades.referencia' => $this->params['referencia'],
+        ];
+    }
+}

@@ -46,6 +46,9 @@ class Application extends BaseApplication
         // Call parent to load bootstrap from files.
         parent::bootstrap();
 
+        $this->addPlugin('MetronicV4');
+        $this->addPlugin('Pdf');
+
         if (PHP_SAPI === 'cli') {
             $this->bootstrapCli();
         } else {
@@ -66,40 +69,36 @@ class Application extends BaseApplication
         // Load more plugins here
     }
 
-    /**
-     * Setup the middleware queue your application will use.
-     *
-     * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
-     * @return \Cake\Http\MiddlewareQueue The updated middleware queue.
-     */
+
+
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
-        $middlewareQueue
-            // Catch any exceptions in the lower layers,
-            // and make an error page/response
-            ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+        $csrf = new CsrfProtectionMiddleware([
+            'httponly' => true,
+            'cookieName' => 'brasils_csrf_token',
+        ]);
+        $csrf->skipCheckCallback(static function ($request) {
+            $allowed = [
+                'upload',
+                'uploadMbft',
+            ];
+            if (in_array($request->getParam('action'), $allowed)) {
+                return true;
+            }
+            if (strpos($request->getParam('controller'), 'Api') !== false) {
+                return true;
+            }
+        });
 
-            // Handle plugin/theme assets like CakePHP normally does.
+        $middlewareQueue
+            ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
             ->add(new AssetMiddleware([
                 'cacheTime' => Configure::read('Asset.cacheTime'),
             ]))
-
-            // Add routing middleware.
-            // If you have a large number of routes connected, turning on routes
-            // caching in production could improve performance.
-            // See https://github.com/CakeDC/cakephp-cached-routing
             ->add(new RoutingMiddleware($this))
-
-            // Parse various types of encoded request bodies so that they are
-            // available as array through $request->getData()
-            // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
-
-            // Cross Site Request Forgery (CSRF) Protection Middleware
-            // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
-            ->add(new CsrfProtectionMiddleware([
-                'httponly' => true,
-            ]));
+            ->add($csrf)
+            ->add(new RoutingMiddleware($this));
 
         return $middlewareQueue;
     }
