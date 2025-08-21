@@ -4,13 +4,10 @@ $session = $this->getRequest()->getSession();
 $title = $this->Html->tag('strong', 'Brasil II');
 $menu = [
     ['title' => 'Configurações', 'submenu' => [
-        ['title' => '1.1 Loja', 'url' => '/orgaos/edit/'],
+        ['title' => '1.1 Loja', 'url' => '/lojas'],
         ['title' => '1.2 Usuários', 'url' => '/usuarios'],
     ]],
-    ['title' => 'Caixa', 'submenu' => [
-        ['title' => 'Entrada', 'url' => '/movimentacoesCaixas'],
-        ['title' => 'Saída', 'url' => '/movimentacoesCaixa'],
-    ]],
+    ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
     ['title' => 'Irmãos', 'submenu' => [
         ['title' => 'Irmãos', 'url' => '/irmaos'],
         ['title' => 'Mensalidade', 'url' => '/mensalidades']],

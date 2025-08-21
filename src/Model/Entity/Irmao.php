@@ -48,6 +48,7 @@ class Irmao extends Entity
         'cpf' => true,
         'cim' => true,
         'data_nascimento' => true,
+        'desconto_valor' => true,
         'grau' => true,
         'logradouro' => true,
         'numero' => true,

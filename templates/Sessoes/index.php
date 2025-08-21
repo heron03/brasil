@@ -10,11 +10,11 @@ $this->assign('addButton', $this->Metronic->addButton());
 
 $this->assign(
     'filter',
-    $this->Metronic->input('Sessoes.data') .
+    $this->Metronic->input('Sessoes.data_sessao') .
     $this->Html->div('col-sm-5', $this->Metronic->filterButton())
 );
 
-$dataHeader = $this->Metronic->pageSort('data', 'Data da Sessão');
+$dataHeader = $this->Metronic->pageSort('data_sessao', 'Data da Sessão');
 $tipoHeader = $this->Metronic->pageSort('tipo', 'Tipo');
 $lojaHeader = $this->Metronic->pageSort('Loja.nome', 'Loja');
 
@@ -32,7 +32,7 @@ $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' =
 $cells = [];
 foreach ($sessoes as $i => $sessao) {
     $cells[] = [
-        h($sessao->data->format('d/m/Y')),
+        h($sessao->data_sessao->format('d/m/Y')),
         h($sessao->tipo),
         h($sessao->loja->nome ?? '-'),
     ];

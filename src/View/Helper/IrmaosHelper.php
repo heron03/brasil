@@ -10,6 +10,7 @@ class IrmaosHelper extends Helper
     public array $fields = [
         'fields' => [
             ['nome', 'cpf', 'cim'],
+            ['desconto_valor'],
             ['logradouro', 'numero', 'bairro', 'complemento'],
             ['telefone', 'email'],
         ],

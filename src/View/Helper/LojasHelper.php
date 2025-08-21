@@ -11,6 +11,7 @@ class LojasHelper extends Helper
         'fields' => [
             ['nome'],
             ['telefone', 'email'],
+            ['valor_mensalidade'],
             ['logradouro', 'numero'],
             ['bairro', 'complemento'],
             ['cidade', 'uf'],

@@ -43,6 +43,17 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             ],
             'data-inputmask' => "'mask': ['999.999.999-99']",
         ],
+        'desconto_valor' => [
+            'label' => ['text' => 'Desconto Mensalidade'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
         'data_nascimento' => [
             'label' => ['text' => 'Data de Nascimento'],
             'type' => 'text',

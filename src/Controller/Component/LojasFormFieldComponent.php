@@ -66,6 +66,17 @@ class LojasFormFieldComponent extends FormFieldComponent
                     '<div class="col-sm-5 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'valor_mensalidade' => [
+            'label' => ['text' => 'Valor Mensalidade'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
     ];
 
     public function getFields(): array

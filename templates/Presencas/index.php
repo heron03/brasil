@@ -14,8 +14,8 @@ $this->assign(
     $this->Html->div('col-sm-5', $this->Metronic->filterButton())
 );
 
-$sessaoHeader = $this->Metronic->pageSort('Sessao.data', 'Sessão');
-$irmaoHeader = $this->Metronic->pageSort('Irmao.nome', 'Irmão');
+$sessaoHeader = $this->Metronic->pageSort('Sessoes.data_sessao', 'Sessão');
+$irmaoHeader = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
 $presenteHeader = $this->Metronic->pageSort('presente', 'Presente');
 
 $tableHeaders = [
@@ -32,7 +32,7 @@ $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' =
 $cells = [];
 foreach ($presencas as $i => $presenca) {
     $cells[] = [
-        h($presenca->sessao->data->format('d/m/Y')),
+        h($presenca->sessao->data_sessao->format('d/m/Y')),
         h($presenca->irmao->nome ?? '-'),
         $presenca->presente ? 'Sim' : 'Não',
     ];

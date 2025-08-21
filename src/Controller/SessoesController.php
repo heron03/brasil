@@ -6,13 +6,13 @@ namespace App\Controller;
 class SessoesController extends AppController
 {
     public $paginate = [
-        'fields' => ['id', 'data', 'tipo', 'loja_id'],
+        'fields' => ['id', 'data_sessao', 'tipo', 'loja_id'],
         'contain' => [
             'Lojas' => [
                 'fields' => ['id', 'nome']
             ]
         ],
-        'order' => ['Sessoes.data' => 'desc'],
+        'order' => ['Sessoes.data_sessao' => 'desc'],
         'limit' => 20,
     ];
 
@@ -21,15 +21,15 @@ class SessoesController extends AppController
         $conditions = parent::paginateConditions();
 
         $data = $this->request->is('post')
-            ? $this->dataCondition('Sessoes.data')
-            : $this->sessionCondition('Sessoes.data');
+            ? $this->dataCondition('Sessoes.data_sessao')
+            : $this->sessionCondition('Sessoes.data_sessao');
 
         $tipo = $this->request->is('post')
             ? $this->dataCondition('Sessoes.tipo')
             : $this->sessionCondition('Sessoes.tipo');
 
         if (!empty($data)) {
-            $conditions['Sessoes.data'] = $data;
+            $conditions['Sessoes.data_sessao'] = $data;
         }
 
         if (!empty($tipo)) {

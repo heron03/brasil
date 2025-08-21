@@ -156,4 +156,16 @@ class IrmaosTable extends Table
 
         return $rules;
     }
+
+    public function selectOptions()
+    {
+        $options = $this->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'nome',
+        ])
+        ->order(['nome' => 'ASC'])
+        ->toArray();
+
+        return $options;
+    }
 }

@@ -14,13 +14,17 @@ class MovimentacoesCaixaFormFieldComponent extends FormFieldComponent
         'data_movimentacao' => [
             'label' => ['text' => 'Data da Movimentação'],
             'type' => 'text',
-            'class' => 'form-control m-input',
-            'data-inputmask' => "'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'",
             'templates' => [
-                'inputContainer' => '<div class="col-sm-4 {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-4 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
+            'data-provide' => 'datepicker',
+            'data-date-language' => 'pt-BR',
+            'data-date-format' => 'dd/mm/yyyy',
+            'data-date-today-highlight' => 1,
+            'data-date-orientation' => 'bottom',
+            'data-inputmask-alias' => 'date-simple',
         ],
         'descricao' => [
             'label' => ['text' => 'Descrição'],

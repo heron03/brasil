@@ -10,7 +10,7 @@ $this->assign('addButton', $this->Metronic->addButton());
 
 $this->assign(
     'filter',
-    $this->Metronic->input('Lojas.nome_loja') .
+    $this->Metronic->input('Lojas.nome') .
     $this->Html->div('col-sm-5', $this->Metronic->filterButton())
 );
 

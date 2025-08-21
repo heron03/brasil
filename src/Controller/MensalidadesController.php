@@ -5,12 +5,18 @@ namespace App\Controller;
 
 class MensalidadesController extends AppController
 {
-    public $paginate = [
-        'fields' => ['id', 'referencia', 'valor', 'irmao_id'],
+    public $paginate = ['fields' => [
+        'Mensalidades.id',
+        'Mensalidades.irmao_id',
+        'Mensalidades.mes_referencia',
+        'Mensalidades.valor',
+        'Mensalidades.pago',
+        'Mensalidades.data_pagamento',
+    ],
         'contain' => [
             'Irmaos' => ['fields' => ['id', 'nome']],
         ],
-        'order' => ['Mensalidades.referencia' => 'desc'],
+        'order' => ['Mensalidades.mes_referencia' => 'desc'],
         'limit' => 30,
     ];
 
@@ -18,11 +24,11 @@ class MensalidadesController extends AppController
     {
         $conditions = parent::paginateConditions();
         $referencia = $this->request->is('post') ?
-            $this->dataCondition('Mensalidades.referencia') :
-            $this->sessionCondition('Mensalidades.referencia');
+            $this->dataCondition('Mensalidades.mes_referencia') :
+            $this->sessionCondition('Mensalidades.mes_referencia');
 
         if (!empty($referencia)) {
-            $conditions['Mensalidades.referencia'] = $referencia;
+            $conditions['Mensalidades.mes_referencia'] = $referencia;
         }
 
         return $conditions;

@@ -106,7 +106,6 @@ if (Configure::read('debug')) {
  * Set the default server timezone. Using UTC makes time calculations / conversions easier.
  * Check https://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
-date_default_timezone_set(Configure::read('App.defaultTimezone'));
 
 /*
  * Configure the mbstring extension to use the correct encoding.
@@ -117,7 +116,11 @@ mb_internal_encoding(Configure::read('App.encoding'));
  * Set the default locale. This controls how dates, number and currency is
  * formatted and sets the default language to use for translations.
  */
-ini_set('intl.default_locale', Configure::read('App.defaultLocale'));
+ini_set('intl.default_locale', Configure::read('App.defaultLocale')); // ex.: pt_BR
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.iso-8859-1', 'portuguese');
+
+// Timezone (já deve estar setado acima, mas reforçando)
+date_default_timezone_set(Configure::read('App.defaultTimezone'));
 
 /*
  * Register application error and exception handlers.
@@ -212,8 +215,8 @@ ServerRequest::addDetector('tablet', function ($request) {
 
 // There is no time-specific type in Cake
 
-TypeFactory::build('date')->useLocaleParser()->setlocaleFormat('dd/MM/yyyy');
-TypeFactory::build('datetime')->useLocaleParser()->setlocaleFormat('dd/MM/yyyy hh:mm:ss');
+TypeFactory::build('date')->useLocaleParser()->setLocaleFormat('dd/MM/yyyy');
+TypeFactory::build('datetime')->useLocaleParser()->setLocaleFormat('dd/MM/yyyy HH:mm:ss');
 TypeFactory::build('float')->useLocaleParser();
 TypeFactory::build('decimal')->useLocaleParser();
 

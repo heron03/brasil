@@ -1,58 +1,50 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\MovimentacoesCaixa> $movimentacoesCaixa
- */
-?>
-<div class="movimentacoesCaixa index content">
-    <?= $this->Html->link(__('New Movimentacoes Caixa'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Movimentacoes Caixa') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('loja_id') ?></th>
-                    <th><?= $this->Paginator->sort('tipo') ?></th>
-                    <th><?= $this->Paginator->sort('valor') ?></th>
-                    <th><?= $this->Paginator->sort('data_movimentacao') ?></th>
-                    <th><?= $this->Paginator->sort('origem') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($movimentacoesCaixa as $movimentacoesCaixa): ?>
-                <tr>
-                    <td><?= $this->Number->format($movimentacoesCaixa->id) ?></td>
-                    <td><?= $movimentacoesCaixa->has('loja') ? $this->Html->link($movimentacoesCaixa->loja->nome, ['controller' => 'Lojas', 'action' => 'view', $movimentacoesCaixa->loja->id]) : '' ?></td>
-                    <td><?= h($movimentacoesCaixa->tipo) ?></td>
-                    <td><?= $this->Number->format($movimentacoesCaixa->valor) ?></td>
-                    <td><?= h($movimentacoesCaixa->data_movimentacao) ?></td>
-                    <td><?= h($movimentacoesCaixa->origem) ?></td>
-                    <td><?= h($movimentacoesCaixa->created) ?></td>
-                    <td><?= h($movimentacoesCaixa->modified) ?></td>
-                    <td><?= h($movimentacoesCaixa->deleted) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $movimentacoesCaixa->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $movimentacoesCaixa->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $movimentacoesCaixa->id], ['confirm' => __('Are you sure you want to delete # {0}?', $movimentacoesCaixa->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
-</div>
+$this->extend('MetronicV4.Pages/index');
+$this->assign('pageTitle', 'Movimentações de Caixa');
+$this->assign(
+    'singleActions',
+    $this->Metronic->deleteButton()
+);
+
+$this->assign('addButton', $this->Metronic->addButton());
+
+$this->assign(
+    'filter',
+    $this->Metronic->input('MovimentacoesCaixa.descricao') .
+    $this->Html->div('col-sm-5', $this->Metronic->filterButton())
+);
+
+$dataHeader = $this->Metronic->pageSort('data_movimentacao', 'Data');
+$descricaoHeader = $this->Metronic->pageSort('descricao', 'Descrição');
+$valorHeader = $this->Metronic->pageSort('valor', 'Valor');
+$tipoHeader = $this->Metronic->pageSort('tipo', 'Tipo');
+
+$tableHeaders = [
+    $dataHeader,
+    $descricaoHeader,
+    $valorHeader,
+    $tipoHeader,
+];
+
+array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
+array_push($tableHeaders, ['' => ['width' => '5%']]);
+
+$this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
+
+$cells = [];
+foreach ($movimentacoesCaixa as $i => $mov) {
+    $cells[] = [
+        $mov->data_movimentacao->format('d/m/Y'),
+        h($mov->descricao),
+        'R$ ' . number_format($mov->valor, 2, ',', '.'),
+        h(ucfirst($mov->tipo)),
+    ];
+    array_unshift($cells[$i], $this->Metronic->rowCheckbox("MovimentacoesCaixa.$i.id", $mov->id));
+    array_push($cells[$i], $this->Metronic->editButton($mov->id));
+}
+
+$this->assign('tableCells', $this->Html->tableCells(
+    $cells,
+    ['role' => 'row', 'class' => 'odd'],
+    ['role' => 'row', 'class' => 'even']
+));

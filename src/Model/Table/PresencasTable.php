@@ -51,6 +51,7 @@ class PresencasTable extends Table
         $this->belongsTo('Sessoes', [
             'foreignKey' => 'sessao_id',
             'joinType' => 'INNER',
+            'propertyName' => 'sessao',
         ]);
         $this->belongsTo('Irmaos', [
             'foreignKey' => 'irmao_id',

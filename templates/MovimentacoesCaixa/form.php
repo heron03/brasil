@@ -1,53 +1,18 @@
 <?php
-$this->extend('MetronicV4.Pages/index');
-$this->assign('pageTitle', 'Movimentações de Caixa');
-$this->assign(
-    'singleActions',
-    $this->Metronic->deleteButton()
-);
+/**
+ * @var \App\View\AppView $this
+ * @var mixed $loja
+ */
+$this->formConfiguracao();
+$form = $this->Metronic->formCreate($movimentacoesCaixa, ['default' => true]);
 
-$this->assign('addButton', $this->Metronic->addButton());
+$formBody = $this->camposHidden([
+    ['nome' => 'id', 'valor' => []],
+    ['nome' => 'loja_id', 'valor' => ['value' => 1]],
+]);
 
-$this->assign(
-    'filter',
-    $this->Metronic->input('MovimentacoesCaixa.descricao') .
-    $this->Html->div('col-sm-5', $this->Metronic->filterButton())
-);
 
-$dataHeader = $this->Metronic->pageSort('data', 'Data');
-$descricaoHeader = $this->Metronic->pageSort('descricao', 'Descrição');
-$valorHeader = $this->Metronic->pageSort('valor', 'Valor');
-$tipoHeader = $this->Metronic->pageSort('tipo', 'Tipo');
-$lojaHeader = $this->Metronic->pageSort('Loja.nome', 'Loja');
+$formBody .= $this->formulario();
 
-$tableHeaders = [
-    $dataHeader,
-    $descricaoHeader,
-    $valorHeader,
-    $tipoHeader,
-    $lojaHeader,
-];
-
-array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
-array_push($tableHeaders, ['' => ['width' => '5%']]);
-
-$this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
-
-$cells = [];
-foreach ($movimentacoesCaixa as $i => $mov) {
-    $cells[] = [
-        h($mov->data->format('d/m/Y')),
-        h($mov->descricao),
-        'R$ ' . number_format($mov->valor, 2, ',', '.'),
-        h(ucfirst($mov->tipo)),
-        h($mov->loja->nome ?? '-'),
-    ];
-    array_unshift($cells[$i], $this->Metronic->rowCheckbox("MovimentacoesCaixa.$i.id", $mov->id));
-    array_push($cells[$i], $this->Metronic->editButton($mov->id));
-}
-
-$this->assign('tableCells', $this->Html->tableCells(
-    $cells,
-    ['role' => 'row', 'class' => 'odd'],
-    ['role' => 'row', 'class' => 'even']
-));
+$this->assign('formBody', $formBody);
+$this->assign('form', $form);

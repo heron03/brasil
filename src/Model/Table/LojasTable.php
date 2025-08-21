@@ -120,4 +120,16 @@ class LojasTable extends Table
 
         return $validator;
     }
+
+    public function selectOptions()
+    {
+        $options = $this->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'nome',
+        ])
+        ->order(['nome' => 'ASC'])
+        ->toArray();
+
+        return $options;
+    }
 }

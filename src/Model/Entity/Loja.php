@@ -42,6 +42,7 @@ class Loja extends Entity
         'logradouro' => true,
         'numero' => true,
         'complemento' => true,
+        'valor_mensalidade' => true,
         'bairro' => true,
         'cidade' => true,
         'estado' => true,
