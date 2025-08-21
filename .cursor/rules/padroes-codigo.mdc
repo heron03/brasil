@@ -1,0 +1,84 @@
+# Padrões de Código PHP
+
+## Declarações e Namespaces
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\Namespace;
+
+use Cake\ORM\Entity;
+use Cake\Validation\Validator;
+```
+
+## Tipagem Estrita
+- Sempre usar `declare(strict_types=1);`
+- Definir tipos de retorno em métodos: `public function metodo(): void`
+- Usar tipos de parâmetros: `public function metodo(string $param): array`
+
+## Nomenclatura
+- **Classes**: PascalCase (`MensalidadesController`)
+- **Métodos**: camelCase (`getEditEntity`)
+- **Variáveis**: camelCase (`$mensalidade`)
+- **Constantes**: UPPER_SNAKE_CASE (`MAX_LENGTH`)
+- **Namespaces**: PascalCase (`App\Model\Entity`)
+
+## Estrutura de Arquivos
+- Um arquivo por classe
+- Nome do arquivo igual ao nome da classe
+- Extensão `.php`
+
+## Comentários e Documentação
+```php
+/**
+ * Descrição da classe/método
+ *
+ * @param string $parametro Descrição do parâmetro
+ * @return array Descrição do retorno
+ * @since 1.0.0
+ */
+```
+
+## Tratamento de Erros
+- Usar `try/catch` para operações que podem falhar
+- Validar dados de entrada
+- Usar `null` coalescing operator (`??`) quando apropriado
+- Usar `empty()` para verificar valores vazios
+
+## Formatação
+- Indentação: 4 espaços
+- Chaves na mesma linha para estruturas de controle
+- Chaves em linha separada para classes e métodos
+- Uma linha em branco entre métodos
+- Espaço após palavras-chave (`if (`)
+
+## Exemplo de Estrutura Completa
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use Cake\Controller\Controller;
+use Cake\Datasource\EntityInterface;
+
+/**
+ * Controller para gerenciar entidades
+ */
+class NomeController extends Controller
+{
+    public function index(): void
+    {
+        // Implementação
+    }
+
+    public function add(): void
+    {
+        // Implementação
+    }
+}
+```
+description:
+globs:
+alwaysApply: false
+---

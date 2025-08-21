@@ -1,0 +1,108 @@
+# Padrões de Banco de Dados
+
+## Convenções de Nomenclatura
+- **Tabelas**: Plural, snake_case (`mensalidades`, `irmaos`)
+- **Campos**: snake_case (`data_pagamento`, `valor_mensalidade`)
+- **Chaves estrangeiras**: `tabela_id` (`loja_id`, `irmao_id`)
+- **Chaves primárias**: `id` (auto-incremento)
+
+## Tipos de Dados Comuns
+- **IDs**: `integer` (auto-incremento)
+- **Textos curtos**: `string` (255 caracteres)
+- **Textos longos**: `text`
+- **Valores monetários**: `decimal(10,2)`
+- **Datas**: `date` ou `datetime`
+- **Booleanos**: `boolean` (0/1)
+- **Timestamps**: `datetime` (created, modified, deleted)
+
+## Estrutura de Migração
+```php
+<?php
+declare(strict_types=1);
+
+use Migrations\AbstractMigration;
+
+class CreateTabela extends AbstractMigration
+{
+    public function change(): void
+    {
+        $table = $this->table('tabela');
+
+        $table->addColumn('nome', 'string', [
+            'default' => null,
+            'limit' => 255,
+            'null' => false,
+        ]);
+
+        $table->addColumn('valor', 'decimal', [
+            'default' => null,
+            'null' => true,
+            'precision' => 10,
+            'scale' => 2,
+        ]);
+
+        $table->addColumn('data_criacao', 'datetime', [
+            'default' => null,
+            'null' => true,
+        ]);
+
+        $table->addColumn('ativo', 'boolean', [
+            'default' => true,
+            'null' => false,
+        ]);
+
+        $table->addColumn('created', 'datetime', [
+            'default' => null,
+            'null' => true,
+        ]);
+
+        $table->addColumn('modified', 'datetime', [
+            'default' => null,
+            'null' => true,
+        ]);
+
+        $table->addColumn('deleted', 'datetime', [
+            'default' => null,
+            'null' => true,
+        ]);
+
+        $table->addIndex(['nome'], ['name' => 'idx_tabela_nome']);
+        $table->addIndex(['ativo'], ['name' => 'idx_tabela_ativo']);
+        $table->addIndex(['deleted'], ['name' => 'idx_tabela_deleted']);
+
+        $table->create();
+    }
+}
+```
+
+## Índices Recomendados
+- **Chaves primárias**: Automático
+- **Chaves estrangeiras**: Automático
+- **Campos de busca**: `idx_tabela_campo`
+- **Campos de status**: `idx_tabela_ativo`
+- **Soft delete**: `idx_tabela_deleted`
+- **Datas**: `idx_tabela_data` (quando usado para filtros)
+
+## Soft Delete
+Implementar exclusão lógica com campo `deleted`:
+```php
+$table->addColumn('deleted', 'datetime', [
+    'default' => null,
+    'null' => true,
+]);
+```
+
+## Relacionamentos
+- **1:N**: Chave estrangeira na tabela "muitos"
+- **N:N**: Tabela intermediária com chaves estrangeiras
+- **1:1**: Chave estrangeira em uma das tabelas
+
+## Constraints
+- **NOT NULL**: Para campos obrigatórios
+- **UNIQUE**: Para campos únicos
+- **DEFAULT**: Para valores padrão
+- **FOREIGN KEY**: Para integridade referencial
+description:
+globs:
+alwaysApply: false
+---

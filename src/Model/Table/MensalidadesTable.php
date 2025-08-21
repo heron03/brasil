@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -29,7 +30,7 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class MensalidadesTable extends Table
+class MensalidadesTable extends AppTable
 {
     /**
      * Initialize method
@@ -76,12 +77,25 @@ class MensalidadesTable extends Table
             ->notEmptyString('valor');
 
         $validator
+            ->decimal('valor_pago')
+            ->allowEmptyString('valor_pago');
+
+        $validator
             ->boolean('pago')
             ->allowEmptyString('pago');
 
         $validator
-            ->date('data_pagamento')
-            ->allowEmptyDate('data_pagamento');
+            ->notBlank('data_pagamento', __('Informe a Data'))
+            ->add('data_pagamento', 'date', [
+                'rule' => ['date', 'dmy'],
+                'message' => __('Data inválida'),
+                'last' => true,
+            ])
+            ->add('data_pagamento', 'dataMenorQueDataAtual', [
+                'rule' => 'dataMenorQueDataAtual',
+                'message' => __('Data Menor que atual '),
+                'provider' => 'table',
+            ]);
 
         $validator
             ->dateTime('deleted')

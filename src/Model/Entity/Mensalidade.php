@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int $irmao_id
  * @property \Cake\I18n\FrozenDate $mes_referencia
  * @property string $valor
+ * @property string $valor_pago
  * @property bool|null $pago
  * @property \Cake\I18n\FrozenDate|null $data_pagamento
  * @property \Cake\I18n\FrozenTime|null $created
@@ -35,6 +36,7 @@ class Mensalidade extends Entity
         'irmao_id' => true,
         'mes_referencia' => true,
         'valor' => true,
+        'valor_pago' => true,
         'pago' => true,
         'data_pagamento' => true,
         'created' => true,

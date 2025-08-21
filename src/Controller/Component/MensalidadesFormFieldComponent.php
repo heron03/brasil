@@ -43,6 +43,32 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
                     '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'data_pagamento' => [
+            'label' => ['text' => 'Data de Pagamento'],
+            'type' => 'text',
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-6 mr-auto {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-6 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+            'data-provide' => 'datepicker',
+            'data-date-language' => 'pt-BR',
+            'data-date-format' => 'dd/mm/yyyy',
+            'data-date-today-highlight' => 1,
+            'data-date-orientation' => 'bottom',
+            'data-inputmask-alias' => 'date-simple',
+        ],
+        'valor_recebido' => [
+            'label' => ['text' => 'Valor Recebido'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
         'status' => [
             'label' => ['text' => 'Status'],
             'type' => 'select',

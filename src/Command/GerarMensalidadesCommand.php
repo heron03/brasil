@@ -25,13 +25,13 @@ class GerarMensalidadesCommand extends Command
             ->all();
 
         $criados = 0;
-
         foreach ($irmaos as $i) {
             // evita duplicar a mensalidade do mesmo mês/irmão
             $exists = $Mensalidades->exists([
                 'irmao_id'       => $i->id,
                 'mes_referencia' => $competencia
             ]);
+
             if ($exists) continue;
 
             $base = (float)($i->loja->valor_mensalidade ?? 0.00);
@@ -43,7 +43,6 @@ class GerarMensalidadesCommand extends Command
                 'mes_referencia' => $competencia,  // coluna do seu banco
                 'valor'          => number_format($valorFinal, 2, '.', ''), // coluna do seu banco
                 'pago'           => 0,             // começa como não pago (binário do seu banco)
-                'data_pagamento' => null,
             ]);
             if ($Mensalidades->save($ent)) $criados++;
         }

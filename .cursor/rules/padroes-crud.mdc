@@ -1,0 +1,42 @@
+# Padrões CRUD do Projeto
+
+## Controller Base (AppController)
+O [AppController.php](mdc:src/Controller/AppController.php) implementa CRUD padrão com:
+
+### Métodos Principais
+- `index()` - Listagem com paginação
+- `add()` - Criação de registros
+- `edit($id)` - Edição de registros
+- `view($id)` - Visualização
+- `delete($id)` - Exclusão lógica
+
+### Hooks de Ciclo de Vida
+- `beforeAdd()` / `afterAdd()` - Antes/depois da criação
+- `beforeEdit()` / `afterEdit()` - Antes/depois da edição
+- `beforeUpdate()` - Antes da atualização
+- `beforeInsert()` - Antes da inserção
+- `afterDelete()` - Após exclusão
+
+### Configurações Padrão
+```php
+public $paginate = [
+    'fields' => ['Campos', 'para', 'listagem'],
+    'contain' => ['Associacoes'],
+    'order' => ['campo' => 'ASC'],
+    'limit' => 30
+];
+```
+
+## Estrutura de Formulários
+- **FormFieldComponents**: Definem campos e validações
+- **Helpers**: Definem layout dos formulários
+- **Templates**: `templates/Controller/form.php` e `templates/Controller/index.php`
+
+## Padrões de Navegação
+- Redirecionamento automático para `indexUrl()` após operações
+- Flash messages com notificações bootstrap
+- Breadcrumbs automáticos
+description:
+globs:
+alwaysApply: false
+---

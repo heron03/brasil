@@ -1,0 +1,126 @@
+# Padrões de Formulários e Interface
+
+## FormFieldComponents
+Componentes que definem campos de formulário:
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\Controller\Component;
+
+use MetronicV4\Controller\Component\FormFieldComponent;
+
+class NomeFormFieldComponent extends FormFieldComponent
+{
+    public $params = [
+        'campo' => [
+            'label' => ['text' => 'Label do Campo'],
+            'type' => 'text', // text, email, select, textarea, etc.
+            'maxlength' => 255,
+            'class' => 'form-control m-input',
+            'data-inputmask' => "'mask': ['(99) 9999-9999']", // Máscaras quando necessário
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
+                'inputContainerError' => '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+    ];
+
+    public function getFields(): array
+    {
+        return $this->params;
+    }
+}
+```
+
+## Helpers de View
+Definem layout dos formulários:
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\View\Helper;
+
+use Cake\View\Helper;
+
+class NomeHelper extends Helper
+{
+    public array $fields = [
+        'fields' => [
+            ['campo1', 'campo2'],
+            ['campo3'],
+            ['campo4', 'campo5', 'campo6'],
+        ],
+    ];
+
+    public array $titulos = [
+        'add' => 'Novo Registro',
+        'view' => 'Detalhes do Registro',
+        'edit' => 'Edição do Registro',
+    ];
+}
+```
+
+## Templates de Formulário
+Estrutura padrão em `templates/Controller/form.php`:
+
+```php
+<?php
+$this->formConfiguracao();
+$form = $this->Metronic->formCreate($entidade, ['default' => true]);
+
+$formBody = $this->camposHidden([
+    ['nome' => 'id', 'valor' => []],
+]);
+
+$formBody .= $this->formulario();
+
+$this->assign('formBody', $formBody);
+$this->assign('form', $form);
+```
+
+## Templates de Index
+Estrutura padrão em `templates/Controller/index.php`:
+
+```php
+<?php
+$this->extend('MetronicV4.Pages/index');
+$this->assign('pageTitle', 'Título da Página');
+
+// Headers da tabela
+$header1 = $this->Metronic->pageSort('campo1', 'Campo 1');
+$header2 = $this->Metronic->pageSort('campo2', 'Campo 2');
+
+$tableHeaders = [$header1, $header2];
+array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
+array_push($tableHeaders, ['' => ['width' => '5%']]);
+
+// Células da tabela
+$cells = [];
+foreach ($registros as $i => $registro) {
+    $cells[] = [
+        h($registro->campo1),
+        h($registro->campo2),
+    ];
+    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Controller.$i.id", $registro->id));
+    array_push($cells[$i], $this->Metronic->editButton($registro->id));
+}
+```
+
+## Máscaras Comuns
+- **Telefone**: `'data-inputmask' => "'mask': ['(99) 9999-9999', '(99) 99999-9999']"`
+- **CPF**: `'data-inputmask' => "'mask': ['999.999.999-99']"`
+- **CEP**: `'data-inputmask' => "'mask': '99999-999'"`
+- **Moeda**: `'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','"`
+- **Data**: `'data-inputmask' => "'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'"`
+
+## Classes CSS Padrão
+- `form-control m-input` - Campo de entrada
+- `text-right` - Alinhamento à direita (para valores monetários)
+- `col-sm-*` - Grid responsivo
+description:
+globs:
+alwaysApply: false
+---
