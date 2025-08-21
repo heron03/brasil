@@ -1,0 +1,30 @@
+# Estrutura do Projeto CakePHP 4
+
+## Arquitetura MVC
+Este é um projeto CakePHP 4 com arquitetura MVC padrão:
+
+- **Controllers**: `src/Controller/` - Lógica de negócio e controle de fluxo
+- **Models**: `src/Model/` - Entidades e tabelas do banco de dados
+- **Views**: `templates/` - Templates de apresentação
+- **Helpers**: `src/View/Helper/` - Componentes de interface
+
+## Padrões de Nomenclatura
+- **Controllers**: `NomeController.php` (ex: `MensalidadesController.php`)
+- **Entities**: `Nome.php` (ex: `Mensalidade.php`)
+- **Tables**: `NomesTable.php` (ex: `MensalidadesTable.php`)
+- **Helpers**: `NomesHelper.php` (ex: `MensalidadesHelper.php`)
+- **FormFieldComponents**: `NomesFormFieldComponent.php` (ex: `MensalidadesFormFieldComponent.php`)
+
+## Estrutura de Arquivos Principais
+- [AppController.php](mdc:src/Controller/AppController.php) - Controller base com CRUD padrão
+- [composer.json](mdc:composer.json) - Dependências e autoload
+- [index.php](mdc:index.php) - Ponto de entrada da aplicação
+
+## Plugins Utilizados
+- **MetronicV4**: Framework de UI/UX
+- **CakeAes**: Criptografia
+- **Pdf**: Geração de PDFs
+description:
+globs:
+alwaysApply: false
+---

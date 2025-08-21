@@ -25,6 +25,7 @@ class PresencasTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Presencas',
+        'app.Sessoes',
         'app.Irmaos',
     ];
 

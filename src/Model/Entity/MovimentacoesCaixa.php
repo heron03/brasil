@@ -5,6 +5,9 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 
+use Cake\I18n\FrozenDate;
+use Cake\I18n\FrozenTime;
+
 /**
  * MovimentacoesCaixa Entity
  *
@@ -13,7 +16,6 @@ use Cake\ORM\Entity;
  * @property string|null $tipo
  * @property string|null $descricao
  * @property string $valor
- * @property \Cake\I18n\FrozenDate $data_movimentacao
  * @property string|null $origem
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
@@ -44,4 +46,5 @@ class MovimentacoesCaixa extends Entity
         'deleted' => true,
         'loja' => true,
     ];
+
 }

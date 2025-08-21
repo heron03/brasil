@@ -1,0 +1,89 @@
+# Padrões de Modelos e Entidades
+
+## Estrutura de Entidades
+Todas as entidades devem seguir o padrão:
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\Model\Entity;
+
+use Cake\ORM\Entity;
+
+class Nome extends Entity
+{
+    protected $_accessible = [
+        'campo1' => true,
+        'campo2' => true,
+        // ... outros campos
+    ];
+}
+```
+
+## Estrutura de Tables
+Todas as tabelas devem seguir o padrão:
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\Model\Table;
+
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
+
+class NomesTable extends Table
+{
+    public function initialize(array $config): void
+    {
+        parent::initialize($config);
+
+        $this->setTable('nomes');
+        $this->setDisplayField('nome');
+        $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
+
+        // Associações
+        $this->belongsTo('OutraTabela', [
+            'foreignKey' => 'outra_tabela_id',
+        ]);
+    }
+
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+            ->integer('id')
+            ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->scalar('nome')
+            ->maxLength('nome', 255)
+            ->requirePresence('nome', 'create')
+            ->notEmptyString('nome');
+
+        return $validator;
+    }
+}
+```
+
+## Padrões de Validação
+- **Campos obrigatórios**: `requirePresence()` + `notEmptyString()`
+- **Campos opcionais**: `allowEmptyString()` ou `allowEmptyDate()`
+- **Campos monetários**: `decimal()` com validação específica
+- **Campos de data**: `date()` com formato apropriado
+
+## Associações Comuns
+- `belongsTo()` - Relacionamento 1:N
+- `hasMany()` - Relacionamento 1:N (inverso)
+- `hasOne()` - Relacionamento 1:1
+- `belongsToMany()` - Relacionamento N:N
+
+## Comportamentos (Behaviors)
+- `Timestamp` - Adiciona `created` e `modified` automaticamente
+- `SoftDelete` - Exclusão lógica (quando aplicável)
+description:
+globs:
+alwaysApply: false
+---

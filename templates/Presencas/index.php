@@ -1,56 +1,47 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\Presenca> $presencas
- */
-?>
-<div class="presencas index content">
-    <?= $this->Html->link(__('New Presenca'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Presencas') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('irmao_id') ?></th>
-                    <th><?= $this->Paginator->sort('data_sessao') ?></th>
-                    <th><?= $this->Paginator->sort('tipo_sessao') ?></th>
-                    <th><?= $this->Paginator->sort('presente') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($presencas as $presenca): ?>
-                <tr>
-                    <td><?= $this->Number->format($presenca->id) ?></td>
-                    <td><?= $presenca->has('irmao') ? $this->Html->link($presenca->irmao->nome, ['controller' => 'Irmaos', 'action' => 'view', $presenca->irmao->id]) : '' ?></td>
-                    <td><?= h($presenca->data_sessao) ?></td>
-                    <td><?= h($presenca->tipo_sessao) ?></td>
-                    <td><?= h($presenca->presente) ?></td>
-                    <td><?= h($presenca->created) ?></td>
-                    <td><?= h($presenca->modified) ?></td>
-                    <td><?= h($presenca->deleted) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $presenca->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $presenca->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $presenca->id], ['confirm' => __('Are you sure you want to delete # {0}?', $presenca->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
-</div>
+$this->extend('MetronicV4.Pages/index');
+$this->assign('pageTitle', 'Presenças');
+$this->assign(
+    'singleActions',
+    $this->Metronic->deleteButton()
+);
+
+$this->assign('addButton', $this->Metronic->addButton());
+
+$this->assign(
+    'filter',
+    $this->Metronic->input('Presencas.sessao_id') .
+    $this->Html->div('col-sm-5', $this->Metronic->filterButton())
+);
+
+$sessaoHeader = $this->Metronic->pageSort('Sessoes.data_sessao', 'Sessão');
+$irmaoHeader = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
+$presenteHeader = $this->Metronic->pageSort('presente', 'Presente');
+
+$tableHeaders = [
+    $sessaoHeader,
+    $irmaoHeader,
+    $presenteHeader,
+];
+
+array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
+array_push($tableHeaders, ['' => ['width' => '5%']]);
+
+$this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
+
+$cells = [];
+foreach ($presencas as $i => $presenca) {
+    $cells[] = [
+        h($presenca->sessao->data_sessao->format('d/m/Y')),
+        h($presenca->irmao->nome ?? '-'),
+        $presenca->presente ? 'Sim' : 'Não',
+    ];
+    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Presencas.$i.id", $presenca->id));
+    array_push($cells[$i], $this->Metronic->editButton($presenca->id));
+}
+
+$this->assign('tableCells', $this->Html->tableCells(
+    $cells,
+    ['role' => 'row', 'class' => 'odd'],
+    ['role' => 'row', 'class' => 'even']
+));

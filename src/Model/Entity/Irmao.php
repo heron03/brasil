@@ -45,7 +45,10 @@ class Irmao extends Entity
     protected $_accessible = [
         'loja_id' => true,
         'nome' => true,
+        'cpf' => true,
+        'cim' => true,
         'data_nascimento' => true,
+        'desconto_valor' => true,
         'grau' => true,
         'logradouro' => true,
         'numero' => true,

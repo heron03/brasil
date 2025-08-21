@@ -5,6 +5,11 @@
 /logs/*
 /tmp/*
 /vendor/*
+/plugins/*
+/config/Migrations/schema-dump-default.lock
+/webroot/brasoes/*
+/webroot/fotos/*
+/webroot/img/*
 
 # OS generated files #
 ######################
@@ -13,8 +18,7 @@
 ._*
 .Spotlight-V100
 .Trashes
-# Icon must end with two \r
-Icon
+Icon?
 ehthumbs.db
 Thumbs.db
 .directory
@@ -23,7 +27,6 @@ Thumbs.db
 #######################
 # PHPUnit
 .phpunit.result.cache
-tests.sqlite
 # vim
 *~
 *.swp
@@ -41,12 +44,5 @@ tests.sqlite
 nbproject/*
 # Visual Studio Code
 .vscode
-# nova
-.nova
 # Sass preprocessor
 .sass-cache/
-# node
-/node_modules/*
-# yarn
-yarn-debug.log
-yarn-error.log

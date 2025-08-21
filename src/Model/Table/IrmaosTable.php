@@ -69,76 +69,76 @@ class IrmaosTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->integer('loja_id')
-            ->notEmptyString('loja_id');
+        // $validator
+        //     ->integer('loja_id')
+        //     ->notEmptyString('loja_id');
 
-        $validator
-            ->scalar('nome')
-            ->maxLength('nome', 255)
-            ->requirePresence('nome', 'create')
-            ->notEmptyString('nome');
+        // $validator
+        //     ->scalar('nome')
+        //     ->maxLength('nome', 255)
+        //     ->requirePresence('nome', 'create')
+        //     ->notEmptyString('nome');
 
-        $validator
-            ->date('data_nascimento')
-            ->allowEmptyDate('data_nascimento');
+        // $validator
+        //     ->date('data_nascimento')
+        //     ->allowEmptyDate('data_nascimento');
 
-        $validator
-            ->scalar('grau')
-            ->maxLength('grau', 50)
-            ->allowEmptyString('grau');
+        // $validator
+        //     ->scalar('grau')
+        //     ->maxLength('grau', 50)
+        //     ->allowEmptyString('grau');
 
-        $validator
-            ->scalar('logradouro')
-            ->maxLength('logradouro', 255)
-            ->allowEmptyString('logradouro');
+        // $validator
+        //     ->scalar('logradouro')
+        //     ->maxLength('logradouro', 255)
+        //     ->allowEmptyString('logradouro');
 
-        $validator
-            ->scalar('numero')
-            ->maxLength('numero', 10)
-            ->allowEmptyString('numero');
+        // $validator
+        //     ->scalar('numero')
+        //     ->maxLength('numero', 10)
+        //     ->allowEmptyString('numero');
 
-        $validator
-            ->scalar('complemento')
-            ->maxLength('complemento', 100)
-            ->allowEmptyString('complemento');
+        // $validator
+        //     ->scalar('complemento')
+        //     ->maxLength('complemento', 100)
+        //     ->allowEmptyString('complemento');
 
-        $validator
-            ->scalar('bairro')
-            ->maxLength('bairro', 100)
-            ->allowEmptyString('bairro');
+        // $validator
+        //     ->scalar('bairro')
+        //     ->maxLength('bairro', 100)
+        //     ->allowEmptyString('bairro');
 
-        $validator
-            ->scalar('cidade')
-            ->maxLength('cidade', 100)
-            ->allowEmptyString('cidade');
+        // $validator
+        //     ->scalar('cidade')
+        //     ->maxLength('cidade', 100)
+        //     ->allowEmptyString('cidade');
 
-        $validator
-            ->scalar('estado')
-            ->maxLength('estado', 2)
-            ->allowEmptyString('estado');
+        // $validator
+        //     ->scalar('estado')
+        //     ->maxLength('estado', 2)
+        //     ->allowEmptyString('estado');
 
-        $validator
-            ->scalar('cep')
-            ->maxLength('cep', 10)
-            ->allowEmptyString('cep');
+        // $validator
+        //     ->scalar('cep')
+        //     ->maxLength('cep', 10)
+        //     ->allowEmptyString('cep');
 
-        $validator
-            ->scalar('telefone')
-            ->maxLength('telefone', 20)
-            ->allowEmptyString('telefone');
+        // $validator
+        //     ->scalar('telefone')
+        //     ->maxLength('telefone', 20)
+        //     ->allowEmptyString('telefone');
 
-        $validator
-            ->email('email')
-            ->allowEmptyString('email');
+        // $validator
+        //     ->email('email')
+        //     ->allowEmptyString('email');
 
-        $validator
-            ->boolean('ativo')
-            ->allowEmptyString('ativo');
+        // $validator
+        //     ->boolean('ativo')
+        //     ->allowEmptyString('ativo');
 
-        $validator
-            ->dateTime('deleted')
-            ->allowEmptyDateTime('deleted');
+        // $validator
+        //     ->dateTime('deleted')
+        //     ->allowEmptyDateTime('deleted');
 
         return $validator;
     }
@@ -152,8 +152,20 @@ class IrmaosTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn('loja_id', 'Lojas'), ['errorField' => 'loja_id']);
+        // $rules->add($rules->existsIn('loja_id', 'Lojas'), ['errorField' => 'loja_id']);
 
         return $rules;
+    }
+
+    public function selectOptions()
+    {
+        $options = $this->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'nome',
+        ])
+        ->order(['nome' => 'ASC'])
+        ->toArray();
+
+        return $options;
     }
 }

@@ -29,7 +29,7 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class MovimentacoesCaixaTable extends Table
+class MovimentacoesCaixaTable extends AppTable
 {
     /**
      * Initialize method
@@ -75,14 +75,20 @@ class MovimentacoesCaixaTable extends Table
             ->allowEmptyString('descricao');
 
         $validator
-            ->decimal('valor')
-            ->requirePresence('valor', 'create')
             ->notEmptyString('valor');
 
         $validator
-            ->date('data_movimentacao')
-            ->requirePresence('data_movimentacao', 'create')
-            ->notEmptyDate('data_movimentacao');
+            ->notBlank('data_movimentacao', __('Informe a Data'))
+            ->add('data_movimentacao', 'date', [
+                'rule' => ['date', 'dmy'],
+                'message' => __('Data inválida'),
+                'last' => true,
+            ])
+            ->add('data_movimentacao', 'dataMenorQueDataAtual', [
+                'rule' => 'dataMenorQueDataAtual',
+                'message' => __('Data Menor que atual '),
+                'provider' => 'table',
+            ]);
 
         $validator
             ->scalar('origem')

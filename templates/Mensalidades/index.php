@@ -1,58 +1,62 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\Mensalidade> $mensalidades
- */
-?>
-<div class="mensalidades index content">
-    <?= $this->Html->link(__('New Mensalidade'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Mensalidades') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('irmao_id') ?></th>
-                    <th><?= $this->Paginator->sort('mes_referencia') ?></th>
-                    <th><?= $this->Paginator->sort('valor') ?></th>
-                    <th><?= $this->Paginator->sort('pago') ?></th>
-                    <th><?= $this->Paginator->sort('data_pagamento') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th><?= $this->Paginator->sort('deleted') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($mensalidades as $mensalidade): ?>
-                <tr>
-                    <td><?= $this->Number->format($mensalidade->id) ?></td>
-                    <td><?= $mensalidade->has('irmao') ? $this->Html->link($mensalidade->irmao->nome, ['controller' => 'Irmaos', 'action' => 'view', $mensalidade->irmao->id]) : '' ?></td>
-                    <td><?= h($mensalidade->mes_referencia) ?></td>
-                    <td><?= $this->Number->format($mensalidade->valor) ?></td>
-                    <td><?= h($mensalidade->pago) ?></td>
-                    <td><?= h($mensalidade->data_pagamento) ?></td>
-                    <td><?= h($mensalidade->created) ?></td>
-                    <td><?= h($mensalidade->modified) ?></td>
-                    <td><?= h($mensalidade->deleted) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $mensalidade->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $mensalidade->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $mensalidade->id], ['confirm' => __('Are you sure you want to delete # {0}?', $mensalidade->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
-</div>
+$this->extend('MetronicV4.Pages/index');
+$this->assign('pageTitle', 'Mensalidades');
+
+$this->assign('singleActions', $this->Metronic->deleteButton());
+$this->assign('addButton', $this->Metronic->addButton());
+
+$this->assign(
+    'filter',
+    $this->Metronic->input('Mensalidades.irmao_id') .
+    $this->Html->div('col-sm-5', $this->Metronic->filterButton())
+);
+
+$irmaoHeader          = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
+$competenciaHeader    = $this->Metronic->pageSort('mes_referencia', 'Competência');
+$valorHeader          = $this->Metronic->pageSort('valor', 'Valor');
+$valorPagoHeader      = $this->Metronic->pageSort('valor_pago', 'Valor Pago');
+$pagoHeader           = $this->Metronic->pageSort('pago', 'Pago');
+$dataPagamentoHeader  = $this->Metronic->pageSort('data_pagamento', 'Pagamento');
+
+$tableHeaders = [
+    $irmaoHeader,
+    $competenciaHeader,
+    $valorHeader,
+    $valorPagoHeader,
+    $pagoHeader,
+    $dataPagamentoHeader,
+];
+
+array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
+array_push($tableHeaders, ['' => ['width' => '5%']]);
+
+$this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
+
+$cells = [];
+foreach ($mensalidades as $i => $mensalidade) {
+    $comp  = $mensalidade->mes_referencia ? $mensalidade->mes_referencia->format('m/Y') : '-';
+    $pagto = $mensalidade->data_pagamento ? $mensalidade->data_pagamento->format('d/m/Y') : '-';
+
+    $cells[] = [
+        h($mensalidade->irmao->nome ?? '-'),
+        h($comp),
+        'R$ ' . number_format((float)$mensalidade->valor, 2, ',', '.'),
+        'R$ ' . number_format((float)($mensalidade->valor_pago ?? 0), 2, ',', '.'),
+        $mensalidade->pago ? 'Sim' : 'Não',
+        h($pagto),
+    ];
+    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
+    $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [
+        'escape' => false,
+        'data-original-title' => 'Receber Mensalidade',
+        'data-toggle' => 'm-tooltip',
+        'class' => 'm-btn m-btn--icon-only btn btn-success',
+        'url' => '/mensalidades/receber/' . $mensalidade->id,
+    ]);
+}
+
+$this->assign('tableCells', $this->Html->tableCells(
+    $cells,
+    ['role' => 'row', 'class' => 'odd'],
+    ['role' => 'row', 'class' => 'even']
+));

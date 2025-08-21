@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Presencas Model
  *
+ * @property \App\Model\Table\SessoesTable&\Cake\ORM\Association\BelongsTo $Sessoes
  * @property \App\Model\Table\IrmaosTable&\Cake\ORM\Association\BelongsTo $Irmaos
  *
  * @method \App\Model\Entity\Presenca newEmptyEntity()
@@ -47,6 +48,11 @@ class PresencasTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Sessoes', [
+            'foreignKey' => 'sessao_id',
+            'joinType' => 'INNER',
+            'propertyName' => 'sessao',
+        ]);
         $this->belongsTo('Irmaos', [
             'foreignKey' => 'irmao_id',
             'joinType' => 'INNER',
@@ -62,18 +68,12 @@ class PresencasTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->integer('sessao_id')
+            ->notEmptyString('sessao_id');
+
+        $validator
             ->integer('irmao_id')
             ->notEmptyString('irmao_id');
-
-        $validator
-            ->date('data_sessao')
-            ->requirePresence('data_sessao', 'create')
-            ->notEmptyDate('data_sessao');
-
-        $validator
-            ->scalar('tipo_sessao')
-            ->maxLength('tipo_sessao', 20)
-            ->allowEmptyString('tipo_sessao');
 
         $validator
             ->boolean('presente')
@@ -95,6 +95,7 @@ class PresencasTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn('sessao_id', 'Sessoes'), ['errorField' => 'sessao_id']);
         $rules->add($rules->existsIn('irmao_id', 'Irmaos'), ['errorField' => 'irmao_id']);
 
         return $rules;
