@@ -163,6 +163,7 @@ class MensalidadesController extends AppController
              'data_movimentacao' => $dataMov,
              'origem'            => 'mensalidade',
              'forma_pagamento'   => $data['forma_pagamento'] ?? 'dinheiro',
+             'observacoes'       => $data['observacoes'] ?? null,
          ]);
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());

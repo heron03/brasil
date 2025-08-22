@@ -11,6 +11,7 @@ class MovimentacoesCaixaHelper extends Helper
         'fields' => [
             ['descricao', 'irmao_id'],
             ['valor', 'tipo', 'data_movimentacao', 'forma_pagamento'],
+            ['observacoes'],
         ],
     ];
 

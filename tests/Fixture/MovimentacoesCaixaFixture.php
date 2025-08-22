@@ -32,6 +32,7 @@ class MovimentacoesCaixaFixture extends TestFixture
                 'valor' => 1.5,
                 'data_movimentacao' => '2025-07-30',
                 'origem' => 'Lorem ipsum dolor sit amet',
+                'observacoes' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida.',
                 'created' => '2025-07-30 13:26:52',
                 'modified' => '2025-07-30 13:26:52',
                 'deleted' => '2025-07-30 13:26:52',

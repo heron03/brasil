@@ -4,7 +4,7 @@ $session = $this->getRequest()->getSession();
 $title = $this->Html->tag('strong', 'Brasil II');
 $menu = [
     ['title' => 'Configurações', 'submenu' => [
-        ['title' => '1.1 Loja', 'url' => '/lojas'],
+        // ['title' => '1.1 Loja', 'url' => '/lojas'],
         ['title' => '1.2 Usuários', 'url' => '/usuarios'],
     ]],
     ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
@@ -12,10 +12,10 @@ $menu = [
         ['title' => 'Irmãos', 'url' => '/irmaos'],
         ['title' => 'Mensalidade', 'url' => '/mensalidades']],
     ],
-    ['title' => 'Sessões', 'submenu' => [
-        ['title' => 'Sessões', 'url' => '/sessoes'],
-        ['title' => 'Presenças', 'url' => '/presencas']],
-    ],
+    // ['title' => 'Sessões', 'submenu' => [
+    //     ['title' => 'Sessões', 'url' => '/sessoes'],
+    //     ['title' => 'Presenças', 'url' => '/presencas']],
+    // ],
 ];
 
 

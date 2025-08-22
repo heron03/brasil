@@ -108,11 +108,14 @@ CREATE TABLE `mensalidades` (
 CREATE TABLE `movimentacoes_caixa` (
   `id` int(11) NOT NULL,
   `loja_id` int(11) NOT NULL,
+  `irmao_id` int(11) DEFAULT NULL,
   `tipo` varchar(50) DEFAULT NULL,
   `descricao` text DEFAULT NULL,
   `valor` decimal(10,2) NOT NULL,
   `data_movimentacao` date NOT NULL,
   `origem` varchar(50) DEFAULT NULL,
+  `forma_pagamento` varchar(20) DEFAULT NULL,
+  `observacoes` text DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `modified` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted` datetime DEFAULT NULL

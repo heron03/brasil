@@ -111,6 +111,10 @@ class MovimentacoesCaixaTable extends AppTable
             ->allowEmptyString('forma_pagamento');
 
         $validator
+            ->scalar('observacoes')
+            ->allowEmptyString('observacoes');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmptyDateTime('deleted');
 

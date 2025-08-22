@@ -86,6 +86,17 @@ class MovimentacoesCaixaFormFieldComponent extends FormFieldComponent
                     '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'observacoes' => [
+            'label' => ['text' => 'Observações'],
+            'type' => 'textarea',
+            'class' => 'form-control m-input',
+            'rows' => 3,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-12 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-12 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
     ];
 
     public function getFields(): array

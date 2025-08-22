@@ -19,6 +19,7 @@ use Cake\I18n\FrozenTime;
  * @property string $valor
  * @property string|null $origem
  * @property string|null $forma_pagamento
+ * @property string|null $observacoes
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property \Cake\I18n\FrozenTime|null $deleted
@@ -46,6 +47,7 @@ class MovimentacoesCaixa extends Entity
         'data_movimentacao' => true,
         'origem' => true,
         'forma_pagamento' => true,
+        'observacoes' => true,
         'created' => true,
         'modified' => true,
         'deleted' => true,
