@@ -69,6 +69,24 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
                     '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'forma_pagamento' => [
+            'label' => ['text' => 'Forma de Pagamento'],
+            'type' => 'select',
+            'options' => [
+                'dinheiro' => 'Dinheiro',
+                'pix' => 'PIX',
+                'cartao_debito' => 'Cartão de Débito',
+                'cartao_credito' => 'Cartão de Crédito',
+                'transferencia' => 'Transferência',
+                'boleto' => 'Boleto',
+                'cheque' => 'Cheque',
+            ],
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
         'status' => [
             'label' => ['text' => 'Status'],
             'type' => 'select',
@@ -93,15 +111,22 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
 
     public function getFilters(): array
     {
-        $this->params['referencia']['label'] = false;
-        $this->params['referencia']['placeholder'] = 'Filtrar por Referência';
-        $this->params['referencia']['value'] = $this->getController()
+        $this->params['nome']['data-autocomplete-update-on-select'] = 'MensalidadesId';
+        $this->params['nome']['data-autocomplete-template'] = '<div>{{MensalidadesNome}}</div>';
+        $this->params['nome']['label'] = false;
+        $this->params['nome']['placeholder'] = 'Filtre por Descrição';
+        $this->params['nome']['templates'] = [
+            'inputContainer' => '<div class="col-sm-4 {{type}}"><div class="m-typeahead">{{content}}</div></div>',
+            'inputContainerError' =>
+                '<div class="col-sm-4 {{type}}{{required}} form-error"><div class="m-typeahead">{{content}}{{error}}</div></div>',
+        ];
+        $this->params['nome']['value'] = $this->getController()
             ->getRequest()
             ->getSession()
-            ->read('Mensalidades.referencia');
+            ->read('Mensalidades.nome');
 
         return [
-            'Mensalidades.referencia' => $this->params['referencia'],
+            'Mensalidades.nome' => $this->params['nome'],
         ];
     }
 }

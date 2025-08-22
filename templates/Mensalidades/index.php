@@ -7,16 +7,16 @@ $this->assign('addButton', $this->Metronic->addButton());
 
 $this->assign(
     'filter',
-    $this->Metronic->input('Mensalidades.irmao_id') .
+    $this->Metronic->input('Mensalidades.nome') .
     $this->Html->div('col-sm-5', $this->Metronic->filterButton())
 );
 
-$irmaoHeader          = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
-$competenciaHeader    = $this->Metronic->pageSort('mes_referencia', 'Competência');
-$valorHeader          = $this->Metronic->pageSort('valor', 'Valor');
-$valorPagoHeader      = $this->Metronic->pageSort('valor_pago', 'Valor Pago');
-$pagoHeader           = $this->Metronic->pageSort('pago', 'Pago');
-$dataPagamentoHeader  = $this->Metronic->pageSort('data_pagamento', 'Pagamento');
+$irmaoHeader = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
+$competenciaHeader = $this->Metronic->pageSort('mes_referencia', 'Competência');
+$valorHeader = $this->Metronic->pageSort('valor', 'Valor');
+$valorPagoHeader = $this->Metronic->pageSort('valor_pago', 'Valor Pago');
+$pagoHeader = $this->Metronic->pageSort('pago', 'Pago');
+$dataPagamentoHeader = $this->Metronic->pageSort('data_pagamento', 'Pagamento');
 
 $tableHeaders = [
     $irmaoHeader,

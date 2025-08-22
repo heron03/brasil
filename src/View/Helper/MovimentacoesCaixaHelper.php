@@ -9,8 +9,8 @@ class MovimentacoesCaixaHelper extends Helper
 {
     public array $fields = [
         'fields' => [
-            ['data_movimentacao', 'descricao'],
-            ['valor', 'tipo'],
+            ['descricao', 'irmao_id'],
+            ['valor', 'tipo', 'data_movimentacao', 'forma_pagamento'],
         ],
     ];
 

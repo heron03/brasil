@@ -22,8 +22,9 @@ $formBody .= $this->Html->div(
     'form-group m-form__group',
     $this->Html->div(
         'row',
-        $this->Html->div('col-sm-6 mt-3', $this->Metronic->input('valor_recebido')) .
-            $this->Html->div('col-sm-6 mt-3', $this->Metronic->input('data_pagamento')),
+        $this->Html->div('col-sm-4 mt-3', $this->Metronic->input('valor_recebido')) .
+        $this->Html->div('col-sm-4 mt-3', $this->Metronic->input('data_pagamento')) .
+        $this->Html->div('col-sm-4 mt-3', $this->Metronic->input('forma_pagamento')),
     ),
 );
 

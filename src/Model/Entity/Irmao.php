@@ -30,6 +30,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Loja $loja
  * @property \App\Model\Entity\Mensalidade[] $mensalidades
  * @property \App\Model\Entity\Presenca[] $presencas
+ * @property \App\Model\Entity\MovimentacoesCaixa[] $movimentacoes_caixa
  */
 class Irmao extends Entity
 {
@@ -66,5 +67,6 @@ class Irmao extends Entity
         'loja' => true,
         'mensalidades' => true,
         'presencas' => true,
+        'movimentacoes_caixa' => true,
     ];
 }

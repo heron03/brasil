@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -8,7 +9,10 @@ use Cake\Datasource\EntityInterface;
 class MovimentacoesCaixaController extends AppController
 {
     public $paginate = [
-        'fields' => ['id', 'descricao', 'valor', 'tipo', 'data_movimentacao'],
+        'fields' => ['id', 'descricao', 'valor', 'tipo', 'data_movimentacao', 'irmao_id', 'forma_pagamento'],
+        'contain' => [
+            'Irmaos' => ['fields' => ['id', 'nome']],
+        ],
         'order' => ['MovimentacoesCaixa.data_movimentacao' => 'desc'],
         'limit' => 50,
     ];
@@ -16,13 +20,33 @@ class MovimentacoesCaixaController extends AppController
     public function paginateConditions(): array
     {
         $conditions = parent::paginateConditions();
-        $descricao = $this->request->is('post') ?
-            $this->dataCondition('MovimentacoesCaixa.descricao') :
-            $this->sessionCondition('MovimentacoesCaixa.descricao');
+
+        if ($this->request->is('post')) {
+            $descricao = $this->dataCondition('MovimentacoesCaixa.descricao');
+            $tipo = $this->dataCondition('MovimentacoesCaixa.tipo');
+            $dataInicial = $this->dataCondition('MovimentacoesCaixa.data_inicial');
+            $dataFinal = $this->dataCondition('MovimentacoesCaixa.data_final');
+        } else {
+            $descricao = $this->sessionCondition('MovimentacoesCaixa.descricao');
+            $tipo = $this->sessionCondition('MovimentacoesCaixa.tipo');
+            $dataInicial = $this->dataCondition('MovimentacoesCaixa.data_inicial');
+            $dataFinal = $this->dataCondition('MovimentacoesCaixa.data_final');
+        }
+
 
         if (!empty($descricao)) {
             $conditions['MovimentacoesCaixa.descricao LIKE'] = "%{$descricao}%";
         }
+
+        if (!empty($tipo)) {
+            $conditions['MovimentacoesCaixa.tipo'] = $tipo;
+        }
+
+        if (empty($dataInicial)) {
+            $dataInicial = date('Y-m-d', strtotime('-30 days'));
+            $dataFinal = date('Y-m-d');
+        }
+        $conditions['and'] = ["MovimentacoesCaixa.data_movimentacao BETWEEN '$dataInicial' AND '$dataFinal'"];
 
         return $conditions;
     }

@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  * MovimentacoesCaixa Model
  *
  * @property \App\Model\Table\LojasTable&\Cake\ORM\Association\BelongsTo $Lojas
+ * @property \App\Model\Table\IrmaosTable&\Cake\ORM\Association\BelongsTo $Irmaos
  *
  * @method \App\Model\Entity\MovimentacoesCaixa newEmptyEntity()
  * @method \App\Model\Entity\MovimentacoesCaixa newEntity(array $data, array $options = [])
@@ -51,6 +52,11 @@ class MovimentacoesCaixaTable extends AppTable
             'foreignKey' => 'loja_id',
             'joinType' => 'INNER',
         ]);
+
+        $this->belongsTo('Irmaos', [
+            'foreignKey' => 'irmao_id',
+            'joinType' => 'LEFT',
+        ]);
     }
 
     /**
@@ -64,6 +70,10 @@ class MovimentacoesCaixaTable extends AppTable
         $validator
             ->integer('loja_id')
             ->notEmptyString('loja_id');
+
+        $validator
+            ->integer('irmao_id')
+            ->allowEmptyString('irmao_id');
 
         $validator
             ->scalar('tipo')
@@ -96,6 +106,11 @@ class MovimentacoesCaixaTable extends AppTable
             ->allowEmptyString('origem');
 
         $validator
+            ->scalar('forma_pagamento')
+            ->maxLength('forma_pagamento', 20)
+            ->allowEmptyString('forma_pagamento');
+
+        $validator
             ->dateTime('deleted')
             ->allowEmptyDateTime('deleted');
 
@@ -112,6 +127,7 @@ class MovimentacoesCaixaTable extends AppTable
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('loja_id', 'Lojas'), ['errorField' => 'loja_id']);
+        $rules->add($rules->existsIn('irmao_id', 'Irmaos'), ['errorField' => 'irmao_id']);
 
         return $rules;
     }
