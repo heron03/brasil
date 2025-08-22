@@ -28,13 +28,27 @@ class MensalidadesController extends AppController
     public function paginateConditions(): array
     {
         $conditions = parent::paginateConditions();
-        $nome = $this->request->is('post') ?
-            $this->dataCondition('mensalidades.irmaos.nome') :
-            $this->sessionCondition('mensalidades.irmaos.nome');
+
+        if ($this->request->is('post')) {
+            $nome = $this->dataCondition('Mensalidades.filtro');
+            $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
+            $dataFinal = $this->dataCondition('Mensalidades.data_final');
+        } else {
+            $nome = $this->sessionCondition('Mensalidades.filtro');
+            $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
+            $dataFinal = $this->dataCondition('Mensalidades.data_final');
+        }
+
 
         if (!empty($nome)) {
-            $conditions['mensalidades.irmaos.nome LIKE'] = "%{$nome}%";
+            $conditions['Mensalidades.irmaos.nome LIKE'] = "%{$nome}%";
         }
+
+        if (empty($dataInicial)) {
+            $dataInicial = date('Y-m-d', strtotime('-30 days'));
+            $dataFinal = date('Y-m-d');
+        }
+        $conditions['and'] = ["Mensalidades.data_pagamento BETWEEN '$dataInicial' AND '$dataFinal'"];
 
         return $conditions;
     }
@@ -48,7 +62,7 @@ class MensalidadesController extends AppController
         // $this->Authorization->authorize($entity);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $this->beforeUpdate(); // vamos ajustar pago/data_pagamento aqui
+            $this->beforeUpdate();
             $entity = $this->{$this->getModelName()}->patchEntity(
                 $entity,
                 $this->request->getData(),
@@ -61,7 +75,7 @@ class MensalidadesController extends AppController
                     'plugin' => 'MetronicV4',
                     'key' => 'success',
                 ]);
-                $this->afterEdit($saved); // cria a movimentação de caixa aqui
+                $this->afterEdit($saved);
             }
         } else {
             $this->beforeEdit();

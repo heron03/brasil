@@ -105,28 +105,29 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
 
     public function getFields(): array
     {
-        $this->setSelectOptions('irmao_id', 'Irmaos', ['Deleted IS NULL']);
+        // $this->setSelectOptions('irmao_id', 'Irmaos', ['Deleted IS NULL']);
         return $this->params;
     }
 
     public function getFilters(): array
     {
-        $this->params['nome']['data-autocomplete-update-on-select'] = 'MensalidadesId';
-        $this->params['nome']['data-autocomplete-template'] = '<div>{{MensalidadesNome}}</div>';
-        $this->params['nome']['label'] = false;
-        $this->params['nome']['placeholder'] = 'Filtre por Descrição';
-        $this->params['nome']['templates'] = [
+        $this->params['filtro']['data-autocomplete-update-on-select'] = 'MensalidadesId';
+        $this->params['filtro']['data-autocomplete-template'] = '<div>{{MensalidadesNome}}</div>';
+        $this->params['filtro']['label'] = false;
+        $this->params['filtro']['class'] = "form-control m-input";
+        $this->params['filtro']['placeholder'] = 'Filtre por Nome do Irmão';
+        $this->params['filtro']['templates'] = [
             'inputContainer' => '<div class="col-sm-4 {{type}}"><div class="m-typeahead">{{content}}</div></div>',
             'inputContainerError' =>
                 '<div class="col-sm-4 {{type}}{{required}} form-error"><div class="m-typeahead">{{content}}{{error}}</div></div>',
         ];
-        $this->params['nome']['value'] = $this->getController()
+        $this->params['filtro']['value'] = $this->getController()
             ->getRequest()
             ->getSession()
-            ->read('Mensalidades.nome');
+            ->read('Mensalidades.filtro');
 
         return [
-            'Mensalidades.nome' => $this->params['nome'],
+            'Mensalidades.filtro' => $this->params['filtro'],
         ];
     }
 }
