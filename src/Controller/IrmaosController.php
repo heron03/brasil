@@ -6,7 +6,7 @@ namespace App\Controller;
 class IrmaosController extends AppController
 {
     public $paginate = [
-        'fields' => ['id', 'nome', 'cpf', 'loja_id'],
+        'fields' => ['id', 'nome', 'cim', 'cpf', 'loja_id', 'ativo'],
         'contain' => [
             'Lojas' => ['fields' => ['id', 'nome']],
         ],

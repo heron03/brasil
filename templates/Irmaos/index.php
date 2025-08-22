@@ -15,21 +15,19 @@ $this->assign(
 );
 
 $nomeHeader = $this->Metronic->pageSort('nome', 'Nome');
-$cpfHeader = $this->Metronic->pageSort('cpf', 'CPF');
-$telefoneHeader = $this->Metronic->pageSort('telefone', 'Telefone');
-$emailHeader = $this->Metronic->pageSort('email', 'Email');
-$lojaHeader = $this->Metronic->pageSort('Loja.nome', 'Loja');
+$cimHeader = $this->Metronic->pageSort('cim', 'CIM', ['width' => '5%']);
+$cpfHeader = $this->Metronic->pageSort('cpf', 'CPF', ['width' => '11%']);
+$ativoHeader = $this->Metronic->pageSort('ativo', 'Ativo', ['width' => '5%']);
 
 $tableHeaders = [
     $nomeHeader,
+    $cimHeader,
     $cpfHeader,
-    $telefoneHeader,
-    $emailHeader,
-    $lojaHeader,
+    $ativoHeader,
 ];
 
-array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
-array_push($tableHeaders, ['' => ['width' => '5%']]);
+array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '2%']]);
+array_push($tableHeaders, ['' => ['width' => '2%']]);
 
 $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
 
@@ -37,10 +35,9 @@ $cells = [];
 foreach ($irmaos as $i => $irmao) {
     $cells[] = [
         h($irmao->nome),
+        h($irmao->cim),
         h($irmao->cpf),
-        h($irmao->telefone),
-        h($irmao->email),
-        h($irmao->loja->nome ?? '-'),
+        h($irmao->ativo ? 'Ativo' : 'Inativo'),
     ];
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Irmaos.$i.id", $irmao->id));
     array_push($cells[$i], $this->Metronic->editButton($irmao->id));

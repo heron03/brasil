@@ -57,13 +57,17 @@ class IrmaosFormFieldComponent extends FormFieldComponent
         'data_nascimento' => [
             'label' => ['text' => 'Data de Nascimento'],
             'type' => 'text',
-            'class' => 'form-control m-input',
-            'data-inputmask' => "'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'",
             'templates' => [
-                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-2 mr-auto {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-2 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
+            'data-provide' => 'datepicker',
+            'data-date-language' => 'pt-BR',
+            'data-date-format' => 'dd/mm/yyyy',
+            'data-date-today-highlight' => 1,
+            'data-date-orientation' => 'bottom',
+            'data-inputmask-alias' => 'date-simple',
         ],
         'cargo' => [
             'label' => ['text' => 'Cargo'],
@@ -71,20 +75,23 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'maxlength' => 100,
             'class' => 'form-control m-input',
             'templates' => [
-                'inputContainer' => '<div class="col-sm-4 {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-4 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
-        'loja_id' => [
-            'label' => ['text' => 'Loja'],
+        'ativo' => [
+            'label' => ['text' => 'Ativo'],
             'type' => 'select',
             'templates' => [
                 'inputContainer' => '<div class="col-sm-5 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
                     '<div class="col-sm-5 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
-            'options' => [],
+            'options' => [
+                1 => 'Ativo',
+                0 => 'Inativo',
+            ],
         ],
         'telefone' => [
             'label' => ['text' => 'Telefone'],
@@ -104,18 +111,18 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'maxlength' => 100,
             'class' => 'form-control m-input',
             'templates' => [
-                'inputContainer' => '<div class="col-sm-5 {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-5 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
          'cep' => [
             'label' => ['text' => 'CEP'],
             'type' => 'text',
             'templates' => [
-                'inputContainer' => '<div class="col-sm-2 mr-auto {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                '<div class="col-sm-2 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
             'data-inputmask' => "'mask': '99999-999'",
         ],
@@ -123,12 +130,30 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'type' => 'text',
             'maxlength' => 100,
             'templates' => [
-                'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
-        'endereco' => [
+        'grau' => [
+            'type' => 'text',
+            'maxlength' => 100,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'complemento' => [
+            'type' => 'text',
+            'maxlength' => 100,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'logradouro' => [
             'label' => ['text' => 'Endereço'],
             'type' => 'text',
             'maxlength' => 100,
@@ -143,23 +168,19 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'type' => 'text',
             'maxlength' => 20,
             'templates' => [
-                'inputContainer' => '<div class="col-sm-2 mr-auto {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                '<div class="col-sm-2 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'cidade' => [
-            'label' => ['text' => 'Munícipio'],
+            'label' => ['text' => 'Cidade'],
             'type' => 'text',
-            'data-autocomplete-url' => '/municipios/autoComplete',
-            'data-autocomplete-display' => 'descricao',
-            'data-autocomplete-update-on-select' => 'municipio_id',
-            'data-autocomplete-template' => "<div class='media-body'>{{municipio_id}} - {{descricao}} / {{estado_id}}</div>",
+            'maxlength' => 100,
             'templates' => [
-                'inputContainer' =>
-                '<div class="col-sm-3 mr-auto {{type}}"><div class="m-typeahead">{{content}}</div></div>',
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
     ];
