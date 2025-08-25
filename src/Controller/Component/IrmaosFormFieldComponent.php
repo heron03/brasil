@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Component;
@@ -19,7 +20,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'cim' => [
@@ -30,7 +31,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-2 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-2 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-2 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'cpf' => [
@@ -51,7 +52,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'data_nascimento' => [
@@ -77,7 +78,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'ativo' => [
@@ -86,7 +87,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-5 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-5 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-5 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
             'options' => [
                 1 => 'Ativo',
@@ -102,7 +103,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'email' => [
@@ -113,10 +114,10 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'templates' => [
                 'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
-         'cep' => [
+        'cep' => [
             'label' => ['text' => 'CEP'],
             'type' => 'text',
             'templates' => [
@@ -183,6 +184,30 @@ class IrmaosFormFieldComponent extends FormFieldComponent
                 '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'senha' => [
+            'label' => false,
+            'placeholder' => 'Senha',
+            'autocomplete' => 'off',
+            'type' => 'password',
+            'maxlength' => 20,
+            'templates' => [
+                'input' => '<input class="rounded-right form-control m-input {{required}}" type="{{type}}" name="{{name}}" {{attrs}}/>',
+                'inputContainer' =>
+                '<div class="form-group m-form__group text password input-group">
+                        {{content}}
+                        <div class="form-control rounded-left col-md-2">
+                            <span style="cursor:pointer;" class="data-toggle py-4"><i class="la la-eye"></i></span>
+                        </div>
+                    </div>',
+            ],
+        ],
+        'confirma_senha' => [
+            'label' => false,
+            'placeholder' => 'Confirma Senha',
+            'autocomplete' => 'off',
+            'type' => 'password',
+            'maxlength' => 20,
+        ],
     ];
 
     public function getFields(): array
@@ -200,7 +225,7 @@ class IrmaosFormFieldComponent extends FormFieldComponent
         $this->params['nome']['templates'] = [
             'inputContainer' => '<div class="col-sm-4 {{type}}"><div class="m-typeahead">{{content}}</div></div>',
             'inputContainerError' =>
-                '<div class="col-sm-4 {{type}}{{required}} form-error"><div class="m-typeahead">{{content}}{{error}}</div></div>',
+            '<div class="col-sm-4 {{type}}{{required}} form-error"><div class="m-typeahead">{{content}}{{error}}</div></div>',
         ];
         $this->params['nome']['value'] = $this->getController()
             ->getRequest()

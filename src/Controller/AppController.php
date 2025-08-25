@@ -78,8 +78,8 @@ class AppController extends Controller
         // $this->loadComponent('UserLog.UserLog');
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        // $this->loadComponent('Authentication.Authentication');
-        // $this->loadComponent('Authorization.Authorization');
+        $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
         $this->viewBuilder()->setLayout('MetronicV4.demo5');
         $this->viewBuilder()->addHelpers([
             'Html',
@@ -137,7 +137,7 @@ class AppController extends Controller
             $id = $this->request->getData('id');
         }
         $entity = $this->getEditEntity(intval($id));
-        // $this->Authorization->authorize($entity);
+        $this->Authorization->authorize($entity);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $this->beforeUpdate();
@@ -173,7 +173,7 @@ class AppController extends Controller
     public function view(int $id): void
     {
         $entity = $this->getViewEntity(intval($id));
-        // $this->Authorization->authorize($entity);
+        $this->Authorization->authorize($entity);
         $this->set($this->getEntityName(), $entity);
         $disabled = true;
         $this->setFields(null, $disabled);
@@ -184,7 +184,7 @@ class AppController extends Controller
     public function delete(?int $id = null): void
     {
         $entity = $this->setEntityAuthorization();
-        // $this->Authorization->authorize($entity);
+        $this->Authorization->authorize($entity);
 
         $ids = Hash::extract($this->request->getData(), $this->getModelName() . '.{n}.id');
 
@@ -197,7 +197,7 @@ class AppController extends Controller
         if (is_array($ids)) {
             foreach ($ids as $id) {
                 $entity = $this->{$this->getModelName()}->get($id);
-                // $this->Authorization->authorize($entity);
+                $this->Authorization->authorize($entity);
 
                 if (!$this->{$this->getModelName()}->excluir($entity)) {
                     $this->Flash->bootstrapNotifyMessage('Não foi possível excluir ' . $this->title, [
@@ -422,7 +422,7 @@ class AppController extends Controller
     public function setEntityAuthorization(): EntityInterface
     {
         $entity = $this->{$this->getModelName()}->newEmptyEntity();
-        // $this->Authorization->authorize($entity);
+        $this->Authorization->authorize($entity);
 
         return $entity;
     }

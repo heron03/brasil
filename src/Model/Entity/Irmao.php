@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
-
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 /**
  * Irmao Entity
  *
@@ -60,6 +60,8 @@ class Irmao extends Entity
         'cep' => true,
         'telefone' => true,
         'email' => true,
+        'senha' => true,
+        'nivel' => true,
         'ativo' => true,
         'created' => true,
         'modified' => true,
@@ -69,4 +71,19 @@ class Irmao extends Entity
         'presencas' => true,
         'movimentacoes_caixa' => true,
     ];
+
+    // protected $_accessible = [
+    //     '*' => true,
+    //     'id' => false,
+    // ];
+    protected $_hidden = ['senha'];
+    // protected $_hidden = ['senha'];
+
+    protected function _setSenha(?string $senha): ?string
+    {
+        if (!$senha) {
+            return null;
+        }
+        return (new DefaultPasswordHasher())->hash($senha);
+    }
 }
