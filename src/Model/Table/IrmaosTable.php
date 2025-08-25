@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,6 +13,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\LojasTable&\Cake\ORM\Association\BelongsTo $Lojas
  * @property \App\Model\Table\MensalidadesTable&\Cake\ORM\Association\HasMany $Mensalidades
  * @property \App\Model\Table\PresencasTable&\Cake\ORM\Association\HasMany $Presencas
+ * @property \App\Model\Table\MovimentacoesCaixaTable&\Cake\ORM\Association\HasMany $MovimentacoesCaixa
  *
  * @method \App\Model\Entity\Irmao newEmptyEntity()
  * @method \App\Model\Entity\Irmao newEntity(array $data, array $options = [])
@@ -57,6 +57,9 @@ class IrmaosTable extends Table
             'foreignKey' => 'irmao_id',
         ]);
         $this->hasMany('Presencas', [
+            'foreignKey' => 'irmao_id',
+        ]);
+        $this->hasMany('MovimentacoesCaixa', [
             'foreignKey' => 'irmao_id',
         ]);
     }

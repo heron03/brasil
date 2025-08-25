@@ -3,20 +3,30 @@ $this->extend('MetronicV4.Pages/index');
 $this->assign('pageTitle', 'Mensalidades');
 
 $this->assign('singleActions', $this->Metronic->deleteButton());
-$this->assign('addButton', $this->Metronic->addButton());
+
+$session = $this->getRequest()->getSession();
+$dataInicial = date('Y/m/d', strtotime($session->read('Mensalidades.data_inicial')));
+$dataFinal = date('Y/m/d', strtotime($session->read('Mensalidades.data_final')));
+if ($session->read('Mensalidades.data_inicial') == null) {
+    $dataInicial = date('Y/m/d', strtotime('-30 days'));
+    $dataFinal = date('Y/m/d');
+}
 
 $this->assign(
     'filter',
-    $this->Metronic->input('Mensalidades.irmao_id') .
-    $this->Html->div('col-sm-5', $this->Metronic->filterButton())
+    $this->Form->hidden('Mensalidades.data_inicial', ['date-range-picker' => 'start', 'value' => $dataInicial]) .
+    $this->Form->hidden('Mensalidades.data_final', ['date-range-picker' => 'end', 'value' => $dataFinal]) .
+    $this->Metronic->input('Mensalidades.filtro') .
+    $this->Html->div('col-md-3', $this->Metronic->dateRangePicker()) .
+    $this->Html->div('col-sm-1', $this->Metronic->filterButton())
 );
 
-$irmaoHeader          = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
-$competenciaHeader    = $this->Metronic->pageSort('mes_referencia', 'Competência');
-$valorHeader          = $this->Metronic->pageSort('valor', 'Valor');
-$valorPagoHeader      = $this->Metronic->pageSort('valor_pago', 'Valor Pago');
-$pagoHeader           = $this->Metronic->pageSort('pago', 'Pago');
-$dataPagamentoHeader  = $this->Metronic->pageSort('data_pagamento', 'Pagamento');
+$irmaoHeader = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
+$competenciaHeader = $this->Metronic->pageSort('mes_referencia', 'Competência');
+$valorHeader = $this->Metronic->pageSort('valor', 'Valor');
+$valorPagoHeader = $this->Metronic->pageSort('valor_pago', 'Valor Pago');
+$pagoHeader = $this->Metronic->pageSort('pago', 'Pago');
+$dataPagamentoHeader = $this->Metronic->pageSort('data_pagamento', 'Pagamento');
 
 $tableHeaders = [
     $irmaoHeader,
@@ -46,13 +56,17 @@ foreach ($mensalidades as $i => $mensalidade) {
         h($pagto),
     ];
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
-    $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [
-        'escape' => false,
-        'data-original-title' => 'Receber Mensalidade',
-        'data-toggle' => 'm-tooltip',
-        'class' => 'm-btn m-btn--icon-only btn btn-success',
-        'url' => '/mensalidades/receber/' . $mensalidade->id,
-    ]);
+    if (!$mensalidade->pago) {
+        $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [
+            'escape' => false,
+            'data-original-title' => 'Receber Mensalidade',
+            'data-toggle' => 'm-tooltip',
+            'class' => 'm-btn m-btn--icon-only btn btn-success',
+            'url' => '/mensalidades/receber/' . $mensalidade->id,
+        ]);
+    } else {
+        $cells[$i][] = '';
+    }
 }
 
 $this->assign('tableCells', $this->Html->tableCells(

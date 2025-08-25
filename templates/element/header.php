@@ -3,27 +3,27 @@ $session = $this->getRequest()->getSession();
 
 $title = $this->Html->tag('strong', 'Brasil II');
 $menu = [
-    ['title' => 'Configurações', 'submenu' => [
-        ['title' => '1.1 Loja', 'url' => '/lojas'],
-        ['title' => '1.2 Usuários', 'url' => '/usuarios'],
-    ]],
-    ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
+    // ['title' => 'Configurações', 'submenu' => [
+    //     // ['title' => '1.1 Loja', 'url' => '/lojas'],
+    //     ['title' => 'Usuários', 'url' => '/usuarios'],
+    // ]],
     ['title' => 'Irmãos', 'submenu' => [
         ['title' => 'Irmãos', 'url' => '/irmaos'],
         ['title' => 'Mensalidade', 'url' => '/mensalidades']],
     ],
-    ['title' => 'Sessões', 'submenu' => [
-        ['title' => 'Sessões', 'url' => '/sessoes'],
-        ['title' => 'Presenças', 'url' => '/presencas']],
-    ],
+    ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
+    // ['title' => 'Sessões', 'submenu' => [
+    //     ['title' => 'Sessões', 'url' => '/sessoes'],
+    //     ['title' => 'Presenças', 'url' => '/presencas']],
+    // ],
 ];
 
 
 
 $userMenu = [
-    ['icon' => 'flaticon-edit-1', 'title' => 'Alterar Senha', 'url' => '/usuarios/editSenha'],
+    ['icon' => 'flaticon-edit-1', 'title' => 'Alterar Senha', 'url' => '/irmaos/editSenha'],
     'separator',
-    ['title' => 'Sair', 'url' => '/usuarios/logout']
+    ['title' => 'Sair', 'url' => '/irmaos/logout']
 ];
 
 $elements = [
@@ -44,7 +44,6 @@ $elements = [
         'user' => [
             'name' => $session->read('Auth.nome'),
             'email' => $session->read('Auth.email'),
-            'login' => $session->read('Auth.login'),
         ],
         'menu' => $userMenu,
     ],

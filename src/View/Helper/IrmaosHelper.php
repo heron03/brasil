@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -9,10 +10,12 @@ class IrmaosHelper extends Helper
 {
     public array $fields = [
         'fields' => [
-            ['nome', 'cpf', 'cim'],
-            ['desconto_valor'],
-            ['logradouro', 'numero', 'bairro', 'complemento'],
+            ['nome', 'cim', 'cpf', 'data_nascimento'],
+            ['logradouro', 'numero', 'cep'],
+            ['bairro', 'complemento', 'cidade'],
             ['telefone', 'email'],
+            ['grau', 'desconto_valor', 'ativo'],
+            ['senha', 'confirma_senha'],
         ],
     ];
 

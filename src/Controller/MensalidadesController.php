@@ -28,13 +28,27 @@ class MensalidadesController extends AppController
     public function paginateConditions(): array
     {
         $conditions = parent::paginateConditions();
-        $referencia = $this->request->is('post') ?
-            $this->dataCondition('Mensalidades.mes_referencia') :
-            $this->sessionCondition('Mensalidades.mes_referencia');
 
-        if (!empty($referencia)) {
-            $conditions['Mensalidades.mes_referencia'] = $referencia;
+        if ($this->request->is('post')) {
+            $nome = $this->dataCondition('Mensalidades.filtro');
+            $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
+            $dataFinal = $this->dataCondition('Mensalidades.data_final');
+        } else {
+            $nome = $this->sessionCondition('Mensalidades.filtro');
+            $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
+            $dataFinal = $this->dataCondition('Mensalidades.data_final');
         }
+
+
+        if (!empty($nome)) {
+            $conditions['Mensalidades.irmaos.nome LIKE'] = "%{$nome}%";
+        }
+
+        if (empty($dataInicial)) {
+            $dataInicial = date('Y-m-d', strtotime('-30 days'));
+            $dataFinal = date('Y-m-d');
+        }
+        $conditions['and'] = ["Mensalidades.data_pagamento BETWEEN '$dataInicial' AND '$dataFinal'"];
 
         return $conditions;
     }
@@ -48,7 +62,7 @@ class MensalidadesController extends AppController
         // $this->Authorization->authorize($entity);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $this->beforeUpdate(); // vamos ajustar pago/data_pagamento aqui
+            $this->beforeUpdate();
             $entity = $this->{$this->getModelName()}->patchEntity(
                 $entity,
                 $this->request->getData(),
@@ -61,14 +75,14 @@ class MensalidadesController extends AppController
                     'plugin' => 'MetronicV4',
                     'key' => 'success',
                 ]);
-                $this->afterEdit($saved); // cria a movimentação de caixa aqui
+                $this->afterEdit($saved);
             }
         } else {
             $this->beforeEdit();
         }
 
         $this->set($this->getEntityName(), $entity);
-        $this->setFields(); // campos vêm do *FormFieldComponent*
+        $this->setFields();
     }
 
     public function getEditEntity(int $id): EntityInterface
@@ -92,9 +106,7 @@ class MensalidadesController extends AppController
             return 0.0;
         }
         $s = trim($s);
-        // remove tudo que não for dígito, ponto ou vírgula (tira "R$ ", espaços etc.)
         $s = preg_replace('/[^0-9.,-]/', '', $s) ?? '';
-        // Se tiver vírgula, assumimos formato BR: primeiro removemos separador de milhar ".", depois trocamos vírgula por ponto
         if (strpos($s, ',') !== false) {
             $s = str_replace('.', '', $s);
             $s = str_replace(',', '.', $s);
@@ -126,18 +138,14 @@ class MensalidadesController extends AppController
         $data  = $this->request->getData();
         $valor = (float)($data['_valor_recebido_normalizado'] ?? 0.0);
         if ($valor <= 0) {
-            return; // nada a lançar
+            return;
         }
 
-        // Data da movimentação: usa a que veio no form (data_pagamento) ou hoje
         $dataMov = !empty($data['data_pagamento']) ? $data['data_pagamento'] : date('Y-m-d');
-
-        // Descobre a loja do irmão
         $Irmaos = $this->fetchTable('Irmaos');
         $irmao  = $Irmaos->get((int)$saved->irmao_id);
         $lojaId = (int)$irmao->loja_id;
 
-        // Descrição padrão: "Mensalidade MM/AAAA - Nome"
         $mesRef = $saved->mes_referencia
             ? (is_object($saved->mes_referencia)
                 ? $saved->mes_referencia->format('m/Y')
@@ -145,15 +153,18 @@ class MensalidadesController extends AppController
             : '';
         $descricao = sprintf('Mensalidade %s - %s', $mesRef, $irmao->nome ?? ('Irmão #' . $saved->irmao_id));
 
-        $Movs = $this->fetchTable('MovimentacoesCaixa');
-        $mov  = $Movs->newEntity([
-            'loja_id'           => $lojaId,
-            'tipo'              => 'entrada',
-            'descricao'         => $descricao,
-            'valor'             => $valor,
-            'data_movimentacao' => $dataMov,
-            'origem'            => 'mensalidade',
-        ]);
+                 $Movs = $this->fetchTable('MovimentacoesCaixa');
+         $mov  = $Movs->newEntity([
+             'loja_id'           => $lojaId,
+             'irmao_id'          => $saved->irmao_id,
+             'tipo'              => 'entrada',
+             'descricao'         => $descricao,
+             'valor'             => $valor,
+             'data_movimentacao' => $dataMov,
+             'origem'            => 'mensalidade',
+             'forma_pagamento'   => $data['forma_pagamento'] ?? 'dinheiro',
+             'observacoes'       => $data['observacoes'] ?? null,
+         ]);
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());
     }

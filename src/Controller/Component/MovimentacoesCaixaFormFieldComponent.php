@@ -53,7 +53,7 @@ class MovimentacoesCaixaFormFieldComponent extends FormFieldComponent
             'type' => 'select',
             'options' => [
                 'entrada' => 'Entrada',
-                'saida' => 'Saída',
+                'Saída' => 'Saída',
             ],
             'templates' => [
                 'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
@@ -61,17 +61,61 @@ class MovimentacoesCaixaFormFieldComponent extends FormFieldComponent
                     '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'irmao_id' => [
+            'label' => ['text' => 'Irmão'],
+            'type' => 'select',
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-6 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+            'options' => [],
+        ],
+        'forma_pagamento' => [
+            'label' => ['text' => 'Forma de Pagamento'],
+            'type' => 'select',
+            'options' => [
+                'Dinheiro' => 'Dinheiro',
+                'Pix' => 'PIX',
+                'Transferencia' => 'Transferência',
+                'Cheque' => 'Cheque',
+            ],
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'observacoes' => [
+            'label' => ['text' => 'Observações'],
+            'type' => 'textarea',
+            'class' => 'form-control m-input',
+            'rows' => 3,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-12 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-12 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
     ];
 
     public function getFields(): array
     {
+        $this->setSelectOptions('irmao_id', 'Irmaos', ['Deleted IS NULL']);
         return $this->params;
     }
 
     public function getFilters(): array
     {
+        $this->params['descricao']['data-autocomplete-update-on-select'] = 'MovimentacoesCaixaId';
+        $this->params['descricao']['data-autocomplete-template'] = '<div>{{MovimentacoesCaixaDescricao}}</div>';
         $this->params['descricao']['label'] = false;
-        $this->params['descricao']['placeholder'] = 'Filtrar por Descrição';
+        $this->params['descricao']['placeholder'] = 'Filtre por Descrição';
+        $this->params['descricao']['templates'] = [
+            'inputContainer' => '<div class="col-sm-4 {{type}}"><div class="m-typeahead">{{content}}</div></div>',
+            'inputContainerError' =>
+                '<div class="col-sm-4 {{type}}{{required}} form-error"><div class="m-typeahead">{{content}}{{error}}</div></div>',
+        ];
         $this->params['descricao']['value'] = $this->getController()
             ->getRequest()
             ->getSession()
