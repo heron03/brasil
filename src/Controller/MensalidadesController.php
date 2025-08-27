@@ -31,24 +31,31 @@ class MensalidadesController extends AppController
 
         if ($this->request->is('post')) {
             $nome = $this->dataCondition('Mensalidades.filtro');
+            $pago = $this->dataCondition('Mensalidades.pago');
             $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
             $dataFinal = $this->dataCondition('Mensalidades.data_final');
         } else {
             $nome = $this->sessionCondition('Mensalidades.filtro');
+            $pago = $this->sessionCondition('Mensalidades.pago');
             $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
             $dataFinal = $this->dataCondition('Mensalidades.data_final');
         }
 
-
         if (!empty($nome)) {
-            $conditions['Mensalidades.irmaos.nome LIKE'] = "%{$nome}%";
+            $conditions['Irmaos.nome LIKE'] = "%{$nome}%";
+        }
+
+        if ($pago != null) {
+            if ($pago != 'Todos') {
+                $conditions['Mensalidades.pago'] = $pago;
+            }
         }
 
         if (empty($dataInicial)) {
             $dataInicial = date('Y-m-d', strtotime('-30 days'));
             $dataFinal = date('Y-m-d');
         }
-        $conditions['and'] = ["Mensalidades.data_pagamento BETWEEN '$dataInicial' AND '$dataFinal'"];
+        $conditions['and'] = ["Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"];
 
         return $conditions;
     }
@@ -59,7 +66,7 @@ class MensalidadesController extends AppController
             $id = (int)$this->request->getData('id');
         }
         $entity = $this->getEditEntity((int)$id);
-        // $this->Authorization->authorize($entity);
+        $this->Authorization->authorize($entity);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $this->beforeUpdate();

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -31,7 +32,7 @@ use Cake\Validation\Validator;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class IrmaosTable extends Table
+class IrmaosTable extends AppTable
 {
     /**
      * Initialize method
@@ -76,68 +77,76 @@ class IrmaosTable extends Table
         //     ->integer('loja_id')
         //     ->notEmptyString('loja_id');
 
-        // $validator
-        //     ->scalar('nome')
-        //     ->maxLength('nome', 255)
-        //     ->requirePresence('nome', 'create')
-        //     ->notEmptyString('nome');
+        $validator
+            ->scalar('nome')
+            ->notBlank('nome', __('Informe um Nome'))
+            ->minLength('nome', 3, __('Informe um Nome com mais de 3 caracteres'))
+            ->maxLength('nome', 255, __('Informe um Nome com menos de 255 caracteres'));
 
-        // $validator
-        //     ->date('data_nascimento')
-        //     ->allowEmptyDate('data_nascimento');
+        $validator
+            ->scalar('cpf')
+            ->add('cpf', 'validCpf', [
+                'rule' => 'validCpf',
+                'message' => __('CPF inválido '),
+                'provider' => 'table',
+            ])
+            ->notBlank('cpf', __('Informe um CPF'));
 
-        // $validator
-        //     ->scalar('grau')
-        //     ->maxLength('grau', 50)
-        //     ->allowEmptyString('grau');
+        $validator
+            ->scalar('cim')
+            ->notBlank('cim', __('Informe um CIM'))
+            ->maxLength('cim', 10, __('Informe um CIM com menos de 10 caracteres'));
 
-        // $validator
-        //     ->scalar('logradouro')
-        //     ->maxLength('logradouro', 255)
-        //     ->allowEmptyString('logradouro');
 
-        // $validator
-        //     ->scalar('numero')
-        //     ->maxLength('numero', 10)
-        //     ->allowEmptyString('numero');
+        $validator
+            ->notBlank('data_nascimento', __('Informe a Data de Nascimento'))
+            ->add('data_nascimento', 'date', [
+                'rule' => ['date', 'dmy'],
+                'message' => __('Data inválida'),
+                'last' => true,
+            ])
+            ->add('data_nascimento', 'dataMenorQueDataAtual', [
+                'rule' => 'dataMenorQueDataAtual',
+                'message' => __('Data Menor que atual '),
+                'provider' => 'table',
+            ]);
 
-        // $validator
-        //     ->scalar('complemento')
-        //     ->maxLength('complemento', 100)
-        //     ->allowEmptyString('complemento');
+        $validator
+            ->scalar('cep')
+            ->maxLength('cep', 20)
+            ->add('cep', 'checkCep', [
+                'rule' => 'checkCep',
+                'message' => __('CEP inválido '),
+                'provider' => 'table',
+            ]);
 
-        // $validator
-        //     ->scalar('bairro')
-        //     ->maxLength('bairro', 100)
-        //     ->allowEmptyString('bairro');
+        $validator
+            ->scalar('logradouro')
+            ->minLength('logradouro', 3, __('Informe um Endereço com mais de 3 caracteres'))
+            ->notBlank('logradouro', __('Informe um Endereço'))
+            ->maxLength('logradouro', 255, __('Informe um Endereço com menos de 255 caracteres'));
 
-        // $validator
-        //     ->scalar('cidade')
-        //     ->maxLength('cidade', 100)
-        //     ->allowEmptyString('cidade');
+        $validator
+            ->scalar('numero')
+            ->maxLength('numero', 10)
+            ->allowEmptyString('numero');
 
-        // $validator
-        //     ->scalar('estado')
-        //     ->maxLength('estado', 2)
-        //     ->allowEmptyString('estado');
+        $validator
+            ->scalar('bairro')
+            ->maxLength('bairro', 100)
+            ->allowEmptyString('bairro');
 
-        // $validator
-        //     ->scalar('cep')
-        //     ->maxLength('cep', 10)
-        //     ->allowEmptyString('cep');
+        $validator
+            ->scalar('complemento')
+            ->maxLength('complemento', 100)
+            ->allowEmptyString('complemento');
 
-        // $validator
-        //     ->scalar('telefone')
-        //     ->maxLength('telefone', 20)
-        //     ->allowEmptyString('telefone');
+        $validator
+            ->email('email', false, __('Informe um E-mail válido'))
+            ->notBlank('email', __('Informe um E-mail'));
 
-        // $validator
-        //     ->email('email')
-        //     ->allowEmptyString('email');
-
-        // $validator
-        //     ->boolean('ativo')
-        //     ->allowEmptyString('ativo');
+        $validator
+            ->notBlank('ativo', __('Informe um Status'));
 
         // $validator
         //     ->dateTime('deleted')
@@ -166,8 +175,8 @@ class IrmaosTable extends Table
             'keyField' => 'id',
             'valueField' => 'nome',
         ])
-        ->order(['nome' => 'ASC'])
-        ->toArray();
+            ->order(['nome' => 'ASC'])
+            ->toArray();
 
         return $options;
     }

@@ -185,6 +185,34 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             ],
         ],
         'senha' => [
+            'label' => ['text' => 'Senha'],
+            'type' => 'password',
+            'maxlength' => 255,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'confirma_senha' => [
+            'label' => ['text' => 'Confirma Senha'],
+            'type' => 'password',
+            'maxlength' => 255,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+
+        'email_login' => [
+            'label' => false,
+            'placeholder' => 'E-mail',
+            'type' => 'email',
+            'maxlength' => 100,
+            'class' => 'form-control m-input',
+        ],
+        'senha_login' => [
             'label' => false,
             'placeholder' => 'Senha',
             'autocomplete' => 'off',
@@ -200,13 +228,6 @@ class IrmaosFormFieldComponent extends FormFieldComponent
                         </div>
                     </div>',
             ],
-        ],
-        'confirma_senha' => [
-            'label' => false,
-            'placeholder' => 'Confirma Senha',
-            'autocomplete' => 'off',
-            'type' => 'password',
-            'maxlength' => 20,
         ],
     ];
 

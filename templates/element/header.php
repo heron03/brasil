@@ -7,10 +7,7 @@ $menu = [
     //     // ['title' => '1.1 Loja', 'url' => '/lojas'],
     //     ['title' => 'Usuários', 'url' => '/usuarios'],
     // ]],
-    ['title' => 'Irmãos', 'submenu' => [
-        ['title' => 'Irmãos', 'url' => '/irmaos'],
-        ['title' => 'Mensalidade', 'url' => '/mensalidades']],
-    ],
+    ['title' => 'Mensalidade', 'url' => '/mensalidades'],
     ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
     // ['title' => 'Sessões', 'submenu' => [
     //     ['title' => 'Sessões', 'url' => '/sessoes'],
@@ -42,6 +39,7 @@ $elements = [
     'menu' => $menu,
     'userProfile' => [
         'user' => [
+            'login' => $session->read('Auth.nome'),
             'name' => $session->read('Auth.nome'),
             'email' => $session->read('Auth.email'),
         ],
