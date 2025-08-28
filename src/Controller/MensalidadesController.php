@@ -41,6 +41,8 @@ class MensalidadesController extends AppController
             $dataFinal = $this->dataCondition('Mensalidades.data_final');
         }
 
+        $conditions[] = ["Mensalidades.deleted IS NULL"];
+
         if (!empty($nome)) {
             $conditions['Irmaos.nome LIKE'] = "%{$nome}%";
         }

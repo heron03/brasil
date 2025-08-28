@@ -28,6 +28,7 @@ class IrmaosController extends AppController
         if (!empty($nome)) {
             $conditions['Irmaos.nome LIKE'] = "%{$nome}%";
         }
+        $conditions[] = ["Irmaos.deleted IS NULL"];
 
         return $conditions;
     }
