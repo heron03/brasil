@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 
 class IrmaosController extends AppController
@@ -27,6 +28,7 @@ class IrmaosController extends AppController
         if (!empty($nome)) {
             $conditions['Irmaos.nome LIKE'] = "%{$nome}%";
         }
+        $conditions[] = ["Irmaos.deleted IS NULL"];
 
         return $conditions;
     }
@@ -88,4 +90,19 @@ class IrmaosController extends AppController
         $this->set('hash', $hasher->hash($plain));
         $this->viewBuilder()->setOption('serialize', ['hash']);
     }
+
+    public function getEditEntity(int $id): EntityInterface
+    {
+        $entity = $this->{$this->getModelName()}->newEmptyEntity();
+
+        if ($id != null) {
+            $entity = $this->{$this->getModelName()}->get($id);
+        }
+
+        $entity['data_nascimento'] = $entity['data_nascimento']->format('d/m/Y');
+        $entity['senha'] = null;
+
+        return $entity;
+    }
 }
+

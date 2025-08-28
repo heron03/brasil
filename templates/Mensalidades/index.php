@@ -21,6 +21,8 @@ $this->assign(
     $this->Html->div('col-sm-1', $this->Metronic->filterButton())
 );
 
+$this->assign('tabs', $this->Metronic->filterTabs('Mensalidades.pago', ['Todos' => 'Todos', 'Pago' => 1, 'Não Pago' => 0]));
+
 $irmaoHeader = $this->Metronic->pageSort('Irmaos.nome', 'Irmão');
 $competenciaHeader = $this->Metronic->pageSort('mes_referencia', 'Competência');
 $valorHeader = $this->Metronic->pageSort('valor', 'Valor');

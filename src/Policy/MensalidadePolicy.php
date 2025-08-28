@@ -5,4 +5,8 @@ namespace App\Policy;
 
 class MensalidadePolicy extends AppPolicy
 {
+    public function canReceber(): bool
+    {
+        return true;
+    }
 }

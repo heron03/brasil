@@ -9,12 +9,12 @@ use Cake\Datasource\EntityInterface;
 class MovimentacoesCaixaController extends AppController
 {
     public $paginate = [
-        'fields' => ['id', 'descricao', 'valor', 'tipo', 'data_movimentacao', 'irmao_id', 'forma_pagamento'],
+        'fields' => ['id', 'descricao', 'valor', 'tipo', 'data_movimentacao', 'irmao_id', 'forma_pagamento', 'deleted'],
         'contain' => [
             'Irmaos' => ['fields' => ['id', 'nome']],
         ],
         'order' => ['MovimentacoesCaixa.data_movimentacao' => 'desc'],
-        'limit' => 50,
+        'limit' => 10,
     ];
 
     public function paginateConditions(): array
@@ -33,6 +33,7 @@ class MovimentacoesCaixaController extends AppController
             $dataFinal = $this->dataCondition('MovimentacoesCaixa.data_final');
         }
 
+        $conditions[] = ["MovimentacoesCaixa.deleted IS NULL"];
 
         if (!empty($descricao)) {
             $conditions['MovimentacoesCaixa.descricao LIKE'] = "%{$descricao}%";
