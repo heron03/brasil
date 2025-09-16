@@ -7,6 +7,7 @@ $menu = [
     //     // ['title' => '1.1 Loja', 'url' => '/lojas'],
     //     ['title' => 'Usuários', 'url' => '/usuarios'],
     // ]],
+    ['title' => 'Irmãos', 'url' => '/irmaos'],
     ['title' => 'Mensalidade', 'url' => '/mensalidades'],
     ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
     // ['title' => 'Sessões', 'submenu' => [
