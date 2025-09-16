@@ -99,7 +99,9 @@ class IrmaosController extends AppController
             $entity = $this->{$this->getModelName()}->get($id);
         }
 
-        $entity['data_nascimento'] = $entity['data_nascimento']->format('d/m/Y');
+        if ($entity['data_nascimento'] != null) {
+            $entity['data_nascimento'] = $entity['data_nascimento']->format('d/m/Y');
+        }
         $entity['senha'] = null;
 
         return $entity;
