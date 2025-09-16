@@ -56,7 +56,7 @@ class IrmaosController extends AppController
 
         if ($result->isValid()) {
             $redirect = $this->request->getQuery('redirect')
-                ?? ['controller' => 'Mensalidades', 'action' => 'index'];
+                ?? ['controller' => 'Irmaos', 'action' => 'login_redirect'];
             return $this->redirect($redirect);
         }
         if ($this->request->is('post') && !$result->isValid()) {
@@ -104,5 +104,10 @@ class IrmaosController extends AppController
 
         return $entity;
     }
-}
 
+    public function loginRedirect()
+    {
+        $this->Authorization->skipAuthorization();
+        $this->layout = false;
+    }
+}
