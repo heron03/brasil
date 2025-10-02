@@ -5,4 +5,8 @@ namespace App\Policy;
 
 class MovimentacoesCaixaPolicy extends AppPolicy
 {
+    public function canRelatorio(): bool
+    {
+        return true;
+    }
 }

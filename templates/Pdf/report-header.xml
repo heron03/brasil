@@ -1,0 +1,36 @@
+<header>
+    <line1>
+        <line lineHeight="10" y="5">
+        <cell1>
+            <cell lineWidth="20">
+            </cell>
+        </cell1>
+            <image1>
+                <image fieldName="Header.brasao" lineWidth="26" lineHeight="26"></image>
+            </image1>
+            <cell2>
+                <cell fieldName="Header.title" lineWidth="181" align="C" fontSizePt="15" fontStyle="B" fontFamily="Times"></cell>
+            </cell2>
+        </line>
+    </line1>
+    <line2>
+        <line>
+            <cell1>
+                <cell lineWidth="26"></cell>
+            </cell1>
+            <cell2>
+                <cell lineWidth="221" lineHeight="-30" align="C" fontSizePt="10" fontFamily="Times" fieldName="Header.nome"></cell>
+            </cell2>
+        </line>
+    </line2>
+    <line3>
+        <line>
+            <cell1>
+                <cell lineWidth="26"></cell>
+            </cell1>
+            <cell2>
+                <cell lineWidth="221" lineHeight="-30" align="C" fontSizePt="10" fontFamily="Times" fieldName="Header.periodo"></cell>
+            </cell2>
+        </line>
+    </line3>
+</header>

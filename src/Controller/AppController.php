@@ -88,6 +88,8 @@ class AppController extends Controller
             'Flash',
             'MetronicV4.Metronic' => ['update' => '#content'],
             'Time',
+            'Pdf.Report',
+            'Pdf.Document',
         ]);
     }
 
