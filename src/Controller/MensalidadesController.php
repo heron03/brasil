@@ -41,7 +41,7 @@ class MensalidadesController extends AppController
             $dataFinal = $this->sessionCondition('Mensalidades.data_final');
         }
         if (empty($dataInicial) && empty($dataFinal)) {
-            $dataInicial = date('Y-m-d', strtotime('- 3 month', (int)strtotime(date('Y-m-d'))));
+            $dataInicial = date('Y-m-d', strtotime('-1 year', (int)strtotime(date('Y-m-d'))));
             $dataFinal = date('Y-m-d');
             $this->request = $this->request->withData('Mensalidades.data_inicial', $dataInicial);
             $this->request = $this->request->withData('Mensalidades.data_final', $dataFinal);
@@ -60,7 +60,7 @@ class MensalidadesController extends AppController
         }
 
         if (empty($dataInicial)) {
-            $dataInicial = date('Y-m-d', strtotime('-30 days'));
+            $dataInicial = date('Y-m-d', strtotime('-1 year'));
             $dataFinal = date('Y-m-d');
         }
         $conditions[] = ["Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"];
