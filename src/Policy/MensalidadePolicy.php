@@ -9,4 +9,9 @@ class MensalidadePolicy extends AppPolicy
     {
         return true;
     }
+
+    public function canMensalidadesRelatorio(): bool
+    {
+        return true;
+    }
 }

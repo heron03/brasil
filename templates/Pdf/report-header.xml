@@ -1,15 +1,15 @@
 <header>
     <line1>
         <line lineHeight="10" y="5">
-        <cell1>
+        <!-- <cell1>
             <cell lineWidth="20">
             </cell>
-        </cell1>
+        </cell1> -->
             <!-- <image1>
                 <image fieldName="Header.brasao" lineWidth="26" lineHeight="26"></image>
             </image1> -->
             <cell2>
-                <cell fieldName="Header.title" lineWidth="181" align="C" fontSizePt="15" fontStyle="B" fontFamily="Times"></cell>
+                <cell fieldName="Header.title" align="C" fontSizePt="15" fontStyle="B" fontFamily="Times"></cell>
             </cell2>
         </line>
     </line1>

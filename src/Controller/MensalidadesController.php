@@ -37,8 +37,14 @@ class MensalidadesController extends AppController
         } else {
             $nome = $this->sessionCondition('Mensalidades.filtro');
             $pago = $this->sessionCondition('Mensalidades.pago');
-            $dataInicial = $this->dataCondition('Mensalidades.data_inicial');
-            $dataFinal = $this->dataCondition('Mensalidades.data_final');
+            $dataInicial = $this->sessionCondition('Mensalidades.data_inicial');
+            $dataFinal = $this->sessionCondition('Mensalidades.data_final');
+        }
+        if (empty($dataInicial) && empty($dataFinal)) {
+            $dataInicial = date('Y-m-d', strtotime('- 3 month', (int)strtotime(date('Y-m-d'))));
+            $dataFinal = date('Y-m-d');
+            $this->request = $this->request->withData('Mensalidades.data_inicial', $dataInicial);
+            $this->request = $this->request->withData('Mensalidades.data_final', $dataFinal);
         }
 
         $conditions[] = ["Mensalidades.deleted IS NULL"];
@@ -57,7 +63,7 @@ class MensalidadesController extends AppController
             $dataInicial = date('Y-m-d', strtotime('-30 days'));
             $dataFinal = date('Y-m-d');
         }
-        $conditions['and'] = ["Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"];
+        $conditions[] = ["Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"];
 
         return $conditions;
     }
@@ -177,22 +183,17 @@ class MensalidadesController extends AppController
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());
     }
-    
+
 
     public function relatorio(): void
     {
         $page = $this->reportPage();
         $limit = $this->reportLimit();
         $conditions = $this->reportConditions();
-      
         $order = $this->reportOrder();
         $params = compact('page', 'conditions', 'limit', 'order');
         $session = $this->getRequest()->getSession();
-        $dataInicial = $session->read('Mensalidades.data_inicial');
-        $dataFinal = $session->read('Mensalidades.data_final');
-        debug($dataInicial);
-        debug($dataFinal);
-        exit;
+
         $this->report();
         $mensalidades = $this->Mensalidades->find('all', [
             'fields' => [
@@ -215,8 +216,8 @@ class MensalidadesController extends AppController
                         "Irmaos.deleted IS NULL",
                     ],
                 ],
-                
-                
+
+
             ],
             'conditions' => [
                 $conditions,
@@ -228,5 +229,33 @@ class MensalidadesController extends AppController
         if (empty($mensalidades)) {
             $this->redirect('/mensalidades/mensalidadesCadastradas');
         }
+    }
+
+    public function mensalidadesRelatorio(): void
+    {
+        $this->request->getSession()->write(['indexUrl' => 'Mensalidades']);
+        $this->setEntityAuthorization();
+
+        if ($this->request->is('post')) {
+            $this->dataCondition('Mensalidades.data_inicial');
+            $this->dataCondition('Mensalidades.data_final');
+            $this->dataCondition('Mensalidades.irmao_id');
+            $this->dataCondition('Mensalidades.pago');
+        } else {
+            $this->sessionCondition('Mensalidades.data_inicial');
+            $this->sessionCondition('Mensalidades.data_final');
+            $this->sessionCondition('Mensalidades.irmao_id');
+            $this->sessionCondition('Mensalidades.pago');
+        }
+
+        $session = $this->getRequest()->getSession();
+        if ($session->read('Mensalidades.naoEncontrada')) {
+            $this->Flash->bootstrapNotifyMessage(
+                'Nenhuma Mensalidade foi encontrada no período informado',
+                ['plugin' => 'MetronicV4', 'key' => 'info']
+            );
+        }
+
+        $session->write(['Mensalidades.naoEncontrada' => false]);
     }
 }
