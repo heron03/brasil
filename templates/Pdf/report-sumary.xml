@@ -1,3 +1,10 @@
-<sumary>
-    <cell1><cell fontStyle='I' relativeY='20' fontSizePt='8'>Total de Registros:  [RECORD_COUNT]</cell></cell1>
+<sumary SUM_OF_QUANTIDADE='Mensalidades.quantidade' SUM_OF_VALORTOTAL='Mensalidades.valor' SUM_OF_VALORREPASSADO='Mensalidades.valor_pago'>
+    <line1><line align='C' >
+        <cell2><cell border='TLR' align='C'>TOTAL</cell></cell2>
+        <cell3><cell border='TR' align='C' lineWidth='22'></cell></cell3>
+        <cell4><cell border='TR' align='C'  lineWidth='50'></cell></cell4>
+        <cell5><cell border='TR' align='C' lineWidth='50'></cell></cell5>
+        <cell6><cell border='TLR' align='R' decimal='2' lineWidth='30'>[SUM_OF_VALORREPASSADO]</cell></cell6>
+        <cell7><cell border='TLR' align='R' decimal='2' lineWidth='30'>[SUM_OF_VALORTOTAL]</cell></cell7>
+    </line></line1>
 </sumary>

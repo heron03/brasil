@@ -1,6 +1,6 @@
 <columnTitles>
     <line1><line border='1' fontStyle='B'>
-        <cell1><cell    titleFontSizePt="10">Nome</cell></cell1>
+        <cell1><cell titleFontSizePt="10">Nome</cell></cell1>
         <cell3><cell lineWidth="22" titleFontSizePt="10">Pago</cell></cell3>
         <cell4><cell lineWidth="50" titleFontSizePt="10">Data de Pagamento</cell></cell4>
         <cell5><cell lineWidth="50" titleFontSizePt="10">Mês de Referência</cell></cell5>

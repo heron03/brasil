@@ -17,7 +17,7 @@ $session = $this->getRequest()->getSession();
 $dataInicial = date('Y/m/d', strtotime($session->read('Mensalidades.data_inicial')));
 $dataFinal = date('Y/m/d', strtotime($session->read('Mensalidades.data_final')));
 if ($session->read('Mensalidades.data_inicial') == null) {
-    $dataInicial = date('Y/m/d', strtotime('-30 days'));
+    $dataInicial = date('Y/m/d', strtotime('-3 months'));
     $dataFinal = date('Y/m/d');
 }
 

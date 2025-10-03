@@ -118,6 +118,8 @@ mb_internal_encoding(Configure::read('App.encoding'));
  */
 ini_set('intl.default_locale', Configure::read('App.defaultLocale')); // ex.: pt_BR
 setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.iso-8859-1', 'portuguese');
+\Cake\I18n\I18n::setLocale('pt_BR');
+
 
 // Timezone (já deve estar setado acima, mas reforçando)
 date_default_timezone_set(Configure::read('App.defaultTimezone'));
