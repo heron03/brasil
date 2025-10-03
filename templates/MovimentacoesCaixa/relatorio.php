@@ -15,6 +15,12 @@ if ($session->read('MovimentacoesCaixa.data_inicial') == null) {
     $dataFinal = date('d/m/Y');
 }
 
+foreach ($movimentacoesCaixa as $key => $value) {
+    if ($value['tipo'] == 'Saída') {
+        $movimentacoesCaixa[$key]['valor'] = -1 * $value['valor'];
+    }
+}
+
 
 $settings = [
     'orientation' => 'L',
@@ -23,7 +29,7 @@ $settings = [
         'header' => $path . 'report-header.xml',
         'columnTitles' => $path . 'report-caixa-column-titles.xml',
         'body' => $path . 'report-caixa-body.xml',
-        'sumary' => $path . 'report-sumary.xml',
+        'sumary' => $path . 'report-caixa-sumary.xml',
         'footer' => $path . 'report-footer.xml',
     ],
     'header' => [

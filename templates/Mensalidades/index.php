@@ -4,7 +4,6 @@ $this->assign('pageTitle', 'Mensalidades');
 
 $this->assign('singleActions', $this->Metronic->deleteButton());
 
-
 $this->assign('printButton', $this->Metronic->printButton([
     'url' => [
         'action' => 'relatorio',

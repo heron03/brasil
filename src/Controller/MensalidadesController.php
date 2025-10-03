@@ -108,10 +108,6 @@ class MensalidadesController extends AppController
             $entity = $this->{$this->getModelName()}->get($id);
         }
 
-        if ($entity['data_pagamento'] != null) {
-            $entity['data_pagamento'] = $entity['data_pagamento']->format('d/m/Y');
-        }
-
         return $entity;
     }
 

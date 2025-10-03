@@ -44,7 +44,7 @@ class MovimentacoesCaixaController extends AppController
         }
 
         if (empty($dataInicial)) {
-            $dataInicial = date('Y-m-d', strtotime('-30 days'));
+            $dataInicial = date('Y-m-d', strtotime('-1 year'));
             $dataFinal = date('Y-m-d');
         }
         $conditions['and'] = ["MovimentacoesCaixa.data_movimentacao BETWEEN '$dataInicial' AND '$dataFinal'"];
@@ -56,11 +56,6 @@ class MovimentacoesCaixaController extends AppController
     {
         $movimentacao = $this->request->getData();
 
-        if (!empty($movimentacao['valor'])) {
-            $valor = preg_replace('/[^\d,\.]/', '', $movimentacao['valor']);
-            $valor = str_replace(',', '.', $valor);
-            $movimentacao['valor'] = (float)$valor;
-        }
 
         $this->request = $this->request->withParsedBody($movimentacao);
     }
@@ -69,12 +64,6 @@ class MovimentacoesCaixaController extends AppController
     {
 
         $movimentacao = $this->request->getData();
-
-        if (!empty($movimentacao['valor'])) {
-            $valor = preg_replace('/[^\d,\.]/', '', $movimentacao['valor']);
-            $valor = str_replace(',', '.', $valor);
-            $movimentacao['valor'] = (float)$valor;
-        }
 
         $this->request = $this->request->withParsedBody($movimentacao);
     }
@@ -86,8 +75,6 @@ class MovimentacoesCaixaController extends AppController
         if ($id != null) {
             $entity = $this->{$this->getModelName()}->get($id);
         }
-
-        $entity['data_movimentacao'] = $entity['data_movimentacao']->format('d/m/Y');
 
         return $entity;
     }
@@ -132,8 +119,8 @@ class MovimentacoesCaixaController extends AppController
                         "Irmaos.deleted IS NULL",
                     ],
                 ],
-                
-                
+
+
             ],
             'conditions' => [
                 "MovimentacoesCaixa.data_movimentacao BETWEEN '{$dataInicial}' AND '{$dataFinal}'",

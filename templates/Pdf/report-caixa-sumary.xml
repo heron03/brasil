@@ -1,0 +1,6 @@
+<sumary SUM_OF_QUANTIDADE='MovimentacoesCaixa.quantidade' SUM_OF_VALORTOTAL='MovimentacoesCaixa.valor' SUM_OF_VALORREPASSADO='MovimentacoesCaixa.valor_pago'>
+    <line1><line align='C' >
+        <cell2><cell border='TLR' align='L'>TOTAL</cell></cell2>
+        <cell3><cell border='TLR' align='R' decimal='2' lineWidth='20'>[SUM_OF_VALORTOTAL]</cell></cell3>
+    </line></line1>
+</sumary>

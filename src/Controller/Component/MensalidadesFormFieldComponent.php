@@ -62,7 +62,7 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
             'label' => ['text' => 'Valor Recebido'],
             'type' => 'text',
             'class' => 'form-control m-input text-right',
-            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'data-inputmask-alias' => 'cash',
             'templates' => [
                 'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
@@ -73,13 +73,13 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
             'label' => ['text' => 'Forma de Pagamento'],
             'type' => 'select',
             'options' => [
-                'dinheiro' => 'Dinheiro',
-                'pix' => 'PIX',
-                'cartao_debito' => 'Cartão de Débito',
-                'cartao_credito' => 'Cartão de Crédito',
-                'transferencia' => 'Transferência',
-                'boleto' => 'Boleto',
-                'cheque' => 'Cheque',
+                'Dinheiro' => 'Dinheiro',
+                'PIX' => 'PIX',
+                'Cartao de Débito' => 'Cartão de Débito',
+                'Cartao de Crédito' => 'Cartão de Crédito',
+                'Transferência' => 'Transferência',
+                'Boleto' => 'Boleto',
+                'Cheque' => 'Cheque',
             ],
             'templates' => [
                 'inputContainer' => '<div class="col-sm-6 {{type}}">{{content}}</div>',
