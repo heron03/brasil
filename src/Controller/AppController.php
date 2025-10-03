@@ -563,4 +563,20 @@ class AppController extends Controller
 
         $this->set('breadcrumbItems', $breadcrumb);
     }
+
+    public function reportPage()
+    {
+        return $this->request->getQuery('page') ?? 1;
+    }
+    
+    public function reportLimit()
+    {
+        return $this->request->getQuery('limit') ?? $this->paginate['limit'];
+    }
+
+    public function reportJoin()
+    {
+        return $this->paginate['join'] ?? [];
+    }
+
 }

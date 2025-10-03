@@ -177,4 +177,56 @@ class MensalidadesController extends AppController
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());
     }
+    
+
+    public function relatorio(): void
+    {
+        $page = $this->reportPage();
+        $limit = $this->reportLimit();
+        $conditions = $this->reportConditions();
+      
+        $order = $this->reportOrder();
+        $params = compact('page', 'conditions', 'limit', 'order');
+        $session = $this->getRequest()->getSession();
+        $dataInicial = $session->read('Mensalidades.data_inicial');
+        $dataFinal = $session->read('Mensalidades.data_final');
+        debug($dataInicial);
+        debug($dataFinal);
+        exit;
+        $this->report();
+        $mensalidades = $this->Mensalidades->find('all', [
+            'fields' => [
+                'id',
+                'valor',
+                'pago',
+                'data_pagamento',
+                'mes_referencia',
+                'valor_pago',
+                'irmao_id',
+                'deleted',
+            ],
+            'contain' => [
+                'Irmaos' => [
+                    'fields' => [
+                        'id',
+                        'nome',
+                    ],
+                    'conditions' => [
+                        "Irmaos.deleted IS NULL",
+                    ],
+                ],
+                
+                
+            ],
+            'conditions' => [
+                $conditions,
+                'Mensalidades.deleted IS NULL',
+
+            ],
+        ])->toArray();
+        $this->set('mensalidades', $mensalidades);
+        if (empty($mensalidades)) {
+            $this->redirect('/mensalidades/mensalidadesCadastradas');
+        }
+    }
 }
