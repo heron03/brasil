@@ -34,4 +34,9 @@ class AppPolicy
     {
         return true;
     }
+
+    public function canRelatorio(): bool
+    {
+        return true;
+    }
 }

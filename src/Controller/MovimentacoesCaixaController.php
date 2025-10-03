@@ -91,4 +91,61 @@ class MovimentacoesCaixaController extends AppController
 
         return $entity;
     }
+
+    public function relatorio(): void
+    {
+        $session = $this->getRequest()->getSession();
+        $dataInicial = $session->read('MovimentacoesCaixa.data_inicial');
+        $dataFinal = $session->read('MovimentacoesCaixa.data_final');
+
+        if (empty($dataFinal)) {
+            $dataFinal = date('Y-m-d');
+        }
+
+        if (empty($dataInicial)) {
+            $dataInicial = mktime(0, 0, 0, 1, 1, 2010);
+
+            if ($dataInicial) {
+                $dataInicial = date('Y-m-d', $dataInicial);
+            }
+        }
+
+        $this->report();
+        $movimentacoesCaixa = $this->MovimentacoesCaixa->find('all', [
+            'fields' => [
+                'id',
+                'descricao',
+                'tipo',
+                'valor',
+                'data_movimentacao',
+                'irmao_id',
+                'forma_pagamento',
+                'deleted',
+            ],
+            'contain' => [
+                'Irmaos' => [
+                    'fields' => [
+                        'id',
+                        'nome',
+                    ],
+                    'conditions' => [
+                        "Irmaos.deleted IS NULL",
+                    ],
+                ],
+                
+                
+            ],
+            'conditions' => [
+                "MovimentacoesCaixa.data_movimentacao BETWEEN '{$dataInicial}' AND '{$dataFinal}'",
+                'MovimentacoesCaixa.deleted IS NULL',
+            ],
+        ])->toArray();
+        $this->set('movimentacoesCaixa', $movimentacoesCaixa);
+
+        $session->write(['MovimentacoesCaixa.naoEncontrada' => false]);
+        if (empty($movimentacoesCaixa)) {
+            $session->write(['MovimentacoesCaixa.naoEncontrada' => true]);
+            $this->redirect('/movimentacoesCaixa/movimentacoesCaixaCadastradas');
+        }
+    }
 }

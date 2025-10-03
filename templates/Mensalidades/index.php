@@ -4,6 +4,15 @@ $this->assign('pageTitle', 'Mensalidades');
 
 $this->assign('singleActions', $this->Metronic->deleteButton());
 
+
+$this->assign('printButton', $this->Metronic->printButton([
+    'url' => [
+        'action' => 'relatorio',
+        '?' => $this->request->getQueryParams(),
+    ],
+    'class' => 'btn btn-metal m-btn m-btn--air m-btn--icon-only',
+]));
+
 $session = $this->getRequest()->getSession();
 $dataInicial = date('Y/m/d', strtotime($session->read('Mensalidades.data_inicial')));
 $dataFinal = date('Y/m/d', strtotime($session->read('Mensalidades.data_final')));

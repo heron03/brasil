@@ -117,4 +117,9 @@ class MensalidadesTable extends AppTable
 
         return $rules;
     }
+
+    public function getReportRecords(array $params): array
+    {
+        
+    }
 }

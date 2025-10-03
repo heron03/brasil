@@ -1,0 +1,10 @@
+<body>
+    <line1><line border='1' alternateFill='210'>
+        <cell1><cell lineWidth="30" fieldName="numero" align="R"></cell></cell1>
+        <cell3><cell lineWidth="22" fieldName="tipo"  ></cell></cell3>
+        <cell4><cell fieldName="beneficiario.nome" align="L" ></cell></cell4>
+        <cell5><cell lineWidth="32" fieldName="beneficiario.cpf" align="L" ></cell></cell5>
+        <cell6><cell lineWidth="30" fieldName="created" align="R" ></cell></cell6>
+        <cell7><cell lineWidth="30" fieldName="renovacaos.0.data_renovacao" align="R" ></cell></cell7>
+    </line></line1>
+</body>
