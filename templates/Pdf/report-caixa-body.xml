@@ -5,6 +5,6 @@
         <cell4><cell lineWidth="20" fieldName="tipo" align="L" ></cell></cell4>
         <cell5><cell lineWidth="25" fieldName="data_movimentacao" align="L" ></cell></cell5>
         <cell6><cell lineWidth="47" fieldName="forma_pagamento" align="L" ></cell></cell6>
-        <cell7><cell lineWidth="20" fieldName="valor" align="R" ></cell></cell7>
+        <cell7><cell lineWidth="30" fieldName="valor" align="R" ></cell></cell7>
     </line></line1>
 </body>
