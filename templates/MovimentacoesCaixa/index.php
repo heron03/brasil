@@ -8,11 +8,19 @@ $this->assign(
 
 $this->assign('addButton', $this->Metronic->addButton());
 
+$this->assign('printButton', $this->Metronic->printButton([
+    'url' => [
+        'action' => 'relatorio',
+        '?' => $this->request->getQueryParams(),
+    ],
+    'class' => 'btn btn-metal m-btn m-btn--air m-btn--icon-only',
+]));
+
 $session = $this->getRequest()->getSession();
 $dataInicial = date('Y/m/d', strtotime($session->read('MovimentacoesCaixa.data_inicial')));
 $dataFinal = date('Y/m/d', strtotime($session->read('MovimentacoesCaixa.data_final')));
 if ($session->read('MovimentacoesCaixa.data_inicial') == null) {
-    $dataInicial = date('Y/m/d', strtotime('-30 days'));
+    $dataInicial = date('Y/m/d', strtotime('-1 Year'));
     $dataFinal = date('Y/m/d');
 }
 

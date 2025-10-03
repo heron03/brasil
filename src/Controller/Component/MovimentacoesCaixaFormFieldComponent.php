@@ -41,7 +41,7 @@ class MovimentacoesCaixaFormFieldComponent extends FormFieldComponent
             'label' => ['text' => 'Valor'],
             'type' => 'text',
             'class' => 'form-control m-input text-right',
-            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'data-inputmask-alias' => 'cash',
             'templates' => [
                 'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
@@ -76,8 +76,11 @@ class MovimentacoesCaixaFormFieldComponent extends FormFieldComponent
             'type' => 'select',
             'options' => [
                 'Dinheiro' => 'Dinheiro',
-                'Pix' => 'PIX',
-                'Transferencia' => 'Transferência',
+                'PIX' => 'PIX',
+                'Cartao de Débito' => 'Cartão de Débito',
+                'Cartao de Crédito' => 'Cartão de Crédito',
+                'Transferência' => 'Transferência',
+                'Boleto' => 'Boleto',
                 'Cheque' => 'Cheque',
             ],
             'templates' => [

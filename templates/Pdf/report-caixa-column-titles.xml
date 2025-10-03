@@ -1,10 +1,10 @@
 <columnTitles>
     <line1><line border='1' fontStyle='B'>
-        <cell1><cell lineWidth="30" titleFontSizePt="10">Número</cell></cell1>
-        <cell3><cell lineWidth="22" titleFontSizePt="10">Tipo</cell></cell3>
-        <cell4><cell titleFontSizePt="10">Beneficiário</cell></cell4>
-        <cell5><cell lineWidth="32" titleFontSizePt="10">CPF</cell></cell5>
-        <cell6><cell lineWidth="30" titleFontSizePt="10">Cadastro</cell></cell6>
-        <cell7><cell lineWidth="30" titleFontSizePt="10">Renovação</cell></cell7>
+        <cell1><cell titleFontSizePt="10">Descrição</cell></cell1>
+        <cell3><cell titleFontSizePt="10">Irmão</cell></cell3>
+        <cell4><cell lineWidth="20" titleFontSizePt="10">Tipo</cell></cell4>
+        <cell5><cell lineWidth="25" titleFontSizePt="10">Data</cell></cell5>
+        <cell6><cell lineWidth="47" titleFontSizePt="10">Forma de Pagamento</cell></cell6>
+        <cell7><cell lineWidth="20" titleFontSizePt="10">Valor</cell></cell7>
     </line></line1>
 </columnTitles>
