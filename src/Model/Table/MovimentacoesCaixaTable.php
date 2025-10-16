@@ -135,4 +135,17 @@ class MovimentacoesCaixaTable extends AppTable
 
         return $rules;
     }
+
+    public function beforeSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options): void
+    {
+        $valor = (string)$entity->get('valor');
+        $valor = preg_replace('/[^0-9,.\-]/', '', $valor) ?? '';
+
+        if (strpos($valor, ',') !== false) {
+            $valor = str_replace('.', '', $valor);
+            $valor = str_replace(',', '.', $valor);
+        }
+
+        $entity->set('valor', (float)$valor);
+    }
 }
