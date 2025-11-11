@@ -1,0 +1,7 @@
+<body>
+    <line1><line border='1' alternateFill='210'>
+        <cell1><cell lineWidth="40" align="C" fieldName="mes"></cell></cell1>
+        <cell2><cell lineWidth="50" fieldName="data_pagamento"  align="C"></cell></cell2>
+        <cell3><cell lineWidth="100" fieldName="valor_pago" align="R"></cell></cell3>
+    </line></line1>
+</body>

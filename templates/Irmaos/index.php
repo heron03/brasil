@@ -27,6 +27,7 @@ $tableHeaders = [
 ];
 
 array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '2%']]);
+array_push($tableHeaders, ['' => ['width' => '5%']]);
 array_push($tableHeaders, ['' => ['width' => '2%']]);
 
 $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
@@ -39,6 +40,14 @@ foreach ($irmaos as $i => $irmao) {
         h($irmao->cpf),
         h($irmao->ativo ? 'Ativo' : 'Inativo'),
     ];
+
+    $cells[$i][] = $this->Metronic->link('Mensalidades Anuais', [
+        'escape' => false,
+        'data-original-title' => 'Mensalidades Anuais',
+        'data-toggle' => 'm-tooltip',
+        'class' => 'm-btn m-btn--icon-only btn btn-primary',
+        'url' => '/mensalidades/anuais/' . $irmao->id,
+    ]);
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Irmaos.$i.id", $irmao->id));
     array_push($cells[$i], $this->Metronic->editButton($irmao->id));
 }
