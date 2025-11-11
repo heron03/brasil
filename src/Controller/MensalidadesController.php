@@ -254,4 +254,39 @@ class MensalidadesController extends AppController
 
         $session->write(['Mensalidades.naoEncontrada' => false]);
     }
+
+    
+    public function anuais(?int $irmaoId = null): void
+    {
+        $session = $this->getRequest()->getSession();
+        $dataInicial = $session->read('Mensalidades.data_inicial');
+        $dataFinal = $session->read('Mensalidades.data_final');
+        $this->viewBuilder()->setLayout('ajax');
+        $this->response = $this->response->withType('pdf');
+        $mensalidadesTable = $this->getTableLocator()->get('Mensalidades');
+        $entity = $mensalidadesTable->newEmptyEntity();
+        $this->Authorization->authorize($entity);
+
+        if (empty($dataFinal)) {
+            $dataFinal = date('Y-m-d');
+        }
+
+        if (empty($dataInicial)) {
+            $dataInicial = mktime(0, 0, 0, 1, 1, 2010);
+            $dataInicial = date('Y-m-d', $dataInicial);
+        }
+
+        $conditions = [
+            // 'Mensalidades' => ['Mensalidades.deleted IS NULL', "Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"],
+            'Mensalidades.irmao_id' => $irmaoId,
+        ];
+        $mensalidadesPeriodo = $mensalidadesTable->findMensalidadesPorAnual($conditions);
+        $this->set('mensalidadesPeriodo', $mensalidadesPeriodo);
+
+        $session->write(['Mensalidades.naoEncontrada' => false]);
+        if (empty($mensalidadesPeriodo)) {
+            $session->write(['Mensalidades.naoEncontrada' => true]);
+            $this->redirect('/irmaos');
+        }
+    }
 }

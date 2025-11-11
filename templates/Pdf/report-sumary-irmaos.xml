@@ -1,0 +1,6 @@
+<sumary SUM_OF_VALORREPASSADO='Mensalidades.valor_pago'>
+    <line1><line align='C' >
+        <cell2><cell border='TLR' align='C'>TOTAL</cell></cell2>
+        <cell3><cell border='TLR' align='R' decimal='2' lineWidth='100'>[SUM_OF_VALORREPASSADO]</cell></cell3>
+    </line></line1>
+</sumary>

@@ -118,8 +118,28 @@ class MensalidadesTable extends AppTable
         return $rules;
     }
 
-    public function getReportRecords(array $params): array
+    public function findMensalidadesPorAnual($params)
     {
-        
+        $query = $this->find()
+            ->select([
+                'Mensalidades.id',
+                'Mensalidades.irmao_id',
+                'Mensalidades.mes_referencia',
+                'Mensalidades.valor',
+                'Mensalidades.valor_pago',
+                'Mensalidades.pago',
+                'Mensalidades.data_pagamento',
+            ])
+            ->where($params) // ex.: ['Mensalidades.ano' => 2025, 'Mensalidades.irmao_id' => 12]
+            ->contain([
+                'Irmaos' => [
+                    'fields' => ['Irmaos.id', 'Irmaos.nome'],
+                ],
+            ]);
+
+        // Retorna objetos de entidade:
+        return $query->all(); // ResultSetInterface
+        // Se preferir array puro:
+        // return $query->disableHydration()->toArray();
     }
 }

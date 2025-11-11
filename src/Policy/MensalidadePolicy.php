@@ -14,4 +14,9 @@ class MensalidadePolicy extends AppPolicy
     {
         return true;
     }
+
+    public function canAnuais(): bool
+    {
+        return true;
+    }
 }

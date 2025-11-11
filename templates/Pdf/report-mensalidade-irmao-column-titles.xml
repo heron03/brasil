@@ -1,0 +1,7 @@
+<columnTitles>
+    <line1><line border='1' fontStyle='B'>
+        <cell1><cell lineWidth="40" align="C" titleFontSizePt="10">Mês</cell></cell1>
+        <cell2><cell lineWidth="50" titleFontSizePt="10">Data de Pagamento</cell></cell2>
+        <cell3><cell lineWidth="100" titleFontSizePt="10">Valor Pago</cell></cell3>
+    </line></line1>
+</columnTitles>
