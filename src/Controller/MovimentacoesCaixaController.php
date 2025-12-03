@@ -84,6 +84,7 @@ class MovimentacoesCaixaController extends AppController
         $session = $this->getRequest()->getSession();
         $dataInicial = $session->read('MovimentacoesCaixa.data_inicial');
         $dataFinal = $session->read('MovimentacoesCaixa.data_final');
+        $conditions = $this->reportConditions();
 
         if (empty($dataFinal)) {
             $dataFinal = date('Y-m-d');
@@ -124,6 +125,7 @@ class MovimentacoesCaixaController extends AppController
             ],
             'conditions' => [
                 "MovimentacoesCaixa.data_movimentacao BETWEEN '{$dataInicial}' AND '{$dataFinal}'",
+                $conditions,
                 'MovimentacoesCaixa.deleted IS NULL',
             ],
         ])->toArray();
