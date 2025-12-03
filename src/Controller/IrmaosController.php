@@ -21,6 +21,10 @@ class IrmaosController extends AppController
     public function paginateConditions(): array
     {
         $conditions = parent::paginateConditions();
+        $session = $this->getRequest()->getSession();
+        if ($session->read('Auth.nivel') != 'Gestor') {
+            $conditions[] = ["Irmaos.id" => $session->read('Auth.id')];
+        }
         $nome = $this->request->is('post') ?
             $this->dataCondition('Irmaos.nome') :
             $this->sessionCondition('Irmaos.nome');

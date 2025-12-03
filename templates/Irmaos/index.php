@@ -6,7 +6,10 @@ $this->assign(
     $this->Metronic->deleteButton()
 );
 
-$this->assign('addButton', $this->Metronic->addButton());
+$session = $this->getRequest()->getSession();
+if ($session->read('Auth.nivel') === 'Gestor') {
+    $this->assign('addButton', $this->Metronic->addButton());
+}
 
 $this->assign(
     'filter',

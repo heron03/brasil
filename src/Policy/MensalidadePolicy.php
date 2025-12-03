@@ -2,12 +2,13 @@
 declare(strict_types=1);
 
 namespace App\Policy;
+use Authorization\IdentityInterface;
 
 class MensalidadePolicy extends AppPolicy
 {
-    public function canReceber(): bool
+    public function canReceber(?IdentityInterface $user = null): bool
     {
-        return true;
+        return $user->get('nivel') === 'Gestor';
     }
 
     public function canMensalidadesRelatorio(): bool

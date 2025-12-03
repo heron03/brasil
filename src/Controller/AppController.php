@@ -238,6 +238,7 @@ class AppController extends Controller
         return $this->{$this->getModelName()}->get($id);
     }
 
+    
     public function report(): void
     {
         $this->setEntityAuthorization();
@@ -579,4 +580,10 @@ class AppController extends Controller
         return $this->paginate['join'] ?? [];
     }
 
+    public function getUsuarioLogado(): array
+    {
+        $identity = $this->Authentication->getIdentity();
+
+        return !empty($identity) ? (array)$identity->getOriginalData() : [];
+    }
 }

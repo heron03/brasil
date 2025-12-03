@@ -66,14 +66,21 @@ foreach ($mensalidades as $i => $mensalidade) {
         h($pagto),
     ];
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
-    if (!$mensalidade->pago) {
-        $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [
-            'escape' => false,
-            'data-original-title' => 'Receber Mensalidade',
-            'data-toggle' => 'm-tooltip',
-            'class' => 'm-btn m-btn--icon-only btn btn-success',
-            'url' => '/mensalidades/receber/' . $mensalidade->id,
-        ]);
+    
+    $session = $this->getRequest()->getSession();
+    if ($session->read('Auth.nivel') === 'Gestor') {
+
+        if (!$mensalidade->pago) {
+            $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [
+                'escape' => false,
+                'data-original-title' => 'Receber Mensalidade',
+                'data-toggle' => 'm-tooltip',
+                'class' => 'm-btn m-btn--icon-only btn btn-success',
+                'url' => '/mensalidades/receber/' . $mensalidade->id,
+            ]);
+        } else {
+            $cells[$i][] = '';
+        }
     } else {
         $cells[$i][] = '';
     }

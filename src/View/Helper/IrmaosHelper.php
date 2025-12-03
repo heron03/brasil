@@ -14,7 +14,7 @@ class IrmaosHelper extends Helper
             ['logradouro', 'numero', 'cep'],
             ['bairro', 'complemento', 'cidade'],
             ['telefone', 'email'],
-            ['grau', 'desconto_valor', 'ativo'],
+            ['grau',],
             ['senha', 'confirma_senha'],
         ],
     ];
