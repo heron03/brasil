@@ -280,10 +280,15 @@ class MensalidadesController extends AppController
             $dataInicial = date('Y-m-d', $dataInicial);
         }
 
-        $conditions = [
-            // 'Mensalidades' => ['Mensalidades.deleted IS NULL', "Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"],
-            'Mensalidades.irmao_id' => $irmaoId,
-        ];
+        $session = $this->getRequest()->getSession();
+        if ($session->read('Auth.nivel') != 'Gestor') {
+            $conditions[] = ["Mensalidades.irmao_id" => $session->read('Auth.id')];
+        } else {
+            $conditions = [
+                // 'Mensalidades' => ['Mensalidades.deleted IS NULL', "Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"],
+                'Mensalidades.irmao_id' => $irmaoId,
+            ];
+        }
         $mensalidadesPeriodo = $mensalidadesTable->findMensalidadesPorAnual($conditions);
         $this->set('mensalidadesPeriodo', $mensalidadesPeriodo);
 
