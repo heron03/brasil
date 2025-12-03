@@ -29,6 +29,10 @@ class MensalidadesController extends AppController
     {
         $conditions = parent::paginateConditions();
 
+        $session = $this->getRequest()->getSession();
+        if ($session->read('Auth.nivel') != 'Gestor') {
+            $conditions[] = ["Mensalidades.irmao_id" => $session->read('Auth.id')];
+        }
         if ($this->request->is('post')) {
             $nome = $this->dataCondition('Mensalidades.filtro');
             $pago = $this->dataCondition('Mensalidades.pago');
