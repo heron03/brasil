@@ -57,7 +57,11 @@ return function (RouteBuilder $routes): void {
          */
         $builder->connect('/login',  ['controller' => 'Irmaos', 'action' => 'login']);
         $builder->connect('/logout', ['controller' => 'Irmaos', 'action' => 'logout']);
-        $builder->connect('/', ['controller' => 'Mensalidades', 'action' => 'index', 'index']);
+        $builder->connect('/', ['controller' => 'Irmaos', 'action' => 'index', 'index']);
+        $builder->connect(
+            '/cadastro-acesso',
+            ['controller' => 'Irmaos', 'action' => 'cadastroAcesso']
+        );
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
