@@ -153,7 +153,7 @@ class MensalidadesController extends AppController
         $data  = $this->request->getData();
         $valor = (float)($data['_valor_recebido_normalizado'] ?? 0.0);
         if ($valor <= 0) {
-            return;
+            $this->redirect($this->indexUrl());
         }
 
         $dataMov = !empty($data['data_pagamento']) ? $data['data_pagamento'] : date('Y-m-d');
@@ -183,7 +183,6 @@ class MensalidadesController extends AppController
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());
     }
-
 
     public function relatorio(): void
     {
@@ -259,7 +258,7 @@ class MensalidadesController extends AppController
         $session->write(['Mensalidades.naoEncontrada' => false]);
     }
 
-    
+
     public function anuais(?int $irmaoId = null): void
     {
         $session = $this->getRequest()->getSession();

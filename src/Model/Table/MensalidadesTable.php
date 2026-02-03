@@ -143,26 +143,33 @@ class MensalidadesTable extends AppTable
         // return $query->disableHydration()->toArray();
     }
 
-    public function beforeSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options): void
-    {
-        $valor = (string)$entity->get('valor');
-        $valor = preg_replace('/[^0-9,.\-]/', '', $valor) ?? '';
+    public function beforeSave(
+        \Cake\Event\EventInterface $event,
+        \Cake\Datasource\EntityInterface $entity,
+        \ArrayObject $options
+    ): void {
+        if ($entity->has('valor')) {
+            $valor = (string)$entity->get('valor');
+            $valor = preg_replace('/[^0-9,.\-]/', '', $valor) ?? '';
 
-        if (strpos($valor, ',') !== false) {
-            $valor = str_replace('.', '', $valor);
-            $valor = str_replace(',', '.', $valor);
+            if (strpos($valor, ',') !== false) {
+                $valor = str_replace('.', '', $valor);
+                $valor = str_replace(',', '.', $valor);
+            }
+
+            $entity->set('valor', (float)$valor);
         }
 
-        $entity->set('valor', (float)$valor);
+        if ($entity->has('valor_pago')) {
+            $valorPago = (string)$entity->get('valor_pago');
+            $valorPago = preg_replace('/[^0-9,.\-]/', '', $valorPago) ?? '';
 
-        $valorPago = (string)$entity->get('valor_pago');
-        $valorPago = preg_replace('/[^0-9,.\-]/', '', $valorPago) ?? '';
+            if (strpos($valorPago, ',') !== false) {
+                $valorPago = str_replace('.', '', $valorPago);
+                $valorPago = str_replace(',', '.', $valorPago);
+            }
 
-        if (strpos($valorPago, ',') !== false) {
-            $valorPago = str_replace('.', '', $valorPago);
-            $valorPago = str_replace(',', '.', $valorPago);
+            $entity->set('valor_pago', (float)$valorPago);
         }
-
-        $entity->set('valor', (float)$valor);
     }
 }
