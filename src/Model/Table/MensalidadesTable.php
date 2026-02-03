@@ -142,4 +142,27 @@ class MensalidadesTable extends AppTable
         // Se preferir array puro:
         // return $query->disableHydration()->toArray();
     }
+
+    public function beforeSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options): void
+    {
+        $valor = (string)$entity->get('valor');
+        $valor = preg_replace('/[^0-9,.\-]/', '', $valor) ?? '';
+
+        if (strpos($valor, ',') !== false) {
+            $valor = str_replace('.', '', $valor);
+            $valor = str_replace(',', '.', $valor);
+        }
+
+        $entity->set('valor', (float)$valor);
+
+        $valorPago = (string)$entity->get('valor_pago');
+        $valorPago = preg_replace('/[^0-9,.\-]/', '', $valorPago) ?? '';
+
+        if (strpos($valorPago, ',') !== false) {
+            $valorPago = str_replace('.', '', $valorPago);
+            $valorPago = str_replace(',', '.', $valorPago);
+        }
+
+        $entity->set('valor', (float)$valor);
+    }
 }
