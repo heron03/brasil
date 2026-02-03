@@ -117,6 +117,8 @@ class MensalidadesController extends AppController
 
     protected function parseMoneyBR($valor): float
     {
+        debug($valor);
+        exit;
         if ($valor === null) {
             return 0.0;
         }
