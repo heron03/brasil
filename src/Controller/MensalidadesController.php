@@ -137,11 +137,10 @@ class MensalidadesController extends AppController
 
         $id = (int)($data['id'] ?? 0);
         $current = $this->getEditEntity($id);
-        $total   = (float)($current->valor ?? 0.0);
+        $total = (float)($current->valor ?? 0.0);
         $pagoAtu = (float)($current->valor_pago ?? 0.0);
-
-        if (empty($current->id) && $total <= 0) {
-            $total = $valorReq;
+        if ($total <= 0) {
+            $total = round($pagoAtu + $valorReq, 2);
             $data['valor'] = $total;
         }
 
