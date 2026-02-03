@@ -115,18 +115,18 @@ class MensalidadesController extends AppController
         return $entity;
     }
 
-    protected function parseMoneyBR(?string $s): float
+    protected function parseMoneyBR($valor): float
     {
-        if ($s === null) {
+        if ($valor === null) {
             return 0.0;
         }
-        $s = trim($s);
-        $s = preg_replace('/[^0-9.,-]/', '', $s) ?? '';
-        if (strpos($s, ',') !== false) {
-            $s = str_replace('.', '', $s);
-            $s = str_replace(',', '.', $s);
+        $valor = trim($valor);
+        $valor = preg_replace('/[^0-9.,-]/', '', $valor) ?? '';
+        if (strpos($valor, ',') !== false) {
+            $valor = str_replace('.', '', $valor);
+            $valor = str_replace(',', '.', $valor);
         }
-        return (float)$s;
+        return (float)$valor;
     }
 
     public function beforeUpdate(): void
