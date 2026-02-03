@@ -117,8 +117,6 @@ class MensalidadesController extends AppController
 
     protected function parseMoneyBR($valor): float
     {
-        debug($valor);
-        exit;
         if ($valor === null) {
             return 0.0;
         }
@@ -134,22 +132,31 @@ class MensalidadesController extends AppController
     public function beforeUpdate(): void
     {
         $data = $this->request->getData();
-        $valorReq = $this->parseMoneyBR((string)($data['valor_recebido'] ?? '0'));
-        $current = $this->getEditEntity((int)($data['id'] ?? 0));
+
+        $valorReq = $this->parseMoneyBR($data['valor_recebido'] ?? null);
+
+        $id = (int)($data['id'] ?? 0);
+        $current = $this->getEditEntity($id);
         $total   = (float)($current->valor ?? 0.0);
         $pagoAtu = (float)($current->valor_pago ?? 0.0);
-        $saldo   = max(0.0, $total - $pagoAtu);
 
-        $valorConsiderado = round(max(0.0, min($valorReq, $saldo)), 2);
+        if (empty($current->id) && $total <= 0) {
+            $total = $valorReq;
+            $data['valor'] = $total;
+        }
+
+        $saldo = max(0.0, $total - $pagoAtu);
+        $valorConsiderado = empty($current->id)
+            ? round(max(0.0, $valorReq), 2)
+            : round(max(0.0, min($valorReq, $saldo)), 2);
+
         $novoPago = round($pagoAtu + $valorConsiderado, 2);
-        $quita = $novoPago >= $total;
-        $data['valor_pago'] = (float)($novoPago ?? 0.0);
-        $data['pago'] = $quita ? 1 : 0;
-
+        $data['valor_pago'] = $novoPago;
+        $data['pago'] = ($novoPago >= $total && $total > 0) ? 1 : 0;
         $data['_valor_recebido_normalizado'] = $valorConsiderado;
+
         $this->request = $this->request->withParsedBody($data);
     }
-
     public function afterEdit(?EntityInterface $saved = null): void
     {
         $data  = $this->request->getData();
@@ -170,18 +177,18 @@ class MensalidadesController extends AppController
             : '';
         $descricao = sprintf('Mensalidade %s - %s', $mesRef, $irmao->nome ?? ('Irmão #' . $saved->irmao_id));
 
-                 $Movs = $this->fetchTable('MovimentacoesCaixa');
-         $mov  = $Movs->newEntity([
-             'loja_id'           => $lojaId,
-             'irmao_id'          => $saved->irmao_id,
-             'tipo'              => 'entrada',
-             'descricao'         => $descricao,
-             'valor'             => $valor,
-             'data_movimentacao' => $dataMov,
-             'origem'            => 'mensalidade',
-             'forma_pagamento'   => $data['forma_pagamento'] ?? 'dinheiro',
-             'observacoes'       => $data['observacoes'] ?? null,
-         ]);
+        $Movs = $this->fetchTable('MovimentacoesCaixa');
+        $mov  = $Movs->newEntity([
+            'loja_id'           => $lojaId,
+            'irmao_id'          => $saved->irmao_id,
+            'tipo'              => 'entrada',
+            'descricao'         => $descricao,
+            'valor'             => $valor,
+            'data_movimentacao' => $dataMov,
+            'origem'            => 'mensalidade',
+            'forma_pagamento'   => $data['forma_pagamento'] ?? 'dinheiro',
+            'observacoes'       => $data['observacoes'] ?? null,
+        ]);
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());
     }
