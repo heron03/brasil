@@ -57,14 +57,12 @@ class GerarMensalidadesCommand extends Command
             $base = (float)($i->loja->valor_mensalidade ?? 0.00);
             $desc = (float)max(0.00, min($i->desconto_valor ?? 0.00, $base));
             $valorFinal = $base - $desc;
-
             $ent = $Mensalidades->newEntity([
                 'irmao_id'       => (int)$i->id,
                 'mes_referencia' => $competencia,
-                'valor'          => number_format($valorFinal, 2, '.', ''),
+                'valor'          => $valorFinal,
                 'pago'           => 0,
             ]);
-
             if ($Mensalidades->save($ent)) {
                 $criados++;
             }
