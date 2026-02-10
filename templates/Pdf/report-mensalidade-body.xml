@@ -1,5 +1,5 @@
 <body>
-    <line1><line border='1' alternateFill='210'>
+    <line1><line autoLineBreak="1" border='1' alternateFill='210'>
         <cell1><cell  fieldName="irmao.nome" align="L"></cell></cell1>
         <cell3><cell lineWidth="22" fieldName="pago"></cell></cell3>
         <cell4><cell lineWidth="50" fieldName="data_pagamento"  align="C"></cell></cell4>
