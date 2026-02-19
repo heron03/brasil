@@ -2,9 +2,10 @@
     <line1><line autoLineBreak="1" border='1' alternateFill='210'>
         <cell1><cell  fieldName="irmao.nome" align="L"></cell></cell1>
         <cell3><cell lineWidth="22" fieldName="pago"></cell></cell3>
-        <cell4><cell lineWidth="50" fieldName="data_pagamento"  align="C"></cell></cell4>
-        <cell5><cell lineWidth="50" fieldName="mes_referencia"  align="C"></cell></cell5>
-        <cell6><cell lineWidth="30" fieldName="valor_pago" align="R" ></cell></cell6>
-        <cell7><cell lineWidth="30" fieldName="valor" align="R" ></cell></cell7>
+        <cell4><cell lineWidth="42" fieldName="data_pagamento"  align="C"></cell></cell4>
+        <cell5><cell lineWidth="40" fieldName="mes_referencia"  align="C"></cell></cell5>
+        <cell6><cell lineWidth="25" fieldName="valor_pago" align="R" ></cell></cell6>
+        <cell7><cell lineWidth="25" fieldName="valor_aberto" align="R" ></cell></cell7>
+        <cell8><cell lineWidth="25" fieldName="valor" align="R" ></cell></cell8>
     </line></line1>
 </body>

@@ -2,18 +2,10 @@
 $session = $this->getRequest()->getSession();
 
 $title = $this->Html->tag('strong', 'Brasil II');
-if ($session->read('Auth.nivel') === 'Gestor') {
-    $menu = [
-        ['title' => 'Irmãos', 'url' => '/irmaos'],
-        ['title' => 'Mensalidade', 'url' => '/mensalidades'],
-        ['title' => 'Caixa', 'url' => '/movimentacoesCaixa'],
-    ];
-} else {
     $menu = [
         ['title' => 'Irmãos', 'url' => '/irmaos'],
         ['title' => 'Mensalidade', 'url' => '/mensalidades'],
     ];
-}
 
 $userMenu = [
     ['icon' => 'flaticon-edit-1', 'title' => 'Alterar Senha', 'url' => '/irmaos/editSenha'],

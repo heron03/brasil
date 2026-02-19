@@ -212,6 +212,7 @@ class MensalidadesController extends AppController
                 'valor_pago',
                 'irmao_id',
                 'deleted',
+                'valor_aberto' => 'GREATEST(0, (Mensalidades.valor - Mensalidades.valor_pago))',
             ],
             'contain' => [
                 'Irmaos' => [
