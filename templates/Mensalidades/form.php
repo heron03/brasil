@@ -1,16 +1,39 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
- * @var mixed $mensalidade
+ * @var mixed $formBody
+ * @var mixed $usuario
+ * @var \App\View\AppView $this
+ * @var mixed $formBody
+ * @var mixed $usuario
  */
+$this->extend('MetronicV4.Pages/add');
+$this->assign('pageTitle', 'Editar Mensalidade');
+
 $this->formConfiguracao();
-$form = $this->Metronic->formCreate($mensalidade, ['default' => true]);
+$form = $this->Metronic->formCreate($mensalidade, ['default' => true, 'type' => 'file']);
 
 $formBody = $this->camposHidden([
     ['nome' => 'id', 'valor' => []],
 ]);
 
-$formBody .= $this->formulario();
+$formBody .= $this->Html->div(
+    'form-group m-form__group',
+    $this->Html->div(
+        'row',
+        $this->Html->div('col-sm-4 mt-3', $this->Metronic->input('data_pagamento')) .
+        $this->Html->div('col-sm-4 mt-3', $this->Metronic->input('forma_pagamento')),
+    ),
+);
 
-$this->assign('formBody', $formBody);
+$formBody .= $this->Html->div(
+    'form-group m-form__group',
+    $this->Html->div(
+        'row',
+        $this->Html->div('col-sm-12 mt-3', $this->Metronic->input('observacoes')),
+    ),
+);
+
 $this->assign('form', $form);
+$this->assign('formBody', $formBody);
