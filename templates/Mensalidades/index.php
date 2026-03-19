@@ -66,7 +66,7 @@ foreach ($mensalidades as $i => $mensalidade) {
         h($pagto),
     ];
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
-    
+
     $session = $this->getRequest()->getSession();
     if ($session->read('Auth.nivel') === 'Gestor') {
 
@@ -79,7 +79,7 @@ foreach ($mensalidades as $i => $mensalidade) {
                 'url' => '/mensalidades/receber/' . $mensalidade->id,
             ]);
         } else {
-            $cells[$i][] = '';
+            array_push($cells[$i], $this->Metronic->editButton($mensalidade->id));
         }
     } else {
         $cells[$i][] = '';
