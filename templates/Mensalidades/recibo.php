@@ -76,7 +76,7 @@ $record['forma_pagamento_texto'] = $formaPagamento;
 
 $settings = [
     'templateFile' => [
-        'config' => $path . 'report-config.xml',
+        'config' => $path . 'report-config-recibo.xml',
         'body' => $path . 'report-mensalidade-recibo-body.xml',
     ],
     'records' => [$record],
