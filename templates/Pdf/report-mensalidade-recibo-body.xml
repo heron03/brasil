@@ -1,0 +1,102 @@
+<body>
+    <!-- Topo -->
+    <line1>
+        <line>
+            <cell1>
+                <cell border='TLR' lineWidth="100" fontSizePt="12" fontStyle="B" fontFamily="Times" align="C" fieldName="loja_titulo_recibo"></cell>
+            </cell1>
+        </line>
+    </line1>
+    <line2>
+        <line>
+            <cell1>
+                <cell border='BLR' lineWidth="100" fontSizePt="10" fontFamily="Times" fontStyle="B" align="C" fieldName="loja_endereco_recibo"></cell>
+            </cell1>
+        </line>
+    </line2>
+
+    <line3>
+        <line>
+            <cell1><cell border='BL' lineWidth="8" fontSizePt="10" fontStyle="B" fontFamily="Times" align="L">I.R.</cell></cell1>
+            <cell2><cell border='BR' lineWidth="92" fontSizePt="12" fontFamily="Times" align="L" fieldName="irmao_nome_recibo"></cell></cell2>
+        </line>
+    </line3>
+
+    <line4>
+        <line>
+            <cell1><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mêsde Referencia:</cell></cell1>
+            <cell2><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell2>
+        </line>
+    </line4>
+
+    <!-- Valores -->
+    <line5>
+        <line>
+            <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mensalidade Maçônica</cell></cell2>
+            <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="mensalidade_maconica_recibo_text"></cell></cell3>
+        </line>
+    </line5>
+    <line6>
+        <line>
+            <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mutua Maçônica</cell></cell2>
+            <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="mutua_maconica_recibo_text"></cell></cell3>
+        </line>
+    </line6>
+    <line7>
+        <line>
+            <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitacao</cell></cell2>
+            <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="capitacao_recibo_text"></cell></cell3>
+        </line>
+    </line7>
+    <line8>
+        <line>
+            <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Diversos</cell></cell2>
+            <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="diversos_recibo_text"></cell></cell3>
+        </line>
+    </line8>
+    <line9>
+        <line>
+            <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Reserva</cell></cell2>
+            <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="reserva_recibo_text"></cell></cell3>
+        </line>
+    </line9>
+
+    <!-- Total -->
+    <line10>
+        <line>
+            <cell1><cell border='BL' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
+            <cell2><cell border='B' lineWidth="60" fontSizePt="11" fontStyle="B" fontFamily="Times">Total Geral</cell></cell2>
+            <cell3><cell lineWidth="19" border="BT" fontSizePt="11" fontStyle="B" fontFamily="Times" align="L" fieldName="total_geral_recibo_text"></cell></cell3>
+            <cell4><cell lineWidth="11" border="BR"></cell></cell4>
+        </line>
+    </line10>
+
+    <line12>
+        <line>
+            <cell1><cell border='LR' lineWidth="100" fontSizePt="10" fontFamily="Times" align="L" fieldName="data_pagamento_recibo"></cell></cell1>
+        </line>
+    </line12>
+
+    <!-- Rodape -->
+    <line13>
+        <line>
+            <cell1><cell border='LR' lineWidth="100"></cell></cell1>
+        </line>
+    </line13>
+
+    <!-- Rodape -->
+    <line14>
+        <line>
+            <cell1><cell border='LB' lineWidth="70"></cell></cell1>
+            <cell2><cell border='BT' lineWidth="20" fontSizePt="10" fontStyle="B" fontFamily="Times" align="C">Tesoureiro</cell></cell2>
+            <cell3><cell border='RB' lineWidth="10"></cell></cell3>
+        </line>
+    </line14>
+
+    
+</body>

@@ -49,6 +49,7 @@ $tableHeaders = [
 
 array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
 array_push($tableHeaders, ['' => ['width' => '5%']]);
+array_push($tableHeaders, ['' => ['width' => '1%']]);
 
 $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
 
@@ -78,10 +79,19 @@ foreach ($mensalidades as $i => $mensalidade) {
                 'class' => 'm-btn m-btn--icon-only btn btn-success',
                 'url' => '/mensalidades/receber/' . $mensalidade->id,
             ]);
+            $cells[$i][] = '';
         } else {
+            $cells[$i][] = $this->Metronic->link('Recibo de Mensalidade', [
+                'escape' => false,
+                'data-original-title' => 'Recibo de Mensalidade',
+                'data-toggle' => 'm-tooltip',
+                'class' => 'm-btn m-btn--icon-only btn btn-primary',
+                'url' => '/mensalidades/recibo/' . $mensalidade->id,
+            ]);
             array_push($cells[$i], $this->Metronic->editButton($mensalidade->id));
         }
     } else {
+        $cells[$i][] = '';
         $cells[$i][] = '';
     }
 }

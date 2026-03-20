@@ -156,6 +156,7 @@ class MensalidadesController extends AppController
 
         $this->request = $this->request->withParsedBody($data);
     }
+
     public function afterEdit(?EntityInterface $saved = null): void
     {
         $data  = $this->request->getData();
@@ -305,5 +306,38 @@ class MensalidadesController extends AppController
             $session->write(['Mensalidades.naoEncontrada' => true]);
             $this->redirect('/irmaos');
         }
+    }
+
+    public function recibo(?int $id = null): void
+    {
+        $session = $this->getRequest()->getSession();
+        $entity = $this->{$this->getModelName()}->get((int)$id, [
+            'contain' => [
+                'Irmaos' => [
+                    'Lojas',
+                ],
+            ],
+        ]);
+        $this->Authorization->authorize($entity);
+
+        $movimentacoesCaixa = $this->fetchTable('MovimentacoesCaixa')
+            ->find()
+            ->where([
+                'MovimentacoesCaixa.irmao_id' => $entity->irmao_id,
+                'MovimentacoesCaixa.origem' => 'mensalidade',
+                'MovimentacoesCaixa.deleted IS' => null,
+            ])
+            ->orderDesc('MovimentacoesCaixa.id')
+            ->all()
+            ->toList();
+
+        $entity->set('movimentacoes_caixa', $movimentacoesCaixa);
+        $entity->set('forma_pagamento', $movimentacoesCaixa[0]->forma_pagamento ?? null);
+
+        $this->set($this->getEntityName(), $entity);
+        $this->set('movimentacoesCaixa', $movimentacoesCaixa);
+        $this->setFields();
+        $this->viewBuilder()->setLayout('ajax');
+        $this->response = $this->response->withType('pdf');
     }
 }

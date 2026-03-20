@@ -20,4 +20,9 @@ class MensalidadePolicy extends AppPolicy
     {
         return true;
     }
+
+    public function canRecibo(): bool
+    {
+        return true;
+    }
 }
