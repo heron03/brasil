@@ -41,6 +41,22 @@
 
     <line4>
         <line>
+            <cell1><cell border='BL' lineWidth="12" fontSizePt="10" fontStyle="B" fontFamily="Times" align="L">CIM</cell></cell1>
+            <cell2><cell border='BR' lineWidth="38" fontSizePt="12" fontFamily="Times" align="L" fieldName="irmao.cim"></cell></cell2>
+            <cell3><cell border='BL' lineWidth="12" fontSizePt="10" fontStyle="B" fontFamily="Times" align="L">CPF</cell></cell3>
+            <cell4><cell border='BR' lineWidth="38" fontSizePt="12" fontFamily="Times" align="L" fieldName="irmao.cpf"></cell></cell4>
+            <cell5>
+                <cell lineWidth="5"></cell>
+            </cell5>
+            <cell6><cell border='BL' lineWidth="12" fontSizePt="10" fontStyle="B" fontFamily="Times" align="L">CIM</cell></cell6>
+            <cell7><cell border='BR' lineWidth="38" fontSizePt="12" fontFamily="Times" align="L" fieldName="irmao.cim"></cell></cell7>
+            <cell8><cell border='BL' lineWidth="12" fontSizePt="10" fontStyle="B" fontFamily="Times" align="L">CPF</cell></cell8>
+            <cell9><cell border='BR' lineWidth="38" fontSizePt="12" fontFamily="Times" align="L" fieldName="irmao.cpf"></cell></cell9>
+        </line>
+    </line4>
+
+    <line5>
+        <line>
             <cell1><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mêsde Referencia:</cell></cell1>
             <cell2><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell2>
             <cell3>
@@ -49,10 +65,10 @@
             <cell4><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mêsde Referencia:</cell></cell4>
             <cell5><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell5>
         </line>
-    </line4>
+    </line5>
 
     <!-- Valores -->
-    <line5>
+    <line6>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
             <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mensalidade Maçônica</cell></cell2>
@@ -64,8 +80,8 @@
             <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mensalidade Maçônica</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="mensalidade_maconica_recibo_text"></cell></cell7>
         </line>
-    </line5>
-    <line6>
+    </line6>
+    <line7>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
             <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mutua Maçônica</cell></cell2>
@@ -77,8 +93,8 @@
             <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mutua Maçônica</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="mutua_maconica_recibo_text"></cell></cell7>
         </line>
-    </line6>
-    <line7>
+    </line7>
+    <line8>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
             <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitacao</cell></cell2>
@@ -90,8 +106,8 @@
             <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitacao</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="capitacao_recibo_text"></cell></cell7>
         </line>
-    </line7>
-    <line8>
+    </line8>
+    <line9>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
             <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Diversos</cell></cell2>
@@ -103,8 +119,8 @@
             <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Diversos</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="diversos_recibo_text"></cell></cell7>
         </line>
-    </line8>
-    <line9>
+    </line9>
+    <line10>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
             <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Reserva</cell></cell2>
@@ -116,10 +132,10 @@
             <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Reserva</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="reserva_recibo_text"></cell></cell7>
         </line>
-    </line9>
+    </line10>
 
     <!-- Total -->
-    <line10>
+    <line11>
         <line>
             <cell1><cell border='BL' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
             <cell2><cell border='B' lineWidth="60" fontSizePt="11" fontStyle="B" fontFamily="Times">Total Geral</cell></cell2>
@@ -134,7 +150,7 @@
             <cell9><cell lineWidth="11" border="BR"></cell></cell9>
         
         </line>
-    </line10>
+    </line11>
 
     <line12>
         <line>
