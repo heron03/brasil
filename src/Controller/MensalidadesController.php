@@ -284,6 +284,7 @@ class MensalidadesController extends AppController
     public function anuais(?int $irmaoId = null): void
     {
         $session = $this->getRequest()->getSession();
+        $ano = (int)$this->request->getQuery('ano');
         $dataInicial = $session->read('Mensalidades.data_inicial');
         $dataFinal = $session->read('Mensalidades.data_final');
         $this->viewBuilder()->setLayout('ajax');
@@ -301,13 +302,23 @@ class MensalidadesController extends AppController
             $dataInicial = date('Y-m-d', $dataInicial);
         }
 
+        if ($ano >= 2000 && $ano <= 2100) {
+            $dataInicial = "{$ano}-01-01";
+            $dataFinal = "{$ano}-12-31";
+        }
+
         $session = $this->getRequest()->getSession();
         if ($session->read('Auth.nivel') != 'Gestor') {
-            $conditions[] = ["Mensalidades.irmao_id" => $session->read('Auth.id')];
+            $conditions = [
+                'Mensalidades.irmao_id' => $session->read('Auth.id'),
+                "Mensalidades.mes_referencia >=" => $dataInicial,
+                "Mensalidades.mes_referencia <=" => $dataFinal,
+            ];
         } else {
             $conditions = [
-                // 'Mensalidades' => ['Mensalidades.deleted IS NULL', "Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"],
                 'Mensalidades.irmao_id' => $irmaoId,
+                "Mensalidades.mes_referencia >=" => $dataInicial,
+                "Mensalidades.mes_referencia <=" => $dataFinal,
             ];
         }
         $mensalidadesPeriodo = $mensalidadesTable->findMensalidadesPorAnual($conditions);
