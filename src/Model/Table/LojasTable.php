@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -86,6 +89,26 @@ class LojasTable extends Table
             ->allowEmptyString('complemento');
 
         $validator
+            ->decimal('valor_mensalidade')
+            ->allowEmptyString('valor_mensalidade');
+
+        $validator
+            ->decimal('mutua')
+            ->allowEmptyString('mutua');
+
+        $validator
+            ->decimal('capitacao')
+            ->allowEmptyString('capitacao');
+
+        $validator
+            ->decimal('diversos')
+            ->allowEmptyString('diversos');
+
+        $validator
+            ->decimal('reserva')
+            ->allowEmptyString('reserva');
+
+        $validator
             ->scalar('bairro')
             ->maxLength('bairro', 100)
             ->allowEmptyString('bairro');
@@ -131,5 +154,38 @@ class LojasTable extends Table
         ->toArray();
 
         return $options;
+    }
+
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        foreach (['valor_mensalidade', 'mutua', 'capitacao', 'diversos', 'reserva'] as $field) {
+            if (!$entity->has($field)) {
+                continue;
+            }
+            $entity->set($field, $this->normalizeMoneyValue($entity->get($field)));
+        }
+    }
+
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
+    {
+        foreach (['valor_mensalidade', 'mutua', 'capitacao', 'diversos', 'reserva'] as $field) {
+            if (!array_key_exists($field, (array)$data)) {
+                continue;
+            }
+            $data[$field] = $this->normalizeMoneyValue($data[$field]);
+        }
+    }
+
+    protected function normalizeMoneyValue($value): float
+    {
+        $value = (string)$value;
+        $value = preg_replace('/[^0-9,.\-]/', '', $value) ?? '';
+
+        if (strpos($value, ',') !== false) {
+            $value = str_replace('.', '', $value);
+            $value = str_replace(',', '.', $value);
+        }
+
+        return (float)$value;
     }
 }

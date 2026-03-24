@@ -15,6 +15,7 @@ class LojasHelper extends Helper
             ['logradouro', 'numero'],
             ['bairro', 'complemento'],
             ['cidade', 'uf'],
+            ['mutua', 'capitacao', 'diversos', 'reserva'],	
         ],
     ];
 

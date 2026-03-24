@@ -12,8 +12,13 @@ use Cake\ORM\Entity;
  * @property int $irmao_id
  * @property \Cake\I18n\FrozenDate $mes_referencia
  * @property string $valor
+ * @property string|null $mutua
+ * @property string|null $capitacao
+ * @property string|null $diversos
+ * @property string|null $reserva
  * @property string $valor_pago
  * @property bool|null $pago
+ * @property string|null $forma_pagamento
  * @property \Cake\I18n\FrozenDate|null $data_pagamento
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
@@ -36,8 +41,13 @@ class Mensalidade extends Entity
         'irmao_id' => true,
         'mes_referencia' => true,
         'valor' => true,
+        'mutua' => true,
+        'capitacao' => true,
+        'diversos' => true,
+        'reserva' => true,
         'valor_pago' => true,
         'pago' => true,
+        'forma_pagamento' => true,
         'data_pagamento' => true,
         'created' => true,
         'modified' => true,

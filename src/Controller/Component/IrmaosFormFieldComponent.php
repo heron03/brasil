@@ -55,6 +55,50 @@ class IrmaosFormFieldComponent extends FormFieldComponent
                 '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'desconto_mutua' => [
+            'label' => ['text' => 'Desconto Mútua'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'desconto_capitacao' => [
+            'label' => ['text' => 'Desconto Capitação'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'desconto_diversos' => [
+            'label' => ['text' => 'Desconto Diversos'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'desconto_reserva' => [
+            'label' => ['text' => 'Desconto Reserva'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
         'data_nascimento' => [
             'label' => ['text' => 'Data de Nascimento'],
             'type' => 'text',

@@ -176,15 +176,17 @@
     <!-- Rodape -->
     <line14>
         <line>
-            <cell1><cell border='LB' lineWidth="70"></cell></cell1>
-            <cell2><cell border='BT' lineWidth="20" fontSizePt="10" fontStyle="B" fontFamily="Times" align="C">Tesoureiro</cell></cell2>
-            <cell3><cell border='RB' lineWidth="10"></cell></cell3>
-            <cell4>
+            <cell1><cell border='LB' lineWidth="35" fontSizePt="9" fieldName="forma_pagamento_texto">Forma de Pagamento: </cell></cell1>
+            <cell2><cell border='B' lineWidth="35" fontSizePt="9" fieldName="forma_pagamento_texto"></cell></cell2>
+            <cell3><cell border='BT' lineWidth="20" fontSizePt="10" fontStyle="B" fontFamily="Times" align="C">Tesoureiro</cell></cell3>
+            <cell4><cell border='RB' lineWidth="10"></cell></cell4>
+            <cell5>
                 <cell lineWidth="5"></cell>
-            </cell4> 
-            <cell5><cell border='LB' lineWidth="70"></cell></cell5>
-            <cell6><cell border='BT' lineWidth="20" fontSizePt="10" fontStyle="B" fontFamily="Times" align="C">Tesoureiro</cell></cell6>
-            <cell7><cell border='RB' lineWidth="10"></cell></cell7>
+            </cell5> 
+            <cell6><cell border='LB' lineWidth="35" fontSizePt="9" fieldName="forma_pagamento_texto">Forma de Pagamento: </cell></cell6>
+            <cell7><cell border='B' lineWidth="35" fontSizePt="9" fieldName="forma_pagamento_texto"></cell></cell7>
+            <cell8><cell border='BT' lineWidth="20" fontSizePt="10" fontStyle="B" fontFamily="Times" align="C">Tesoureiro</cell></cell8>
+            <cell9><cell border='RB' lineWidth="10"></cell></cell9>
         </line>
     </line14>    
 </body>

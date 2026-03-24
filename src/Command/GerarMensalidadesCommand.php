@@ -34,10 +34,25 @@ class GerarMensalidadesCommand extends Command
         $Mensalidades = $this->fetchTable('Mensalidades');
 
         $irmaos = $Irmaos->find()
-            ->select(['Irmaos.id','Irmaos.loja_id','Irmaos.desconto_valor'])
+            ->select([
+                'Irmaos.id',
+                'Irmaos.loja_id',
+                'Irmaos.desconto_valor',
+                'Irmaos.desconto_mutua',
+                'Irmaos.desconto_capitacao',
+                'Irmaos.desconto_diversos',
+                'Irmaos.desconto_reserva',
+            ])
             ->where(['Irmaos.deleted IS' => null, 'Irmaos.ativo' => 1])
             ->contain([
-                'Lojas' => fn ($q) => $q->select(['Lojas.id','Lojas.valor_mensalidade'])
+                'Lojas' => fn ($q) => $q->select([
+                    'Lojas.id',
+                    'Lojas.valor_mensalidade',
+                    'Lojas.mutua',
+                    'Lojas.capitacao',
+                    'Lojas.diversos',
+                    'Lojas.reserva',
+                ])
             ])
             ->all();
 
@@ -54,13 +69,33 @@ class GerarMensalidadesCommand extends Command
                 continue;
             }
 
-            $base = (float)($i->loja->valor_mensalidade ?? 0.00);
-            $desc = (float)max(0.00, min($i->desconto_valor ?? 0.00, $base));
-            $valorFinal = $base - $desc;
+            $mensalidadeBase = (float)($i->loja->valor_mensalidade ?? 0.00);
+            $mutuaBase = (float)($i->loja->mutua ?? 0.00);
+            $capitacaoBase = (float)($i->loja->capitacao ?? 0.00);
+            $diversosBase = (float)($i->loja->diversos ?? 0.00);
+            $reservaBase = (float)($i->loja->reserva ?? 0.00);
+
+            $descMensalidade = (float)max(0.00, min($i->desconto_valor ?? 0.00, $mensalidadeBase));
+            $descMutua = (float)max(0.00, min($i->desconto_mutua ?? 0.00, $mutuaBase));
+            $descCapitacao = (float)max(0.00, min($i->desconto_capitacao ?? 0.00, $capitacaoBase));
+            $descDiversos = (float)max(0.00, min($i->desconto_diversos ?? 0.00, $diversosBase));
+            $descReserva = (float)max(0.00, min($i->desconto_reserva ?? 0.00, $reservaBase));
+
+            $mensalidadeLiquida = round($mensalidadeBase - $descMensalidade, 2);
+            $mutuaLiquida = round($mutuaBase - $descMutua, 2);
+            $capitacaoLiquida = round($capitacaoBase - $descCapitacao, 2);
+            $diversosLiquida = round($diversosBase - $descDiversos, 2);
+            $reservaLiquida = round($reservaBase - $descReserva, 2);
+            $valorFinal = $mensalidadeLiquida;
+
             $ent = $Mensalidades->newEntity([
                 'irmao_id'       => (int)$i->id,
                 'mes_referencia' => $competencia,
                 'valor'          => $valorFinal,
+                'mutua'          => $mutuaLiquida,
+                'capitacao'      => $capitacaoLiquida,
+                'diversos'       => $diversosLiquida,
+                'reserva'        => $reservaLiquida,
                 'pago'           => 0,
             ]);
             if ($Mensalidades->save($ent)) {

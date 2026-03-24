@@ -49,15 +49,14 @@ $lojaEnderecoRecibo = 'Av. Mauá, 39 - Tel. (14) 3433-5001';
 $valorBase = (float)($mensalidade->valor ?? 0);
 $valorPago = (float)($mensalidade->valor_pago ?? 0);
 
-$mutua = 80;
-$mensalidadeRecibo = 115;
-$capitacao = 25;
-$reserva = 10;
-$diversos = 0;
+$mutua = (float)($mensalidade->mutua ?? 0);
+$capitacao = (float)($mensalidade->capitacao ?? 0);
+$diversos = (float)($mensalidade->diversos ?? 0);
+$reserva = (float)($mensalidade->reserva ?? 0);
+$mensalidadeRecibo = $valorBase;
 
 $totalGeral = $valorPago > 0 ? $valorPago : $valorBase;
 $formaPagamento = (string)($mensalidade->forma_pagamento ?? '');
-$formaPagamento = $formaPagamento !== '' ? str_replace('_', ' ', strtolower($formaPagamento)) : 'em especie';
 
 $record = $mensalidade->toArray();
 $record['loja_titulo_recibo'] = $lojaTituloRecibo;

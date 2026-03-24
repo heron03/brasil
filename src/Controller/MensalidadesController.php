@@ -14,6 +14,10 @@ class MensalidadesController extends AppController
             'Mensalidades.irmao_id',
             'Mensalidades.mes_referencia',
             'Mensalidades.valor',
+            'Mensalidades.mutua',
+            'Mensalidades.capitacao',
+            'Mensalidades.diversos',
+            'Mensalidades.reserva',
             'Mensalidades.valor_pago',
             'Mensalidades.pago',
             'Mensalidades.data_pagamento',
@@ -137,7 +141,15 @@ class MensalidadesController extends AppController
 
         $id = (int)($data['id'] ?? 0);
         $current = $this->getEditEntity($id);
-        $total = (float)($current->valor ?? 0.0);
+        $valorMensalidade = (float)($current->valor ?? 0.0);
+        $valorMutua = (float)($current->mutua ?? 0.0);
+        $valorCapitacao = (float)($current->capitacao ?? 0.0);
+        $valorDiversos = (float)($current->diversos ?? 0.0);
+        $valorReserva = (float)($current->reserva ?? 0.0);
+        $total = round(
+            $valorMensalidade + $valorMutua + $valorCapitacao + $valorDiversos + $valorReserva,
+            2
+        );
         $pagoAtu = (float)($current->valor_pago ?? 0.0);
         if ($total <= 0) {
             $total = round($pagoAtu + $valorReq, 2);
@@ -272,6 +284,7 @@ class MensalidadesController extends AppController
     public function anuais(?int $irmaoId = null): void
     {
         $session = $this->getRequest()->getSession();
+        $ano = (int)$this->request->getQuery('ano');
         $dataInicial = $session->read('Mensalidades.data_inicial');
         $dataFinal = $session->read('Mensalidades.data_final');
         $this->viewBuilder()->setLayout('ajax');
@@ -289,13 +302,23 @@ class MensalidadesController extends AppController
             $dataInicial = date('Y-m-d', $dataInicial);
         }
 
+        if ($ano >= 2000 && $ano <= 2100) {
+            $dataInicial = "{$ano}-01-01";
+            $dataFinal = "{$ano}-12-31";
+        }
+
         $session = $this->getRequest()->getSession();
         if ($session->read('Auth.nivel') != 'Gestor') {
-            $conditions[] = ["Mensalidades.irmao_id" => $session->read('Auth.id')];
+            $conditions = [
+                'Mensalidades.irmao_id' => $session->read('Auth.id'),
+                "Mensalidades.mes_referencia >=" => $dataInicial,
+                "Mensalidades.mes_referencia <=" => $dataFinal,
+            ];
         } else {
             $conditions = [
-                // 'Mensalidades' => ['Mensalidades.deleted IS NULL', "Mensalidades.mes_referencia BETWEEN '$dataInicial' AND '$dataFinal'"],
                 'Mensalidades.irmao_id' => $irmaoId,
+                "Mensalidades.mes_referencia >=" => $dataInicial,
+                "Mensalidades.mes_referencia <=" => $dataFinal,
             ];
         }
         $mensalidadesPeriodo = $mensalidadesTable->findMensalidadesPorAnual($conditions);
@@ -332,7 +355,6 @@ class MensalidadesController extends AppController
             ->toList();
 
         $entity->set('movimentacoes_caixa', $movimentacoesCaixa);
-        $entity->set('forma_pagamento', $movimentacoesCaixa[0]->forma_pagamento ?? null);
 
         $this->set($this->getEntityName(), $entity);
         $this->set('movimentacoesCaixa', $movimentacoesCaixa);
