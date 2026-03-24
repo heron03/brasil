@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -148,6 +151,26 @@ class IrmaosTable extends AppTable
         $validator
             ->notBlank('ativo', __('Informe um Status'));
 
+        $validator
+            ->decimal('desconto_valor')
+            ->allowEmptyString('desconto_valor');
+
+        $validator
+            ->decimal('desconto_mutua')
+            ->allowEmptyString('desconto_mutua');
+
+        $validator
+            ->decimal('desconto_capitacao')
+            ->allowEmptyString('desconto_capitacao');
+
+        $validator
+            ->decimal('desconto_diversos')
+            ->allowEmptyString('desconto_diversos');
+
+        $validator
+            ->decimal('desconto_reserva')
+            ->allowEmptyString('desconto_reserva');
+
         // $validator
         //     ->dateTime('deleted')
         //     ->allowEmptyDateTime('deleted');
@@ -179,5 +202,50 @@ class IrmaosTable extends AppTable
             ->toArray();
 
         return $options;
+    }
+
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        foreach ([
+            'desconto_valor',
+            'desconto_mutua',
+            'desconto_capitacao',
+            'desconto_diversos',
+            'desconto_reserva',
+        ] as $field) {
+            if (!$entity->has($field)) {
+                continue;
+            }
+            $entity->set($field, $this->normalizeMoneyValue($entity->get($field)));
+        }
+    }
+
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
+    {
+        foreach ([
+            'desconto_valor',
+            'desconto_mutua',
+            'desconto_capitacao',
+            'desconto_diversos',
+            'desconto_reserva',
+        ] as $field) {
+            if (!array_key_exists($field, (array)$data)) {
+                continue;
+            }
+            $data[$field] = $this->normalizeMoneyValue($data[$field]);
+        }
+    }
+
+    protected function normalizeMoneyValue($value): float
+    {
+        $value = (string)$value;
+        $value = preg_replace('/[^0-9,.\-]/', '', $value) ?? '';
+
+        if (strpos($value, ',') !== false) {
+            $value = str_replace('.', '', $value);
+            $value = str_replace(',', '.', $value);
+        }
+
+        return (float)$value;
     }
 }

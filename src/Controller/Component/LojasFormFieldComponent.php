@@ -77,6 +77,50 @@ class LojasFormFieldComponent extends FormFieldComponent
                     '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'mutua' => [
+            'label' => ['text' => 'Mútua'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'capitacao' => [
+            'label' => ['text' => 'Capitação'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'diversos' => [
+            'label' => ['text' => 'Diversos'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
+        'reserva' => [
+            'label' => ['text' => 'Reserva'],
+            'type' => 'text',
+            'class' => 'form-control m-input text-right',
+            'data-inputmask' => "'alias': 'currency', 'prefix': 'R$ ', 'groupSeparator': '.', 'radixPoint': ','",
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                    '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
     ];
 
     public function getFields(): array

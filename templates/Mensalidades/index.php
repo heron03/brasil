@@ -57,11 +57,16 @@ $cells = [];
 foreach ($mensalidades as $i => $mensalidade) {
     $comp  = $mensalidade->mes_referencia ? $mensalidade->mes_referencia->format('m/Y') : '-';
     $pagto = $mensalidade->data_pagamento ? $mensalidade->data_pagamento->format('d/m/Y') : '-';
+    $valorTotal = (float)($mensalidade->valor ?? 0)
+        + (float)($mensalidade->mutua ?? 0)
+        + (float)($mensalidade->capitacao ?? 0)
+        + (float)($mensalidade->diversos ?? 0)
+        + (float)($mensalidade->reserva ?? 0);
 
     $cells[] = [
         h($mensalidade->irmao->nome ?? '-'),
         h($comp),
-        'R$ ' . number_format((float)$mensalidade->valor, 2, ',', '.'),
+        'R$ ' . number_format($valorTotal, 2, ',', '.'),
         'R$ ' . number_format((float)($mensalidade->valor_pago ?? 0), 2, ',', '.'),
         $mensalidade->pago ? 'Sim' : 'Não',
         h($pagto),
@@ -83,6 +88,7 @@ foreach ($mensalidades as $i => $mensalidade) {
         } else {
             $cells[$i][] = $this->Metronic->link('Recibo de Mensalidade', [
                 'escape' => false,
+                'target' => '_blank',
                 'data-original-title' => 'Recibo de Mensalidade',
                 'data-toggle' => 'm-tooltip',
                 'class' => 'm-btn m-btn--icon-only btn btn-primary',

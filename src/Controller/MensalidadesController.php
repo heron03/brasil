@@ -14,6 +14,10 @@ class MensalidadesController extends AppController
             'Mensalidades.irmao_id',
             'Mensalidades.mes_referencia',
             'Mensalidades.valor',
+            'Mensalidades.mutua',
+            'Mensalidades.capitacao',
+            'Mensalidades.diversos',
+            'Mensalidades.reserva',
             'Mensalidades.valor_pago',
             'Mensalidades.pago',
             'Mensalidades.data_pagamento',
@@ -137,7 +141,15 @@ class MensalidadesController extends AppController
 
         $id = (int)($data['id'] ?? 0);
         $current = $this->getEditEntity($id);
-        $total = (float)($current->valor ?? 0.0);
+        $valorMensalidade = (float)($current->valor ?? 0.0);
+        $valorMutua = (float)($current->mutua ?? 0.0);
+        $valorCapitacao = (float)($current->capitacao ?? 0.0);
+        $valorDiversos = (float)($current->diversos ?? 0.0);
+        $valorReserva = (float)($current->reserva ?? 0.0);
+        $total = round(
+            $valorMensalidade + $valorMutua + $valorCapitacao + $valorDiversos + $valorReserva,
+            2
+        );
         $pagoAtu = (float)($current->valor_pago ?? 0.0);
         if ($total <= 0) {
             $total = round($pagoAtu + $valorReq, 2);
@@ -332,7 +344,6 @@ class MensalidadesController extends AppController
             ->toList();
 
         $entity->set('movimentacoes_caixa', $movimentacoesCaixa);
-        $entity->set('forma_pagamento', $movimentacoesCaixa[0]->forma_pagamento ?? null);
 
         $this->set($this->getEntityName(), $entity);
         $this->set('movimentacoesCaixa', $movimentacoesCaixa);

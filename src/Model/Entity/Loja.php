@@ -10,6 +10,11 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $nome
+ * @property string|null $valor_mensalidade
+ * @property string|null $mutua
+ * @property string|null $capitacao
+ * @property string|null $diversos
+ * @property string|null $reserva
  * @property string|null $logradouro
  * @property string|null $numero
  * @property string|null $complemento
@@ -43,6 +48,10 @@ class Loja extends Entity
         'numero' => true,
         'complemento' => true,
         'valor_mensalidade' => true,
+        'mutua' => true,
+        'capitacao' => true,
+        'diversos' => true,
+        'reserva' => true,
         'bairro' => true,
         'cidade' => true,
         'estado' => true,

@@ -34,6 +34,11 @@ CREATE TABLE `irmaos` (
   `cpf` varchar(20) DEFAULT NULL,
   `cim` varchar(20) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
+  `desconto_valor` decimal(10,2) DEFAULT 0.00,
+  `desconto_mutua` decimal(10,2) DEFAULT 0.00,
+  `desconto_capitacao` decimal(10,2) DEFAULT 0.00,
+  `desconto_diversos` decimal(10,2) DEFAULT 0.00,
+  `desconto_reserva` decimal(10,2) DEFAULT 0.00,
   `grau` varchar(50) DEFAULT NULL,
   `logradouro` varchar(255) DEFAULT NULL,
   `numero` varchar(10) DEFAULT NULL,
@@ -63,6 +68,11 @@ CREATE TABLE `irmaos` (
 CREATE TABLE `lojas` (
   `id` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
+  `valor_mensalidade` decimal(10,2) DEFAULT 0.00,
+  `mutua` decimal(10,2) DEFAULT 0.00,
+  `capitacao` decimal(10,2) DEFAULT 0.00,
+  `diversos` decimal(10,2) DEFAULT 0.00,
+  `reserva` decimal(10,2) DEFAULT 0.00,
   `logradouro` varchar(255) DEFAULT NULL,
   `numero` varchar(10) DEFAULT NULL,
   `complemento` varchar(100) DEFAULT NULL,
@@ -77,6 +87,11 @@ CREATE TABLE `lojas` (
   `deleted` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE lojas 
+ADD COLUMN mutua DECIMAL(10,2) DEFAULT 0.00,
+ADD COLUMN capitacao  DECIMAL(10,2) DEFAULT 0.00,
+ADD COLUMN diversos  DECIMAL(10,2) DEFAULT 0.00,
+ADD COLUMN reserva  DECIMAL(10,2) DEFAULT 0.00;
 --
 -- Despejando dados para a tabela `lojas`
 --
@@ -92,6 +107,11 @@ CREATE TABLE `mensalidades` (
   `irmao_id` int(11) NOT NULL,
   `mes_referencia` date NOT NULL,
   `valor` decimal(10,2) NOT NULL,
+  `mutua` decimal(10,2) DEFAULT 0.00,
+  `capitacao` decimal(10,2) DEFAULT 0.00,
+  `diversos` decimal(10,2) DEFAULT 0.00,
+  `reserva` decimal(10,2) DEFAULT 0.00,
+  `forma_pagamento` varchar(30) DEFAULT NULL,
   `pago` tinyint(1) DEFAULT 0,
   `data_pagamento` date DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),

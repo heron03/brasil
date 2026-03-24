@@ -46,6 +46,7 @@ foreach ($irmaos as $i => $irmao) {
 
     $cells[$i][] = $this->Metronic->link('Mensalidades Anuais', [
         'escape' => false,
+        'target' => '_blank',
         'data-original-title' => 'Mensalidades Anuais',
         'data-toggle' => 'm-tooltip',
         'class' => 'm-btn m-btn--icon-only btn btn-primary',

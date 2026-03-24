@@ -77,12 +77,33 @@ class MensalidadesTable extends AppTable
             ->notEmptyString('valor');
 
         $validator
+            ->decimal('mutua')
+            ->allowEmptyString('mutua');
+
+        $validator
+            ->decimal('capitacao')
+            ->allowEmptyString('capitacao');
+
+        $validator
+            ->decimal('diversos')
+            ->allowEmptyString('diversos');
+
+        $validator
+            ->decimal('reserva')
+            ->allowEmptyString('reserva');
+
+        $validator
             ->decimal('valor_pago')
             ->allowEmptyString('valor_pago');
 
         $validator
             ->boolean('pago')
             ->allowEmptyString('pago');
+
+        $validator
+            ->scalar('forma_pagamento')
+            ->maxLength('forma_pagamento', 30)
+            ->allowEmptyString('forma_pagamento');
 
         $validator
             ->notBlank('data_pagamento', __('Informe a Data'))
@@ -126,8 +147,13 @@ class MensalidadesTable extends AppTable
                 'Mensalidades.irmao_id',
                 'Mensalidades.mes_referencia',
                 'Mensalidades.valor',
+                'Mensalidades.mutua',
+                'Mensalidades.capitacao',
+                'Mensalidades.diversos',
+                'Mensalidades.reserva',
                 'Mensalidades.valor_pago',
                 'Mensalidades.pago',
+                'Mensalidades.forma_pagamento',
                 'Mensalidades.data_pagamento',
             ])
             ->where($params) // ex.: ['Mensalidades.ano' => 2025, 'Mensalidades.irmao_id' => 12]
@@ -170,6 +196,20 @@ class MensalidadesTable extends AppTable
             }
 
             $entity->set('valor_pago', (float)$valorPago);
+        }
+
+        foreach (['mutua', 'capitacao', 'diversos', 'reserva'] as $campo) {
+            if ($entity->has($campo)) {
+                $valorCampo = (string)$entity->get($campo);
+                $valorCampo = preg_replace('/[^0-9,.\-]/', '', $valorCampo) ?? '';
+
+                if (strpos($valorCampo, ',') !== false) {
+                    $valorCampo = str_replace('.', '', $valorCampo);
+                    $valorCampo = str_replace(',', '.', $valorCampo);
+                }
+
+                $entity->set($campo, (float)$valorCampo);
+            }
         }
     }
 }
