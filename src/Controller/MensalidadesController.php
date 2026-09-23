@@ -209,6 +209,60 @@ class MensalidadesController extends AppController
         $this->redirect($this->indexUrl());
     }
 
+    public function limparPagamento(?int $id = null): void
+    {
+        $this->request->allowMethod(['post']);
+        $mensalidade = $this->Mensalidades->get((int)$id, [
+            'contain' => ['Irmaos'],
+        ]);
+        $this->Authorization->authorize($mensalidade);
+
+        $mensalidade->set('valor_pago', 0);
+        $mensalidade->set('pago', false);
+        $mensalidade->set('data_pagamento', null);
+        $mensalidade->set('forma_pagamento', null);
+
+        if ($this->Mensalidades->save($mensalidade, ['validate' => false])) {
+            $this->estornarMovimentacoesDaMensalidade($mensalidade);
+            $this->Flash->bootstrapNotifyMessage('Pagamento apagado. O valor pago voltou a zero.', [
+                'plugin' => 'MetronicV4',
+                'key' => 'success',
+            ]);
+        } else {
+            $this->Flash->bootstrapNotifyMessage('Não foi possível apagar o pagamento.', [
+                'plugin' => 'MetronicV4',
+                'key' => 'danger',
+            ]);
+        }
+
+        $this->redirect(['action' => 'index']);
+    }
+
+    protected function estornarMovimentacoesDaMensalidade(EntityInterface $mensalidade): void
+    {
+        $mesRef = $mensalidade->mes_referencia
+            ? (is_object($mensalidade->mes_referencia)
+                ? $mensalidade->mes_referencia->format('m/Y')
+                : date('m/Y', strtotime((string)$mensalidade->mes_referencia)))
+            : '';
+        $nome = $mensalidade->irmao->nome ?? ('Irmão #' . $mensalidade->irmao_id);
+        $descricao = sprintf('Mensalidade %s - %s', $mesRef, $nome);
+
+        $movimentacoes = $this->fetchTable('MovimentacoesCaixa');
+        $lancamentos = $movimentacoes->find()
+            ->where([
+                'MovimentacoesCaixa.irmao_id' => $mensalidade->irmao_id,
+                'MovimentacoesCaixa.origem' => 'mensalidade',
+                'MovimentacoesCaixa.descricao' => $descricao,
+                'MovimentacoesCaixa.deleted IS' => null,
+            ])
+            ->all();
+
+        foreach ($lancamentos as $lancamento) {
+            $movimentacoes->excluir($lancamento);
+        }
+    }
+
     public function relatorio(): void
     {
         $page = $this->reportPage();

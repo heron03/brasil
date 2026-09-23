@@ -29,6 +29,11 @@ class MensalidadePolicy extends AppPolicy
         return Irmao::temAcessoGestao($this->nivel($user));
     }
 
+    public function canLimparPagamento(?IdentityInterface $user = null, $resource = null): bool
+    {
+        return Irmao::temAcessoGestao($this->nivel($user));
+    }
+
     public function canView(?IdentityInterface $user = null, $resource = null): bool
     {
         return $this->podeVerPropria($user, $resource);
