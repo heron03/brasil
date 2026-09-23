@@ -1,13 +1,10 @@
 <?php
 $this->extend('MetronicV4.Pages/index');
 $this->assign('pageTitle', 'Irmãos');
-$this->assign(
-    'singleActions',
-    $this->Metronic->deleteButton()
-);
-
 $session = $this->getRequest()->getSession();
-if ($session->read('Auth.nivel') === 'Gestor') {
+$acessoGestao = \App\Model\Entity\Irmao::temAcessoGestao($session->read('Auth.nivel'));
+if ($acessoGestao) {
+    $this->assign('singleActions', $this->Metronic->deleteButton());
     $this->assign('addButton', $this->Metronic->addButton());
 }
 
@@ -31,6 +28,9 @@ $tableHeaders = [
 
 array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '2%']]);
 array_push($tableHeaders, ['' => ['width' => '5%']]);
+if ($acessoGestao) {
+    array_push($tableHeaders, ['' => ['width' => '2%']]);
+}
 array_push($tableHeaders, ['' => ['width' => '2%']]);
 
 $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
@@ -65,6 +65,13 @@ foreach ($irmaos as $i => $irmao) {
         ]
     );
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Irmaos.$i.id", $irmao->id));
+    if ($acessoGestao) {
+        array_push($cells[$i], $this->Metronic->editButton($irmao->id, [
+            'get-url' => $this->Url->build(['action' => 'editSenha', $irmao->id]),
+            'icon' => 'la la-key',
+            'data-original-title' => 'Alterar senha',
+        ]));
+    }
     array_push($cells[$i], $this->Metronic->editButton($irmao->id));
 }
 

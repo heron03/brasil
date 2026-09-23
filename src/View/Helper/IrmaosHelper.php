@@ -15,7 +15,6 @@ class IrmaosHelper extends Helper
             ['bairro', 'complemento', 'cidade'],
             ['telefone', 'email'],
             ['grau',],
-            ['senha', 'confirma_senha'],
         ],
     ];
 
@@ -23,5 +22,6 @@ class IrmaosHelper extends Helper
         'add' => 'Novo Irmão',
         'view' => 'Detalhes do Irmão',
         'edit' => 'Edição do Irmão',
+        'editSenha' => 'Alterar Senha',
     ];
 }

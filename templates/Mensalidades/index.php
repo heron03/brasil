@@ -2,7 +2,11 @@
 $this->extend('MetronicV4.Pages/index');
 $this->assign('pageTitle', 'Mensalidades');
 
-$this->assign('singleActions', $this->Metronic->deleteButton());
+$session = $this->getRequest()->getSession();
+$acessoGestao = \App\Model\Entity\Irmao::temAcessoGestao($session->read('Auth.nivel'));
+if ($acessoGestao) {
+    $this->assign('singleActions', $this->Metronic->deleteButton());
+}
 
 $this->assign('printButton', $this->Metronic->printButton([
     'url' => [
@@ -73,8 +77,7 @@ foreach ($mensalidades as $i => $mensalidade) {
     ];
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
 
-    $session = $this->getRequest()->getSession();
-    if ($session->read('Auth.nivel') === 'Gestor') {
+    if ($acessoGestao) {
 
         if (!$mensalidade->pago) {
             $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [

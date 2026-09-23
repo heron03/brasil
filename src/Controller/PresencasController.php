@@ -25,6 +25,9 @@ class PresencasController extends AppController
         if (!empty($sessaoId)) {
             $conditions['Presencas.sessao_id'] = $sessaoId;
         }
+        $conditions[] = [
+            'Presencas.irmao_id NOT IN' => $this->fetchTable('Irmaos')->idsDesenvolvedor(),
+        ];
 
         return $conditions;
     }

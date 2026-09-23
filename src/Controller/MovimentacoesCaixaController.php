@@ -48,6 +48,12 @@ class MovimentacoesCaixaController extends AppController
             $dataFinal = date('Y-m-d');
         }
         $conditions['and'] = ["MovimentacoesCaixa.data_movimentacao BETWEEN '$dataInicial' AND '$dataFinal'"];
+        $conditions[] = [
+            'OR' => [
+                'MovimentacoesCaixa.irmao_id IS' => null,
+                'MovimentacoesCaixa.irmao_id NOT IN' => $this->fetchTable('Irmaos')->idsDesenvolvedor(),
+            ],
+        ];
 
         return $conditions;
     }
