@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
+use App\Model\Entity\Irmao;
 use MetronicV4\Controller\Component\FormFieldComponent;
 
 /**
@@ -125,6 +126,21 @@ class IrmaosFormFieldComponent extends FormFieldComponent
                 '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'nivel' => [
+            'label' => ['text' => 'Nível de acesso'],
+            'type' => 'select',
+            'default' => Irmao::NIVEL_IRMAO,
+            'options' => [
+                Irmao::NIVEL_IRMAO => 'Irmão',
+                Irmao::NIVEL_GESTOR => 'Gestor',
+                Irmao::NIVEL_DESENVOLVEDOR => 'Desenvolvedor',
+            ],
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
         'ativo' => [
             'label' => ['text' => 'Ativo'],
             'type' => 'select',
@@ -228,14 +244,24 @@ class IrmaosFormFieldComponent extends FormFieldComponent
                 '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
+        'senha_atual' => [
+            'label' => ['text' => 'Senha atual'],
+            'type' => 'password',
+            'maxlength' => 255,
+            'templates' => [
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
+                'inputContainerError' =>
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+            ],
+        ],
         'senha' => [
             'label' => ['text' => 'Senha'],
             'type' => 'password',
             'maxlength' => 255,
             'templates' => [
-                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
         'confirma_senha' => [
@@ -243,17 +269,17 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             'type' => 'password',
             'maxlength' => 255,
             'templates' => [
-                'inputContainer' => '<div class="col-sm-3 mr-auto {{type}}">{{content}}</div>',
+                'inputContainer' => '<div class="col-sm-3 {{type}}">{{content}}</div>',
                 'inputContainerError' =>
-                '<div class="col-sm-3 mr-auto {{type}}{{required}} form-error">{{content}}{{error}}</div>',
+                '<div class="col-sm-3 {{type}}{{required}} form-error">{{content}}{{error}}</div>',
             ],
         ],
 
-        'email_login' => [
+        'cim_login' => [
             'label' => false,
-            'placeholder' => 'E-mail',
-            'type' => 'email',
-            'maxlength' => 100,
+            'placeholder' => 'CIM',
+            'type' => 'text',
+            'maxlength' => 10,
             'class' => 'form-control m-input',
         ],
         'senha_login' => [

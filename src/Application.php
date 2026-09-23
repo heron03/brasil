@@ -118,7 +118,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         $service->loadIdentifier('Authentication.Password', [
             'fields' => [
-                IdentifierInterface::CREDENTIAL_USERNAME => 'email',
+                IdentifierInterface::CREDENTIAL_USERNAME => 'cim',
                 IdentifierInterface::CREDENTIAL_PASSWORD => 'senha',
             ],
             'resolver' => [
@@ -129,7 +129,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         $service->loadAuthenticator('Authentication.Session');
         $service->loadAuthenticator('Authentication.Form', [
-            'fields' => ['username' => 'email_login', 'password' => 'senha_login'],
+            'fields' => ['username' => 'cim_login', 'password' => 'senha_login'],
             'loginUrl' => Router::url(['controller' => 'Irmaos', 'action' => 'login']),
         ]);
 

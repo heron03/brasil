@@ -2,7 +2,11 @@
 $this->extend('MetronicV4.Pages/index');
 $this->assign('pageTitle', 'Mensalidades');
 
-$this->assign('singleActions', $this->Metronic->deleteButton());
+$session = $this->getRequest()->getSession();
+$acessoGestao = \App\Model\Entity\Irmao::temAcessoGestao($session->read('Auth.nivel'));
+if ($acessoGestao) {
+    $this->assign('singleActions', $this->Metronic->deleteButton());
+}
 
 $this->assign('printButton', $this->Metronic->printButton([
     'url' => [
@@ -48,8 +52,11 @@ $tableHeaders = [
 ];
 
 array_unshift($tableHeaders, [$this->Metronic->allRowCheckbox() => ['width' => '5%']]);
-array_push($tableHeaders, ['' => ['width' => '5%']]);
-array_push($tableHeaders, ['' => ['width' => '1%']]);
+if ($acessoGestao) {
+    array_push($tableHeaders, ['' => ['width' => '5%']]);
+    array_push($tableHeaders, ['' => ['width' => '1%']]);
+    array_push($tableHeaders, ['' => ['width' => '1%']]);
+}
 
 $this->assign('tableHeaders', $this->Html->tableHeaders($tableHeaders, ['role' => 'row', 'class' => '']));
 
@@ -73,8 +80,7 @@ foreach ($mensalidades as $i => $mensalidade) {
     ];
     array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
 
-    $session = $this->getRequest()->getSession();
-    if ($session->read('Auth.nivel') === 'Gestor') {
+    if ($acessoGestao) {
 
         if (!$mensalidade->pago) {
             $cells[$i][] = $this->Metronic->link('Receber Mensalidade', [
@@ -85,6 +91,7 @@ foreach ($mensalidades as $i => $mensalidade) {
                 'url' => '/mensalidades/receber/' . $mensalidade->id,
             ]);
             $cells[$i][] = '';
+            $cells[$i][] = '';
         } else {
             $cells[$i][] = $this->Metronic->link('Recibo de Mensalidade', [
                 'escape' => false,
@@ -94,11 +101,24 @@ foreach ($mensalidades as $i => $mensalidade) {
                 'class' => 'm-btn m-btn--icon-only btn btn-primary',
                 'url' => '/mensalidades/recibo/' . $mensalidade->id,
             ]);
-            array_push($cells[$i], $this->Metronic->editButton($mensalidade->id));
+            $cells[$i][] = $this->Html->link(
+                '<i class="la la-undo"></i>',
+                'javascript:;',
+                [
+                    'escape' => false,
+                    'class' => 'btn btn-danger m-btn m-btn--icon-only',
+                    'post-url' => $this->Url->build(['action' => 'limparPagamento', $mensalidade->id]),
+                    'update' => '#content',
+                    'data-original-title' => 'Apagar pagamento',
+                    'data-toggle' => 'm-tooltip',
+                    'data-swal-title' => 'Apagar pagamento?',
+                    'data-swal-text' => 'O valor pago volta a zero e a mensalidade fica como não paga.',
+                    'data-swal-confirm-button-color' => '#f4516c',
+                    'data-swal-cancel-button-color' => '#c4c5d6',
+                ]
+            );
+            $cells[$i][] = $this->Metronic->editButton($mensalidade->id);
         }
-    } else {
-        $cells[$i][] = '';
-        $cells[$i][] = '';
     }
 }
 

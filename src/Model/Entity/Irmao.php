@@ -22,6 +22,7 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  * @property string|null $cep
  * @property string|null $telefone
  * @property string|null $email
+ * @property string|null $nivel
  * @property bool|null $ativo
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
@@ -34,6 +35,22 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
  */
 class Irmao extends Entity
 {
+    public const NIVEL_IRMAO = 'Irmão';
+
+    public const NIVEL_GESTOR = 'Gestor';
+
+    public const NIVEL_DESENVOLVEDOR = 'Desenvolvedor';
+
+    public static function temAcessoGestao(?string $nivel): bool
+    {
+        return in_array($nivel, [self::NIVEL_GESTOR, self::NIVEL_DESENVOLVEDOR], true);
+    }
+
+    public static function eIrmao(?string $nivel): bool
+    {
+        return !self::temAcessoGestao($nivel);
+    }
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

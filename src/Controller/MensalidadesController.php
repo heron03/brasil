@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\Irmao;
 use Cake\Datasource\EntityInterface;
 
 class MensalidadesController extends AppController
@@ -34,9 +35,12 @@ class MensalidadesController extends AppController
         $conditions = parent::paginateConditions();
 
         $session = $this->getRequest()->getSession();
-        if ($session->read('Auth.nivel') != 'Gestor') {
+        if (!Irmao::temAcessoGestao($session->read('Auth.nivel'))) {
             $conditions[] = ["Mensalidades.irmao_id" => $session->read('Auth.id')];
         }
+        $conditions[] = [
+            'Mensalidades.irmao_id NOT IN' => $this->fetchTable('Irmaos')->idsDesenvolvedor(),
+        ];
         if ($this->request->is('post')) {
             $nome = $this->dataCondition('Mensalidades.filtro');
             $pago = $this->dataCondition('Mensalidades.pago');
@@ -205,6 +209,60 @@ class MensalidadesController extends AppController
         $this->redirect($this->indexUrl());
     }
 
+    public function limparPagamento(?int $id = null): void
+    {
+        $this->request->allowMethod(['post']);
+        $mensalidade = $this->Mensalidades->get((int)$id, [
+            'contain' => ['Irmaos'],
+        ]);
+        $this->Authorization->authorize($mensalidade);
+
+        $mensalidade->set('valor_pago', 0);
+        $mensalidade->set('pago', false);
+        $mensalidade->set('data_pagamento', null);
+        $mensalidade->set('forma_pagamento', null);
+
+        if ($this->Mensalidades->save($mensalidade, ['validate' => false])) {
+            $this->estornarMovimentacoesDaMensalidade($mensalidade);
+            $this->Flash->bootstrapNotifyMessage('Pagamento apagado. O valor pago voltou a zero.', [
+                'plugin' => 'MetronicV4',
+                'key' => 'success',
+            ]);
+        } else {
+            $this->Flash->bootstrapNotifyMessage('Não foi possível apagar o pagamento.', [
+                'plugin' => 'MetronicV4',
+                'key' => 'danger',
+            ]);
+        }
+
+        $this->redirect(['action' => 'index']);
+    }
+
+    protected function estornarMovimentacoesDaMensalidade(EntityInterface $mensalidade): void
+    {
+        $mesRef = $mensalidade->mes_referencia
+            ? (is_object($mensalidade->mes_referencia)
+                ? $mensalidade->mes_referencia->format('m/Y')
+                : date('m/Y', strtotime((string)$mensalidade->mes_referencia)))
+            : '';
+        $nome = $mensalidade->irmao->nome ?? ('Irmão #' . $mensalidade->irmao_id);
+        $descricao = sprintf('Mensalidade %s - %s', $mesRef, $nome);
+
+        $movimentacoes = $this->fetchTable('MovimentacoesCaixa');
+        $lancamentos = $movimentacoes->find()
+            ->where([
+                'MovimentacoesCaixa.irmao_id' => $mensalidade->irmao_id,
+                'MovimentacoesCaixa.origem' => 'mensalidade',
+                'MovimentacoesCaixa.descricao' => $descricao,
+                'MovimentacoesCaixa.deleted IS' => null,
+            ])
+            ->all();
+
+        foreach ($lancamentos as $lancamento) {
+            $movimentacoes->excluir($lancamento);
+        }
+    }
+
     public function relatorio(): void
     {
         $page = $this->reportPage();
@@ -308,19 +366,24 @@ class MensalidadesController extends AppController
         }
 
         $session = $this->getRequest()->getSession();
-        if ($session->read('Auth.nivel') != 'Gestor') {
-            $conditions = [
-                'Mensalidades.irmao_id' => $session->read('Auth.id'),
-                "Mensalidades.mes_referencia >=" => $dataInicial,
-                "Mensalidades.mes_referencia <=" => $dataFinal,
-            ];
-        } else {
-            $conditions = [
-                'Mensalidades.irmao_id' => $irmaoId,
-                "Mensalidades.mes_referencia >=" => $dataInicial,
-                "Mensalidades.mes_referencia <=" => $dataFinal,
-            ];
+        $irmaoRelatorioId = Irmao::temAcessoGestao($session->read('Auth.nivel'))
+            ? (int)$irmaoId
+            : (int)$session->read('Auth.id');
+        $irmaoRelatorio = $this->fetchTable('Irmaos')->find()
+            ->select(['id', 'nivel'])
+            ->where(['Irmaos.id' => $irmaoRelatorioId])
+            ->first();
+        if (!$irmaoRelatorio || $irmaoRelatorio->nivel === Irmao::NIVEL_DESENVOLVEDOR) {
+            $session->write(['Mensalidades.naoEncontrada' => true]);
+            $this->redirect('/irmaos');
+
+            return;
         }
+        $conditions = [
+            'Mensalidades.irmao_id' => $irmaoRelatorioId,
+            "Mensalidades.mes_referencia >=" => $dataInicial,
+            "Mensalidades.mes_referencia <=" => $dataFinal,
+        ];
         $mensalidadesPeriodo = $mensalidadesTable->findMensalidadesPorAnual($conditions);
         $this->set('mensalidadesPeriodo', $mensalidadesPeriodo);
 
@@ -342,6 +405,11 @@ class MensalidadesController extends AppController
             ],
         ]);
         $this->Authorization->authorize($entity);
+        if (($entity->irmao->nivel ?? null) === Irmao::NIVEL_DESENVOLVEDOR) {
+            $this->redirect('/mensalidades');
+
+            return;
+        }
 
         $movimentacoesCaixa = $this->fetchTable('MovimentacoesCaixa')
             ->find()

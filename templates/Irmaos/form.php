@@ -13,31 +13,52 @@ $formBody = $this->camposHidden([
 
 $formBody .= $this->formulario();
 
-$session = $this->getRequest()->getSession();
-if ($session->read('Auth.nivel') === 'Gestor') {
+if ($this->request->getParam('action') === 'add') {
     $formBody .= $this->Html->div(
-        'form-group m-form__group',
+        'm-form__group',
         $this->Html->div(
-            'row',
-            $this->Html->div('col', $this->Metronic->input('desconto_valor')) .
-            $this->Html->div('col', $this->Metronic->input('desconto_mutua')),
-        ),
+            'form-group row',
+            $this->Metronic->input('senha') .
+            $this->Metronic->input('confirma_senha')
+        )
     );
-    $formBody .= $this->Html->div(
-        'form-group m-form__group',
-        $this->Html->div(
-            'row',
-            $this->Html->div('col', $this->Metronic->input('desconto_capitacao')) .
-            $this->Html->div('col', $this->Metronic->input('desconto_diversos')),
-        ),
-    );
+}
 
+$session = $this->getRequest()->getSession();
+if ($session->read('Auth.nivel') === \App\Model\Entity\Irmao::NIVEL_DESENVOLVEDOR) {
     $formBody .= $this->Html->div(
-        'form-group m-form__group',
+        'm-form__group',
         $this->Html->div(
-            'row',
-            $this->Html->div('col', $this->Metronic->input('desconto_reserva')),
-        ),
+            'form-group row',
+            $this->Metronic->input('nivel', [
+                'value' => $irmao->nivel ?: \App\Model\Entity\Irmao::NIVEL_IRMAO,
+            ])
+        )
+    );
+}
+if (\App\Model\Entity\Irmao::temAcessoGestao($session->read('Auth.nivel'))) {
+    $formBody .= $this->Html->div(
+        'm-form__group',
+        $this->Html->div(
+            'form-group row',
+            $this->Metronic->input('desconto_valor') .
+            $this->Metronic->input('desconto_mutua')
+        )
+    );
+    $formBody .= $this->Html->div(
+        'm-form__group',
+        $this->Html->div(
+            'form-group row',
+            $this->Metronic->input('desconto_capitacao') .
+            $this->Metronic->input('desconto_diversos')
+        )
+    );
+    $formBody .= $this->Html->div(
+        'm-form__group',
+        $this->Html->div(
+            'form-group row',
+            $this->Metronic->input('desconto_reserva')
+        )
     );
 }
 

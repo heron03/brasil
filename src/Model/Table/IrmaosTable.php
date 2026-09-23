@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Irmao;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
+use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -152,6 +154,15 @@ class IrmaosTable extends AppTable
             ->notBlank('ativo', __('Informe um Status'));
 
         $validator
+            ->scalar('nivel')
+            ->allowEmptyString('nivel')
+            ->inList(
+                'nivel',
+                [Irmao::NIVEL_IRMAO, Irmao::NIVEL_GESTOR, Irmao::NIVEL_DESENVOLVEDOR],
+                __('Nível inválido')
+            );
+
+        $validator
             ->decimal('desconto_valor')
             ->allowEmptyString('desconto_valor');
 
@@ -192,16 +203,34 @@ class IrmaosTable extends AppTable
         return $rules;
     }
 
-    public function selectOptions()
+    public function selectOptions(array $conditions = [])
     {
         $options = $this->find('list', [
             'keyField' => 'id',
             'valueField' => 'nome',
         ])
+            ->where($this->condicaoVisivel())
             ->order(['nome' => 'ASC'])
             ->toArray();
 
         return $options;
+    }
+
+    public function condicaoVisivel(): array
+    {
+        return [
+            'OR' => [
+                'Irmaos.nivel IS' => null,
+                'Irmaos.nivel !=' => Irmao::NIVEL_DESENVOLVEDOR,
+            ],
+        ];
+    }
+
+    public function idsDesenvolvedor(): Query
+    {
+        return $this->find()
+            ->select(['Irmaos.id'])
+            ->where(['Irmaos.nivel' => Irmao::NIVEL_DESENVOLVEDOR]);
     }
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
@@ -218,6 +247,10 @@ class IrmaosTable extends AppTable
             }
             $entity->set($field, $this->normalizeMoneyValue($entity->get($field)));
         }
+
+        if ($entity->isNew() && ($entity->get('nivel') === null || $entity->get('nivel') === '')) {
+            $entity->set('nivel', Irmao::NIVEL_IRMAO);
+        }
     }
 
     public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
@@ -233,6 +266,10 @@ class IrmaosTable extends AppTable
                 continue;
             }
             $data[$field] = $this->normalizeMoneyValue($data[$field]);
+        }
+
+        if (array_key_exists('nivel', (array)$data) && $data['nivel'] === '') {
+            $data['nivel'] = Irmao::NIVEL_IRMAO;
         }
     }
 

@@ -8,7 +8,7 @@ $title = $this->Html->tag('strong', 'Brasil II');
     ];
 
 $userMenu = [
-    ['icon' => 'flaticon-edit-1', 'title' => 'Alterar Senha', 'url' => '/irmaos/editSenha'],
+    ['icon' => 'flaticon-edit-1', 'title' => 'Alterar Senha', 'url' => '/irmaos/edit-senha'],
     'separator',
     ['title' => 'Sair', 'url' => '/irmaos/logout']
 ];
@@ -31,7 +31,7 @@ $elements = [
         'user' => [
             'login' => $session->read('Auth.nome'),
             'name' => $session->read('Auth.nome'),
-            'email' => $session->read('Auth.email'),
+            'email' => $session->read('Auth.cim'),
         ],
         'menu' => $userMenu,
     ],

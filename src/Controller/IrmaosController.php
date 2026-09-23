@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
+use App\Model\Entity\Irmao;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 
@@ -23,9 +25,10 @@ class IrmaosController extends AppController
     {
         $conditions = parent::paginateConditions();
         $session = $this->getRequest()->getSession();
-        if ($session->read('Auth.nivel') != 'Gestor') {
+        if (!Irmao::temAcessoGestao($session->read('Auth.nivel'))) {
             $conditions[] = ["Irmaos.id" => $session->read('Auth.id')];
         }
+        $conditions[] = $this->Irmaos->condicaoVisivel();
         $nome = $this->request->is('post') ?
             $this->dataCondition('Irmaos.nome') :
             $this->sessionCondition('Irmaos.nome');
@@ -192,6 +195,78 @@ class IrmaosController extends AppController
         $this->viewBuilder()->setOption('serialize', ['hash']);
     }
 
+    protected ?string $senhaCadastroMensagem = null;
+
+    public function beforeInsert(): void
+    {
+        $this->protegerNivel();
+        $this->validarSenhaNovoIrmao();
+    }
+
+    public function beforeUpdate(): void
+    {
+        $this->protegerNivel();
+        $data = $this->request->getData();
+        unset($data['senha'], $data['confirma_senha'], $data['senha_atual']);
+        $this->request = $this->request->withParsedBody($data);
+    }
+
+    public function saveGetData(EntityInterface $entity)
+    {
+        if ($this->senhaCadastroMensagem !== null) {
+            $entity->setError('senha', $this->senhaCadastroMensagem);
+            $this->Flash->bootstrapNotifyMessage($this->senhaCadastroMensagem, [
+                'plugin' => 'MetronicV4',
+                'key' => 'danger',
+            ]);
+
+            return false;
+        }
+
+        return parent::saveGetData($entity);
+    }
+
+    protected function validarSenhaNovoIrmao(): void
+    {
+        $data = $this->request->getData();
+        $senha = (string)($data['senha'] ?? '');
+        $confirma = (string)($data['confirma_senha'] ?? '');
+        unset($data['confirma_senha']);
+
+        if ($senha === '' && $confirma === '') {
+            unset($data['senha']);
+        } elseif ($senha === '' || $confirma === '') {
+            unset($data['senha']);
+            $this->senhaCadastroMensagem = 'Informe a senha e a confirmação.';
+        } elseif ($senha !== $confirma) {
+            unset($data['senha']);
+            $this->senhaCadastroMensagem = 'A confirmação da senha não confere.';
+        }
+
+        $this->request = $this->request->withParsedBody($data);
+    }
+
+    protected function protegerNivel(): void
+    {
+        $session = $this->getRequest()->getSession();
+        $data = $this->request->getData();
+        if ($session->read('Auth.nivel') !== Irmao::NIVEL_DESENVOLVEDOR) {
+            unset($data['nivel']);
+        }
+        if (!Irmao::temAcessoGestao($session->read('Auth.nivel'))) {
+            unset(
+                $data['ativo'],
+                $data['loja_id'],
+                $data['desconto_valor'],
+                $data['desconto_mutua'],
+                $data['desconto_capitacao'],
+                $data['desconto_diversos'],
+                $data['desconto_reserva']
+            );
+        }
+        $this->request = $this->request->withParsedBody($data);
+    }
+
     public function getEditEntity(int $id): EntityInterface
     {
         $entity = $this->{$this->getModelName()}->newEmptyEntity();
@@ -199,9 +274,65 @@ class IrmaosController extends AppController
         if ($id != null) {
             $entity = $this->{$this->getModelName()}->get($id);
         }
-        $entity['senha'] = null;
+        $entity->set('senha', null);
+        $entity->setDirty('senha', false);
 
         return $entity;
+    }
+
+    public function editSenha(?int $id = null): void
+    {
+        $session = $this->request->getSession();
+        $authId = (int)$session->read('Auth.id');
+        if ($id === null) {
+            $id = $authId;
+        }
+        $irmao = $this->Irmaos->get($id);
+        $this->Authorization->authorize($irmao);
+        $exigirSenhaAtual = $id === $authId;
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->getData();
+            $atual = (string)($data['senha_atual'] ?? '');
+            $nova = (string)($data['senha'] ?? '');
+            $confirma = (string)($data['confirma_senha'] ?? '');
+            $hasher = new DefaultPasswordHasher();
+
+            if ($nova === '' || $confirma === '' || ($exigirSenhaAtual && $atual === '')) {
+                $mensagem = 'Informe a senha atual, a nova senha e a confirmação.';
+                if (!$exigirSenhaAtual) {
+                    $mensagem = 'Informe a nova senha e a confirmação.';
+                }
+            } elseif ($exigirSenhaAtual && !$hasher->check($atual, (string)$irmao->get('senha'))) {
+                $mensagem = 'A senha atual não confere.';
+            } elseif ($nova !== $confirma) {
+                $mensagem = 'A confirmação da nova senha não confere.';
+            } else {
+                $irmao = $this->Irmaos->patchEntity($irmao, ['senha' => $nova], [
+                    'fields' => ['senha'],
+                ]);
+                if ($this->Irmaos->save($irmao)) {
+                    $this->Flash->bootstrapNotifyMessage('Senha alterada com sucesso.', [
+                        'plugin' => 'MetronicV4',
+                        'key' => 'success',
+                    ]);
+                    $this->redirect(['action' => 'index']);
+
+                    return;
+                }
+                $mensagem = 'Não foi possível alterar a senha. Tente novamente.';
+            }
+
+            $this->Flash->bootstrapNotifyMessage($mensagem, [
+                'plugin' => 'MetronicV4',
+                'key' => 'danger',
+            ]);
+        }
+
+        $irmao->set('senha', null);
+        $irmao->setDirty('senha', false);
+        $this->set(compact('irmao', 'exigirSenhaAtual'));
+        $this->setFields();
     }
 
     public function loginRedirect()

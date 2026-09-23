@@ -43,7 +43,11 @@ class GerarMensalidadesCommand extends Command
                 'Irmaos.desconto_diversos',
                 'Irmaos.desconto_reserva',
             ])
-            ->where(['Irmaos.deleted IS' => null, 'Irmaos.ativo' => 1])
+            ->where([
+                'Irmaos.deleted IS' => null,
+                'Irmaos.ativo' => 1,
+            ])
+            ->where($Irmaos->condicaoVisivel())
             ->contain([
                 'Lojas' => fn ($q) => $q->select([
                     'Lojas.id',
