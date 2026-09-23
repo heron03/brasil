@@ -31,7 +31,7 @@ $elements = [
         'user' => [
             'login' => $session->read('Auth.nome'),
             'name' => $session->read('Auth.nome'),
-            'email' => $session->read('Auth.email'),
+            'email' => $session->read('Auth.cim'),
         ],
         'menu' => $userMenu,
     ],

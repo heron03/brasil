@@ -249,11 +249,11 @@ class IrmaosFormFieldComponent extends FormFieldComponent
             ],
         ],
 
-        'email_login' => [
+        'cim_login' => [
             'label' => false,
-            'placeholder' => 'E-mail',
-            'type' => 'email',
-            'maxlength' => 100,
+            'placeholder' => 'CIM',
+            'type' => 'text',
+            'maxlength' => 10,
             'class' => 'form-control m-input',
         ],
         'senha_login' => [

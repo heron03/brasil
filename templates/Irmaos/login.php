@@ -16,7 +16,7 @@ $formOptions = [
 
 $form = $this->Metronic->formCreate(null, $formOptions);
 $form .= $this->Flash->render('danger') . $this->Flash->render('success');
-$form .= $this->Metronic->input('email_login');
+$form .= $this->Metronic->input('cim_login');
 $form .= $this->Metronic->input('senha_login');
 // $form .= $this->Html->div('row m-login__form-sub', $this->Html->div(
 //     'col m--align-right m-login__form-right',
