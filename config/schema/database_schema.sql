@@ -112,6 +112,7 @@ CREATE TABLE `mensalidades` (
   `diversos` decimal(10,2) DEFAULT 0.00,
   `reserva` decimal(10,2) DEFAULT 0.00,
   `forma_pagamento` varchar(30) DEFAULT NULL,
+  `observacoes` text DEFAULT NULL,
   `pago` tinyint(1) DEFAULT 0,
   `data_pagamento` date DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),

@@ -203,7 +203,6 @@ class MensalidadesController extends AppController
             'data_movimentacao' => $dataMov,
             'origem'            => 'mensalidade',
             'forma_pagamento'   => $data['forma_pagamento'] ?? 'dinheiro',
-            'observacoes'       => $data['observacoes'] ?? null,
         ]);
         $Movs->saveOrFail($mov);
         $this->redirect($this->indexUrl());
@@ -240,12 +239,12 @@ class MensalidadesController extends AppController
 
     protected function estornarMovimentacoesDaMensalidade(EntityInterface $mensalidade): void
     {
+        $nome = $mensalidade->irmao->nome ?? ('Irmão #' . $mensalidade->irmao_id);
         $mesRef = $mensalidade->mes_referencia
             ? (is_object($mensalidade->mes_referencia)
                 ? $mensalidade->mes_referencia->format('m/Y')
                 : date('m/Y', strtotime((string)$mensalidade->mes_referencia)))
             : '';
-        $nome = $mensalidade->irmao->nome ?? ('Irmão #' . $mensalidade->irmao_id);
         $descricao = sprintf('Mensalidade %s - %s', $mesRef, $nome);
 
         $movimentacoes = $this->fetchTable('MovimentacoesCaixa');

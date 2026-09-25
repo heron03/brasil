@@ -116,7 +116,6 @@ class MensalidadesFormFieldComponent extends FormFieldComponent
 
     public function getFields(): array
     {
-        // $this->setSelectOptions('irmao_id', 'Irmaos', ['Deleted IS NULL']);
         return $this->params;
     }
 

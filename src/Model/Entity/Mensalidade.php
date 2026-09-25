@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  * @property string $valor_pago
  * @property bool|null $pago
  * @property string|null $forma_pagamento
+ * @property string|null $observacoes
  * @property \Cake\I18n\FrozenDate|null $data_pagamento
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
@@ -48,6 +49,7 @@ class Mensalidade extends Entity
         'valor_pago' => true,
         'pago' => true,
         'forma_pagamento' => true,
+        'observacoes' => true,
         'data_pagamento' => true,
         'created' => true,
         'modified' => true,

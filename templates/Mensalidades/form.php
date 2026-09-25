@@ -28,11 +28,11 @@ $formBody .= $this->Html->div(
 );
 
 $formBody .= $this->Html->div(
-    'form-group m-form__group',
+    'm-form__group',
     $this->Html->div(
-        'row',
-        $this->Html->div('col-sm-12 mt-3', $this->Metronic->input('observacoes')),
-    ),
+        'form-group row',
+        $this->Metronic->input('observacoes')
+    )
 );
 
 $this->assign('form', $form);

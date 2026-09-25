@@ -106,6 +106,10 @@ class MensalidadesTable extends AppTable
             ->allowEmptyString('forma_pagamento');
 
         $validator
+            ->scalar('observacoes')
+            ->allowEmptyString('observacoes');
+
+        $validator
             ->notBlank('data_pagamento', __('Informe a Data'))
             ->add('data_pagamento', 'date', [
                 'rule' => ['date', 'dmy'],
