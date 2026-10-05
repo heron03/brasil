@@ -6,6 +6,9 @@ $title = $this->Html->tag('strong', 'Brasil II');
         ['title' => 'Irmãos', 'url' => '/irmaos'],
         ['title' => 'Mensalidade', 'url' => '/mensalidades'],
     ];
+    if (\App\Model\Entity\Irmao::temAcessoGestao($session->read('Auth.nivel'))) {
+        $menu[] = ['title' => 'Movimentação', 'url' => '/movimentacoesCaixa'];
+    }
 
 $userMenu = [
     ['icon' => 'flaticon-edit-1', 'title' => 'Alterar Senha', 'url' => '/irmaos/edit-senha'],

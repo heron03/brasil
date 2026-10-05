@@ -6,6 +6,6 @@
         <cell4><cell lineWidth="42" fieldName="data_pagamento"  align="C"></cell></cell4>
         <cell6><cell lineWidth="25" fieldName="valor_pago" align="R" ></cell></cell6>
         <cell7><cell lineWidth="25" fieldName="valor_aberto" align="R" ></cell></cell7>
-        <cell8><cell lineWidth="25" fieldName="valor" align="R" ></cell></cell8>
+        <cell8><cell lineWidth="25" fieldName="valor_total" align="R" ></cell></cell8>
     </line></line1>
 </body>
