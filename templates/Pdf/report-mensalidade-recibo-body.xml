@@ -57,12 +57,12 @@
 
     <line5>
         <line>
-            <cell1><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mêsde Referencia:</cell></cell1>
+            <cell1><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mês de Referência:</cell></cell1>
             <cell2><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell2>
             <cell3>
                 <cell lineWidth="5"></cell>
             </cell3> 
-            <cell4><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mêsde Referencia:</cell></cell4>
+            <cell4><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mês de Referência:</cell></cell4>
             <cell5><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell5>
         </line>
     </line5>
@@ -84,26 +84,26 @@
     <line7>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
-            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mutua Maçônica</cell></cell2>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mútua Maçônica</cell></cell2>
             <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="mutua_maconica_recibo_text"></cell></cell3>
             <cell4>
                 <cell lineWidth="5"></cell>
             </cell4> 
             <cell5><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell5>
-            <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mutua Maçônica</cell></cell6>
+            <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Mútua Maçônica</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="mutua_maconica_recibo_text"></cell></cell7>
         </line>
     </line7>
     <line8>
         <line>
             <cell1><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell1>
-            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitacao</cell></cell2>
+            <cell2><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitação</cell></cell2>
             <cell3><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="capitacao_recibo_text"></cell></cell3>
             <cell4>
                 <cell lineWidth="5"></cell>
             </cell4> 
             <cell5><cell border='L' lineWidth="10" fontSizePt="10" fontFamily="Times" align="L"></cell></cell5>
-            <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitacao</cell></cell6>
+            <cell6><cell lineWidth="60" fontSizePt="10" fontFamily="Times" align="L">Capitação</cell></cell6>
             <cell7><cell border='R' lineWidth="30" fontSizePt="10" fontFamily="Times" align="L" fieldName="capitacao_recibo_text"></cell></cell7>
         </line>
     </line8>
