@@ -282,7 +282,8 @@ class MensalidadesController extends AppController
                 'valor_pago',
                 'irmao_id',
                 'deleted',
-                'valor_aberto' => 'GREATEST(0, (Mensalidades.valor - Mensalidades.valor_pago))',
+                'valor_total' => '(Mensalidades.valor + Mensalidades.mutua + Mensalidades.capitacao + Mensalidades.diversos + Mensalidades.reserva)',
+                'valor_aberto' => 'GREATEST(0, (Mensalidades.valor + Mensalidades.mutua + Mensalidades.capitacao + Mensalidades.diversos + Mensalidades.reserva) - Mensalidades.valor_pago)',
             ],
             'contain' => [
                 'Irmaos' => [

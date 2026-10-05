@@ -1,4 +1,4 @@
-<sumary SUM_OF_QUANTIDADE='Mensalidades.quantidade' SUM_OF_VALORTOTAL='Mensalidades.valor' SUM_OF_VALORREPASSADO='Mensalidades.valor_pago' SUM_OF_VALORABERTO='Mensalidades.valor_aberto'>
+<sumary SUM_OF_QUANTIDADE='quantidade' SUM_OF_VALORTOTAL='valor_total' SUM_OF_VALORREPASSADO='valor_pago' SUM_OF_VALORABERTO='valor_aberto'>
     <line1><line align='C' >
         <cell2><cell border='TLR' align='L'>TOTAL</cell></cell2>
         <cell6><cell border='TLR' align='R' decimal='2' lineWidth='25'>[SUM_OF_VALORREPASSADO]</cell></cell6>
