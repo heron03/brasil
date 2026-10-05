@@ -10,7 +10,7 @@ $fmtBRL = static function ($value): string {
 $meses = [
     1 => 'JANEIRO',
     2 => 'FEVEREIRO',
-    3 => 'MARCO',
+    3 => 'MARÇO',
     4 => 'ABRIL',
     5 => 'MAIO',
     6 => 'JUNHO',
@@ -41,7 +41,7 @@ if (!empty($mensalidade->data_pagamento)) {
 
 $titleParts = [];
 
-$lojaTituloRecibo = 'Loja Maçonica "Brasil II" - MARÍLIA - SP';
+$lojaTituloRecibo = 'Loja Maçônica "Brasil II" - MARÍLIA - SP';
 
 $lojaEnderecoRecibo = 'Av. Mauá, 39 - Tel. (14) 3433-5001';
 
