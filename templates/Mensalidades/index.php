@@ -8,6 +8,42 @@ if ($acessoGestao) {
     $this->assign('singleActions', $this->Metronic->deleteButton());
 }
 
+$recibosUrl = $this->Url->build(['action' => 'recibos']);
+$this->assign('multiActions', $this->Html->link(
+    '<i class="la la-print"></i> <span>Imprimir recibos</span>',
+    'javascript:;',
+    [
+        'escape' => false,
+        'id' => 'printRecibos',
+        'class' => 'btn btn-primary m-btn m-btn--icon d-none',
+        'data-original-title' => 'Imprimir os recibos das mensalidades pagas, 3 por página',
+        'data-toggle' => 'm-tooltip',
+    ]
+));
+$this->Metronic->buffer(
+    '(function () {' .
+    'var recibosUrl = ' . json_encode($recibosUrl) . ';' .
+    'function atualizarBotaoRecibos() {' .
+        'var pagos = $("tbody input[type=checkbox][data-pago=1]:checked").length;' .
+        'if (pagos > 0) { $("#printRecibos").removeClass("d-none"); } else { $("#printRecibos").addClass("d-none"); }' .
+    '}' .
+    'if (typeof showSelectedControls === "function" && !showSelectedControls._recibos) {' .
+        'var originalShowSelectedControls = showSelectedControls;' .
+        'showSelectedControls = function (element) {' .
+            'originalShowSelectedControls(element);' .
+            'atualizarBotaoRecibos();' .
+        '};' .
+        'showSelectedControls._recibos = true;' .
+    '}' .
+    '$("#printRecibos").off("click.recibos").on("click.recibos", function (event) {' .
+        'event.preventDefault();' .
+        'var ids = [];' .
+        '$("tbody input[type=checkbox][data-pago=1]:checked").each(function () { ids.push($(this).val()); });' .
+        'if (ids.length) { window.open(recibosUrl + "?ids=" + ids.join(","), "_blank"); }' .
+    '});' .
+    '})();'
+);
+
 $this->assign('printButton', $this->Metronic->printButton([
     'url' => [
         'action' => 'relatorio',
@@ -78,7 +114,9 @@ foreach ($mensalidades as $i => $mensalidade) {
         $mensalidade->pago ? 'Sim' : 'Não',
         h($pagto),
     ];
-    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id));
+    array_unshift($cells[$i], $this->Metronic->rowCheckbox("Mensalidades.$i.id", $mensalidade->id, [
+        'data-pago' => $mensalidade->pago ? '1' : '0',
+    ]));
 
     if ($acessoGestao) {
 
