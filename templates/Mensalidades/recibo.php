@@ -36,7 +36,7 @@ if (!empty($mensalidade->mes_referencia)) {
 
 $dataPagamentoRecibo = '';
 if (!empty($mensalidade->data_pagamento)) {
-    $dataPagamentoRecibo = $mensalidade->data_pagamento->format('d/m/Y');
+    $dataPagamentoRecibo = 'Pago em ' . $mensalidade->data_pagamento->format('d/m/Y');
 }
 
 $titleParts = [];
@@ -72,6 +72,7 @@ $record['diversos_recibo_text'] = $fmtBRL($diversos);
 $record['reserva_recibo_text'] = $fmtBRL($reserva);
 $record['total_geral_recibo_text'] = $fmtBRL($totalGeral);
 $record['forma_pagamento_texto'] = $formaPagamento;
+$record['assinatura_arquivo'] = str_replace('\\', '/', WWW_ROOT . 'assinatura.jpeg');
 
 $settings = [
     'templateFile' => [

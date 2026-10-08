@@ -430,4 +430,58 @@ class MensalidadesController extends AppController
         $this->viewBuilder()->setLayout('ajax');
         $this->response = $this->response->withType('pdf');
     }
+
+    public function recibos(): void
+    {
+        $this->request->allowMethod(['get']);
+        $entity = $this->Mensalidades->newEmptyEntity();
+        $this->Authorization->authorize($entity, 'recibos');
+
+        $ids = [];
+        foreach (explode(',', (string)$this->request->getQuery('ids', '')) as $parte) {
+            $id = (int)$parte;
+            if ($id > 0) {
+                $ids[$id] = $id;
+            }
+        }
+
+        $selecionadas = [];
+        if ($ids !== []) {
+            $encontradas = $this->Mensalidades->find()
+                ->contain(['Irmaos'])
+                ->where([
+                    'Mensalidades.id IN' => array_values($ids),
+                    'Mensalidades.pago' => 1,
+                    'Mensalidades.deleted IS' => null,
+                    'Mensalidades.irmao_id NOT IN' => $this->fetchTable('Irmaos')->idsDesenvolvedor(),
+                ])
+                ->all()
+                ->indexBy('id')
+                ->toArray();
+
+            foreach ($ids as $id) {
+                if (!isset($encontradas[$id])) {
+                    continue;
+                }
+                $mensalidade = $encontradas[$id];
+                if ($this->Authorization->can($mensalidade, 'recibo')) {
+                    $selecionadas[] = $mensalidade;
+                }
+            }
+        }
+
+        if ($selecionadas === []) {
+            $this->Flash->bootstrapNotifyMessage('Nenhuma mensalidade paga selecionada para impressão.', [
+                'plugin' => 'MetronicV4',
+                'key' => 'warning',
+            ]);
+            $this->redirect(['action' => 'index']);
+
+            return;
+        }
+
+        $this->set('mensalidades', $selecionadas);
+        $this->viewBuilder()->setLayout('ajax');
+        $this->response = $this->response->withType('pdf');
+    }
 }

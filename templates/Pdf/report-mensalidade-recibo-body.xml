@@ -57,13 +57,13 @@
 
     <line5>
         <line>
-            <cell1><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mês de Referência:</cell></cell1>
-            <cell2><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell2>
+            <cell1><cell border='L' lineWidth="48" fontSizePt="10" fontFamily="Times">Recibo de Mensalidade 1º Via</cell></cell1>
+            <cell2><cell border='R' lineWidth="52" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell2>
             <cell3>
                 <cell lineWidth="5"></cell>
             </cell3> 
-            <cell4><cell border='L' lineWidth="30" fontSizePt="10" fontFamily="Times">Mês de Referência:</cell></cell4>
-            <cell5><cell border='R' lineWidth="70" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell5>
+            <cell4><cell border='L' lineWidth="48" fontSizePt="10" fontFamily="Times">Recibo de Mensalidade 2º Via</cell></cell4>
+            <cell5><cell border='R' lineWidth="52" fontSizePt="10" fontFamily="Times" fontStyle="B" align="L" fieldName="mes_referencia_recibo"></cell></cell5>
         </line>
     </line5>
 
@@ -162,14 +162,18 @@
         </line>
     </line12>
 
-    <!-- Rodape -->
+    <!-- Assinatura, acima da linha do Tesoureiro -->
     <line13>
         <line>
-            <cell1><cell border='LR' lineWidth="100"></cell></cell1>
-            <cell2>
+            <cell1><cell border='L' lineWidth="74" lineHeight="17"></cell></cell1>
+            <image1><image fieldName="assinatura_arquivo" lineWidth="12" lineHeight="17"></image></image1>
+            <cell2><cell border='R' lineWidth="14" lineHeight="17"></cell></cell2>
+            <cell3>
                 <cell lineWidth="5"></cell>
-            </cell2> 
-            <cell3><cell border='LR' lineWidth="100"></cell></cell3>
+            </cell3>
+            <cell4><cell border='L' lineWidth="74" lineHeight="17"></cell></cell4>
+            <image2><image fieldName="assinatura_arquivo" lineWidth="12" lineHeight="17"></image></image2>
+            <cell5><cell border='R' lineWidth="14" lineHeight="17"></cell></cell5>
         </line>
     </line13>
 

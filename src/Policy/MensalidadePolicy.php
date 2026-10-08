@@ -44,6 +44,11 @@ class MensalidadePolicy extends AppPolicy
         return $this->podeVerPropria($user, $resource);
     }
 
+    public function canRecibos(?IdentityInterface $user = null, $resource = null): bool
+    {
+        return $user !== null;
+    }
+
     public function canMensalidadesRelatorio(): bool
     {
         return true;
