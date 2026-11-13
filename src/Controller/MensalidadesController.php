@@ -178,7 +178,10 @@ class MensalidadesController extends AppController
         $data  = $this->request->getData();
         $valor = (float)($data['_valor_recebido_normalizado'] ?? 0.0);
         if ($valor <= 0) {
+            // Edição sem valor recebido: não lança nada no caixa.
             $this->redirect($this->indexUrl());
+
+            return;
         }
 
         $dataMov = !empty($data['data_pagamento']) ? $data['data_pagamento'] : date('Y-m-d');
@@ -306,7 +309,11 @@ class MensalidadesController extends AppController
         ])->toArray();
         $this->set('mensalidades', $mensalidades);
         if (empty($mensalidades)) {
-            $this->redirect('/mensalidades/mensalidadesCadastradas');
+            $this->Flash->bootstrapNotifyMessage(
+                'Nenhuma mensalidade encontrada para imprimir com o filtro atual.',
+                ['plugin' => 'MetronicV4', 'key' => 'info']
+            );
+            $this->redirect(['action' => 'index']);
         }
     }
 

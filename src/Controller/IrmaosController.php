@@ -110,7 +110,9 @@ class IrmaosController extends AppController
                             'Este irmão já possui acesso. Use a tela de login ou recuperação de senha.'
                         );
                     } else {
-                        // Vai para o passo de preenchimento dos dados
+                        // Vai para o passo de preenchimento dos dados.
+                        // Guarda na sessão qual irmão foi encontrado pelo CIM.
+                        $this->request->getSession()->write('CadastroAcesso.irmaoId', (int)$irmao->id);
                         $passo = 'dados';
                     }
                 }
@@ -118,9 +120,13 @@ class IrmaosController extends AppController
 
             // PASSO 2 – SALVAR DADOS DE ACESSO
             if ($passo === 'dados' && isset($data['irmao_id'])) {
-                $irmaoId = (int)$data['irmao_id'];
-                $irmao = $irmaosTable->get($irmaoId);
-            
+                $irmao = $this->irmaoDoCadastroAcesso((int)$data['irmao_id']);
+            }
+            if ($passo === 'dados' && isset($data['irmao_id']) && $irmao === null) {
+                // Só aceita o irmão encontrado no passo 1, e que ainda não tenha senha.
+                $this->Flash->error('Não foi possível continuar o cadastro. Informe o CIM novamente.');
+                $passo = 'buscar';
+            } elseif ($passo === 'dados' && isset($data['irmao_id'])) {
                 $email = trim((string)($data['email'] ?? ''));
                 $telefone = trim((string)($data['telefone'] ?? ''));
                 $senha = (string)($data['senha'] ?? '');
@@ -159,6 +165,7 @@ class IrmaosController extends AppController
                     );
             
                     if ($irmaosTable->save($irmao)) {
+                        $this->request->getSession()->delete('CadastroAcesso.irmaoId');
                         $this->Flash->success('Cadastro de acesso realizado com sucesso! Você já pode fazer login.');
                         return $this->redirect(['action' => 'login']);
                     } else {
@@ -170,6 +177,32 @@ class IrmaosController extends AppController
         }
 
         $this->set(compact('passo', 'irmao'));
+    }
+
+    /**
+     * Irmão que pode concluir o cadastro de acesso: o mesmo encontrado pelo CIM
+     * nesta sessão, ativo, não excluído e ainda sem senha.
+     */
+    protected function irmaoDoCadastroAcesso(int $irmaoId): ?EntityInterface
+    {
+        $irmaoSessao = (int)$this->request->getSession()->read('CadastroAcesso.irmaoId');
+        if ($irmaoId <= 0 || $irmaoId !== $irmaoSessao) {
+            return null;
+        }
+
+        $irmao = $this->fetchTable('Irmaos')->find()
+            ->where([
+                'Irmaos.id' => $irmaoId,
+                'Irmaos.ativo' => 1,
+                'Irmaos.deleted IS' => null,
+            ])
+            ->first();
+
+        if ($irmao === null || !empty($irmao->get('senha'))) {
+            return null;
+        }
+
+        return $irmao;
     }
 
     protected function getErrorMessage(array $errors): string
@@ -284,6 +317,9 @@ class IrmaosController extends AppController
     {
         $session = $this->request->getSession();
         $authId = (int)$session->read('Auth.id');
+        if ($id === null && !empty($this->request->getData('id'))) {
+            $id = (int)$this->request->getData('id');
+        }
         if ($id === null) {
             $id = $authId;
         }

@@ -101,6 +101,17 @@ class AppController extends Controller
         $session = $this->getRequest()->getSession();
         $session->write(['indexUrl' =>  '/' . $this->request->getParam('controller')]);
 
+        // Mantém a quantidade por página ao ordenar, trocar de aba ou filtrar.
+        $limitKey = $this->getModelName() . 'Limit';
+        $limit = (int)$this->request->getQuery('limit');
+        if ($limit > 0) {
+            $session->write($limitKey, $limit);
+        } elseif ($session->check($limitKey)) {
+            $this->request = $this->request->withQueryParams(
+                ['limit' => (int)$session->read($limitKey)] + $this->request->getQueryParams()
+            );
+        }
+
         try {
             $this->set(Inflector::variable($this->getModelName()), $this->paginate());
         } catch (ExceptionRendererInterface $e) {
@@ -468,12 +479,13 @@ class AppController extends Controller
 
     public function indexUrl()
     {
+        $controller = $this->request->getParam('controller');
         $indexUrl = $this->request->getSession()->read('indexUrl');
+        $this->request->getSession()->delete('indexUrl');
 
-        if (empty($indexUrl)) {
-            $indexUrl = $this->paginateUrl($this->request->getParam('controller'), 'index');
-        } else {
-            $this->request->getSession()->delete('indexUrl');
+        // Só volta para a listagem guardada se ela for desta mesma tela.
+        if (empty($indexUrl) || strcasecmp((string)$indexUrl, '/' . $controller) !== 0) {
+            $indexUrl = $this->paginateUrl($controller, 'index');
         }
 
         return $indexUrl;
