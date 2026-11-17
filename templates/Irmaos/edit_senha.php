@@ -10,7 +10,8 @@ $form = $this->Metronic->formCreate($irmao, [
     'url' => ['action' => 'editSenha', $irmao->id],
 ]);
 
-$campos = '';
+// O botão Gravar envia para /irmaos/edit-senha sem o id na URL.
+$campos = $this->Form->hidden('id', ['value' => $irmao->id]);
 if ($exigirSenhaAtual) {
     $campos .= $this->Metronic->input('senha_atual');
 }

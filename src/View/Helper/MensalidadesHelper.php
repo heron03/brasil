@@ -19,5 +19,6 @@ class MensalidadesHelper extends Helper
         'add' => 'Nova Mensalidade',
         'view' => 'Detalhes da Mensalidade',
         'edit' => 'Edição da Mensalidade',
+        'receber' => 'Receber Mensalidade',
     ];
 }

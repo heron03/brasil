@@ -29,8 +29,8 @@ class MovimentacoesCaixaController extends AppController
         } else {
             $descricao = $this->sessionCondition('MovimentacoesCaixa.descricao');
             $tipo = $this->sessionCondition('MovimentacoesCaixa.tipo');
-            $dataInicial = $this->dataCondition('MovimentacoesCaixa.data_inicial');
-            $dataFinal = $this->dataCondition('MovimentacoesCaixa.data_final');
+            $dataInicial = $this->sessionCondition('MovimentacoesCaixa.data_inicial');
+            $dataFinal = $this->sessionCondition('MovimentacoesCaixa.data_final');
         }
 
         $conditions[] = ["MovimentacoesCaixa.deleted IS NULL"];
@@ -140,7 +140,11 @@ class MovimentacoesCaixaController extends AppController
         $session->write(['MovimentacoesCaixa.naoEncontrada' => false]);
         if (empty($movimentacoesCaixa)) {
             $session->write(['MovimentacoesCaixa.naoEncontrada' => true]);
-            $this->redirect('/movimentacoesCaixa/movimentacoesCaixaCadastradas');
+            $this->Flash->bootstrapNotifyMessage(
+                'Nenhuma movimentação encontrada para imprimir com o filtro atual.',
+                ['plugin' => 'MetronicV4', 'key' => 'info']
+            );
+            $this->redirect(['action' => 'index']);
         }
     }
 }

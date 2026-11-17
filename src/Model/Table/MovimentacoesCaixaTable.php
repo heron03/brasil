@@ -78,14 +78,14 @@ class MovimentacoesCaixaTable extends AppTable
         $validator
             ->scalar('tipo')
             ->maxLength('tipo', 50)
-            ->allowEmptyString('tipo');
+            ->notBlank('tipo', __('Informe o Tipo'));
 
         $validator
             ->scalar('descricao')
             ->allowEmptyString('descricao');
 
         $validator
-            ->notEmptyString('valor');
+            ->notEmptyString('valor', __('Informe o Valor'));
 
         $validator
             ->notBlank('data_movimentacao', __('Informe a Data'))
